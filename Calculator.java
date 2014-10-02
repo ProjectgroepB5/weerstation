@@ -1,0 +1,201 @@
+package weerstation; 
+
+public class Calculator {
+	public Calculator(){
+	}
+	
+	// Luchtdruk in hPa
+	// Malek&Tom
+	public double luchtdruk(short mval)
+    {
+        double luchtdruk = (mval / 1000f) * 33.86389;
+        return luchtdruk;
+    }
+	
+	// Temperatuur in graden Celcius
+    // Malek&Tom
+    public double temperatuur(short mval)
+    {
+        double temperatuur = (((double)mval / 10) -32) / 1.8;
+        return temperatuur;
+    }
+	
+    // Relatieve luchtvochtigheid in %
+    // Malek&Tom
+    public double luchtVochtigheid(short mval)
+    {
+        double luchtvochtigheid = mval;
+        return luchtvochtigheid;
+    }
+    
+    // Windsnelheid in m/s
+	// Janco&Tim
+	public double windSnelheid(short mval)
+	{
+		double windSpeed = mval * 0.44704;
+		return windSpeed;
+	}
+	
+	// Windrichting in noord, oost, zuid en west. 
+	// Kenneth&Daniël
+    public String windRichting(short mval)
+    {
+        String direction = "Error";
+        
+        if(mval < 12)
+        {
+            direction = "N";
+        }
+        else if(mval < 34)
+        {
+            direction = "NNO";
+        }
+        else if(mval < 57)
+        {
+            direction = "NO";
+        }
+        else if(mval < 79)
+        {
+            direction = "ONO";
+        }
+        else if(mval < 102)
+        {
+            direction = "O";
+        }
+        else if(mval < 124)
+        {
+            direction = "OZO";
+        }
+        else if(mval < 147)
+        {
+            direction = "ZO";
+        }
+        else if(mval < 169)
+        {
+            direction = "ZZO";
+        }
+        else if(mval < 192)
+        {
+            direction = "Z";
+        }
+        else if(mval < 214)
+        {
+            direction = "ZZW";
+        }
+        else if(mval < 237)
+        {
+            direction = "ZW";
+        }
+        else if(mval < 259)
+        {
+            direction = "WZW";
+        }
+        else if(mval < 282)
+        {
+            direction = "W";
+        }
+        else if(mval < 304)
+        {
+            direction = "WNW";
+        }
+        else if(mval < 327)
+        {
+            direction = "NW";
+        }
+        else if(mval < 349)
+        {
+            direction = "NNW";
+        }
+        else if(mval < 360)
+        {
+            direction = "N";
+        }
+        
+        return direction;
+    }
+	
+    // Regenmeter in mm
+    // Kenneth&Daniël
+    public double regenmeter(short mval)
+	{
+    	double rainAmount = (double)mval*0.2;
+    	return rainAmount;
+	}
+    
+	// uvIndex in index    
+    // Kenneth&Daniël
+    public double uvIndex(short mval)
+    {
+        double index = (double) mval/10;
+        return index;
+    }
+    
+    // BatterySpanning in Volt
+    // Janco&Tim
+    public double batterySpanning(short mval){
+		double voltage = (((double)mval * 300)/512)/100;
+    	return voltage; 
+	}
+	
+    // sunRise en Sunset in tijdformaat hh:mm
+	// Janco&Tim
+    public String sunRise(short mval){
+    	return sun(mval);
+    }
+    public String sunSet(short mval){
+    	return sun(mval);
+    }
+	private String sun(short sunRaw){
+		String tijd = "";
+		for(int i = 0; i <= 3; i++){
+			tijd = sunRaw % 10 + tijd;
+			sunRaw /= 10;
+			if(i == 1){				
+				tijd = ":" + tijd;
+			}
+		}
+		return tijd;
+	}
+
+    //windchill in graden Celcius
+	//Janco en Keneth
+    public double windChill(short gradenFahrenheit, short mijlPerUur)
+    {
+        short windChill = (short) (35.74 + (0.6215*gradenFahrenheit) - 35.75*Math.pow(mijlPerUur, 0.16) + 0.4275*gradenFahrenheit*Math.pow(mijlPerUur, 0.16));
+        return temperatuur(windChill);
+    }
+    
+    //Heatindex in celcius
+	//Tom met Malek
+    public double heatIndex(double luchtv, double t)
+    {
+        double heatindex = -42.379 + (2.04901523 * t) + (10.14333127 * luchtv) - (0.22475541 * t * luchtv) 
+        - (6.83783 * Math.pow(10,-3) * Math.pow(t,2)) - (5.481717 * Math.pow(10,-2) * Math.pow(luchtv,2)) 
+        + (1.22874 * Math.pow(10,-3) * Math.pow(t,2) * luchtv) + (8.5282 * Math.pow(10,-4) * t * Math.pow(luchtv,2)) 
+        - (1.99 * Math.pow(10,-6) * Math.pow(t,2) * Math.pow(luchtv,2));
+        
+        return heatindex;
+    }
+    
+    //Dauwpunt in Celcius
+    //Daniel en Tim
+    public double dewPoint(double omgevingsTemp, short luchtVochtigheid)
+    {
+       double hm = luchtVochtigheid/100f;
+       double dauwpunt = Math.pow( hm, (1/8f)) * (112 + 0.9*omgevingsTemp) + (0.1*omgevingsTemp) - 112;
+       return dauwpunt;
+    }
+	
+    public double cloudHeight(double temp, short luchtVochtigheid ){
+    	
+    	double wolkhoogte = 125 * (temp-dewPoint(temp, luchtVochtigheid));
+    	return wolkhoogte; 
+	} 
+    public void opdrachtEenA(){
+    	for(int i = 0; i<4; i++){
+    		
+    	}
+    }
+    
+
+}
