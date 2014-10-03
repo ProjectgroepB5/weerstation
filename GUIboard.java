@@ -194,6 +194,3 @@ public void writeLeftDigits(double value)
         IO.writeShort(0x42, 3 << 12);
     }
 }
-
-
-}
