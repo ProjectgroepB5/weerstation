@@ -61,4 +61,139 @@ public class GUIboard {
 			}
 		}
 	}
+
+public void writeLeftDigits(double value)
+    {
+        clearLeft();
+    }
+    
+    private void writeRightDigits(int number){
+      int digit = 0x30;
+      IO.writeShort(0x30, 0);       //default value
+      
+      while(number > 0){ 
+           IO.writeShort(digit, (number%10));
+           number /= 10;
+           digit += 2;          //Next digits screen
+           if(digit > 0x30){        //If there are more then 5 digits needed, it will stop.
+                break;
+           }
+      }
+    }
+    
+    public boolean writePageToMatrix(String name, double median, int page)
+    {
+        clearBottom();
+        
+        IO.init();
+        char[] charArray = name.toCharArray();
+        String num = "Avg: " + median;
+        char[] numArray  = num.toCharArray();
+        String nav = page + "/" + pages + "  <  >  S";
+        char[] navArray  = nav.toCharArray();
+        
+        if(charArray.length > 20)
+        {
+            return false;
+        }
+
+        for(char ch : charArray)
+        {
+            IO.writeShort(0x40, ch);
+        }
+        
+        IO.writeShort(0x40, '\n');
+        
+        for(char ch : numArray)
+        {
+            IO.writeShort(0x40, ch);
+        }
+        
+        IO.writeShort(0x40, '\n');
+        
+        for(char ch : navArray)
+        {
+            IO.writeShort(0x40, ch);
+        }
+        
+        return true;
+    }
+    
+    public void writeGraphToMatrix(ArrayList<Measurement> msList, int axisx, int axisy)
+    {
+        clearBottom();
+        
+        createAxis(axisx,axisy);
+        
+        IO.init();
+        
+        int x,y; 
+        for(x = 0; x < 128; x++ ) 
+        { 
+            y = (int) (Math.sin(x)*2f) + 10;
+            y = 31-y;
+            IO.writeShort(0x42, 1 << 12 | x << 5 | y); 
+            IO.delay(10); 
+        } 
+    }
+    
+    
+    
+    //Private functions
+    private void createAxis(int x, int y)
+    {
+        IO.init();
+        
+        y = 31-y;
+        for(int x2 = 0; x2 < 128; x2++)
+        {
+            IO.writeShort(0x42, 1 << 12 | x2 << 5 | y );
+        }
+        
+        for(int y2 = 0; y2 < 32; y2++)
+        {
+            IO.writeShort(0x42, 1 << 12 | x << 5 | y2 );
+        }
+    }
+    
+    private void clearTop()
+    {
+        IO.init();
+        
+         IO.writeShort(0x10, 0x100 | 0x0);
+         IO.writeShort(0x12, 0x100 | 0x0);
+         IO.writeShort(0x14, 0x100 | 0x0);
+         IO.writeShort(0x16, 0x100 | 0x0);
+         IO.writeShort(0x18, 0x100 | 0x0);
+    }
+    
+    private void clearLeft()
+    {
+        IO.init();
+        
+        IO.writeShort(0x24, 0x100 | 0x0);
+        IO.writeShort(0x22, 0x100 | 0x0);
+        IO.writeShort(0x20, 0x100 | 0x0);
+    }
+    
+    private void clearRight()
+    {
+        IO.init();
+        
+        IO.writeShort(0x34, 0x100 | 0x0);
+        IO.writeShort(0x32, 0x100 | 0x0);
+        IO.writeShort(0x30, 0x100 | 0x0);
+    }
+    
+    private void clearBottom()
+    {
+        IO.init();
+        
+        IO.writeShort(0x40, 0xFE);
+        IO.writeShort(0x40, 0x01);
+        IO.writeShort(0x42, 3 << 12);
+    }
+}
+
+
 }
