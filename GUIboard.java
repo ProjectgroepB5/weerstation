@@ -1,22 +1,27 @@
 package weerstation;
 
+import java.util.ArrayList;
+
 public class GUIboard {
 	
 
 	public static void writeUpperDigits(double number){
+		clearTop();
 		writeDigits(number, 0x10, 0x18);
 	}
 	
 	public static void writeLeftDigits(double number){
+		clearLeft();
 		writeDigits(number, 0x20, 0x24);
 	}
 	
 	public static void writeRightDigits(double number){
+		clearRight();
 		writeDigits(number, 0x30, 0x34);
 	}
 	
 	private static void writeDigits(double number, int firstSegment, int lastSegment){
-		
+		number = Math.round(number * 100.0) / 100.0;
 		//Segments
 	     int segA = 0x01;
 	     int segB = 0x02;
@@ -42,7 +47,6 @@ public class GUIboard {
 	    };
 	    
 		int digit = firstSegment;
-		IO.writeShort(0x10, 0); 						//default value
 		String numberString = String.valueOf(number);; 
 		char numberSplit[] = numberString.toCharArray();
 		
@@ -62,34 +66,15 @@ public class GUIboard {
 		}
 	}
 
-public void writeLeftDigits(double value)
-    {
-        clearLeft();
-    }
     
-    private void writeRightDigits(int number){
-      int digit = 0x30;
-      IO.writeShort(0x30, 0);       //default value
-      
-      while(number > 0){ 
-           IO.writeShort(digit, (number%10));
-           number /= 10;
-           digit += 2;          //Next digits screen
-           if(digit > 0x30){        //If there are more then 5 digits needed, it will stop.
-                break;
-           }
-      }
-    }
-    
-    public boolean writePageToMatrix(String name, double median, int page)
+    public static boolean writePageToMatrix(String name, double median, int page)
     {
         clearBottom();
-        
-        IO.init();
+  
         char[] charArray = name.toCharArray();
         String num = "Avg: " + median;
         char[] numArray  = num.toCharArray();
-        String nav = page + "/" + pages + "  <  >  S";
+        String nav = page + "/" + page + "  <  >  S";
         char[] navArray  = nav.toCharArray();
         
         if(charArray.length > 20)
@@ -119,14 +104,11 @@ public void writeLeftDigits(double value)
         return true;
     }
     
-    public void writeGraphToMatrix(ArrayList<Measurement> msList, int axisx, int axisy)
+    public static void writeGraphToMatrix(ArrayList<Measurement> msList, int axisx, int axisy)
     {
         clearBottom();
-        
         createAxis(axisx,axisy);
-        
-        IO.init();
-        
+   
         int x,y; 
         for(x = 0; x < 128; x++ ) 
         { 
@@ -140,10 +122,8 @@ public void writeLeftDigits(double value)
     
     
     //Private functions
-    private void createAxis(int x, int y)
+    private static void createAxis(int x, int y)
     {
-        IO.init();
-        
         y = 31-y;
         for(int x2 = 0; x2 < 128; x2++)
         {
@@ -156,10 +136,8 @@ public void writeLeftDigits(double value)
         }
     }
     
-    private void clearTop()
+    private static void clearTop()
     {
-        IO.init();
-        
          IO.writeShort(0x10, 0x100 | 0x0);
          IO.writeShort(0x12, 0x100 | 0x0);
          IO.writeShort(0x14, 0x100 | 0x0);
@@ -167,28 +145,22 @@ public void writeLeftDigits(double value)
          IO.writeShort(0x18, 0x100 | 0x0);
     }
     
-    private void clearLeft()
+    private static void clearLeft()
     {
-        IO.init();
-        
         IO.writeShort(0x24, 0x100 | 0x0);
         IO.writeShort(0x22, 0x100 | 0x0);
         IO.writeShort(0x20, 0x100 | 0x0);
     }
     
-    private void clearRight()
+    private static void clearRight()
     {
-        IO.init();
-        
         IO.writeShort(0x34, 0x100 | 0x0);
         IO.writeShort(0x32, 0x100 | 0x0);
         IO.writeShort(0x30, 0x100 | 0x0);
     }
     
-    private void clearBottom()
+    private static void clearBottom()
     {
-        IO.init();
-        
         IO.writeShort(0x40, 0xFE);
         IO.writeShort(0x40, 0x01);
         IO.writeShort(0x42, 3 << 12);
