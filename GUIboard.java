@@ -37,7 +37,7 @@ public class GUIboard {
 	    segA | segB | segC | segD | segE | segF,    //0
 	    segB | segC,                                //1
 	    segA | segB | segG | segE | segD,           //2
-	    segA | segB | segC | segF | segD,           //3
+	    segA | segB | segC | segF | segG,           //3
 	    segB | segC | segF | segG | segC,           //4
 	    segA | segF | segG | segC | segD,           //5
 	    segA | segF | segG | segC | segD | segE,    //6
