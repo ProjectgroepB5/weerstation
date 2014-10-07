@@ -12,16 +12,16 @@ public class InsideHum
     private Measurement laatsteMeting;
     Weerstation weerstation;
     Measurement meting;
-    ArrayList<Measurement> laatste24uur; //ArrayList om de Temperatuur in op te slaan
+    ArrayList<Measurement> dag; 
     double Hum;
     double max;
     double min;
     double avg;
     
-    public InsideHum()
+    public InsideHum(Measurement measurement1, ArrayList<Measurement> laatste24uur )
     {
-        weerstation = new Weerstation(); //maakt een nieuw weerstation aan
-        meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
+        dag = laatste24uur();
+        meting = measurement(); 
     }
     public double InsideHum()
     {
@@ -31,11 +31,11 @@ public class InsideHum
     public double getMaximale()
     {
         short maximale = 0; // Maximale is iets boven de 100
-        for(int i=0; i < laatste24uur.size();i++)
+        for(int i=0; i < dag.size();i++)
         {
-            if(laatste24uur.get(i).getRawInsideHum() > maximale)
+            if(dag.get(i).getRawInsideHum() > maximale)
             {
-                maximale = laatste24uur.get(i).getRawInsideHum();
+                maximale = dag.get(i).getRawInsideHum();
             }
         }
         return(maximale);
@@ -43,11 +43,11 @@ public class InsideHum
     public double getMinimale()
     {
         short minimale = 100; // Minimale is iets onder de 100
-        for(int i=0; i < laatste24uur.size();i++)
+        for(int i=0; i < dag.size();i++)
         {
-            if(laatste24uur.get(i).getRawInsideHum() < minimale)
+            if(dag.get(i).getRawInsideHum() < minimale)
             {
-                minimale = laatste24uur.get(i).getRawInsideHum(); // Defineert average
+                minimale = dag.get(i).getRawInsideHum(); // Defineert average
             }
         }
         return(minimale); // Geeft minimale
@@ -55,11 +55,11 @@ public class InsideHum
     public double getAverage()
     {
         int average = 0; // Average is nieuw
-        for(int i=0; i < laatste24uur.size();i++)
+        for(int i=0; i < dag.size();i++)
         {
-            average += laatste24uur.get(i).getRawInsideHum(); // Defineert average
+            average += dag.get(i).getRawInsideHum(); // Defineert average
         }
-        average /= laatste24uur.size(); // Berekening average
+        average /= dag.size(); // Berekening average
         return(average); // Geeft average terug
     }
     
