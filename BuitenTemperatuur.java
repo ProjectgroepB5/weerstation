@@ -9,9 +9,15 @@ import java.util.ArrayList;
 */
 public class BuitenTemperatuur
 {
+    private Measurement laatsteMeting;
     Weerstation weerstation;
     Measurement meting;
     ArrayList<Measurement> laatste24uur; //ArrayList om de Temperatuur in op te slaan
+    double temp;
+    double max;
+    double min;
+    double avg;
+    
     public BuitenTemperatuur()
     {
         weerstation = new Weerstation(); //maakt een nieuw weerstation aan
@@ -19,14 +25,11 @@ public class BuitenTemperatuur
     }
     public double buitenTemperatuur()
     {
-        IO.init();
         meting.getOutsideTemp();
         return meting.getOutsideTemp();
     }
-    public void getMaximale()
+    public double getMaximale()
     {
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
         short maximale = 0; // Maximale is iets boven de 100
         for(int i=0; i < laatste24uur.size();i++)
         {
@@ -35,12 +38,10 @@ public class BuitenTemperatuur
                 maximale = laatste24uur.get(i).getRawOutsideTemp();
             }
         }
-        System.out.println(maximale);
+        return(maximale);
     }
-    public void getMinimale()
+    public double getMinimale()
     {
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
         short minimale = 100; // Minimale is iets onder de 100
         for(int i=0; i < laatste24uur.size();i++)
         {
@@ -49,37 +50,35 @@ public class BuitenTemperatuur
                 minimale = laatste24uur.get(i).getRawOutsideTemp(); // Defineert average
             }
         }
-        System.out.println(minimale); // Geeft minimale
+        return(minimale); // Geeft minimale
     }
-    public void getAverage()
+    public double getAverage()
     {
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
         int average = 0; // Average is nieuw
         for(int i=0; i < laatste24uur.size();i++)
         {
             average += laatste24uur.get(i).getRawOutsideTemp(); // Defineert average
         }
         average /= laatste24uur.size(); // Berekening average
-        System.out.println(average); // Geeft average terug
+        return(average); // Geeft average terug
     }
     
     public void updateRecent(Measurement measurement1)
     {
         this.laatsteMeting = measurement1;
-        setCurrentWindSpeed(laatsteMeting.getAvgWindSpeed());
+        temp = laatsteMeting.getOutsideTemp();
     }
     public void update24Hour(ArrayList<Measurement> measurement2)
     {
-        this.laatste24Uur = measurement2;
-        calculateMaxMinAvgWindSpeed();
+        this.laatste24uur = measurement2;
+        min = getMinimale();
+        max = getMaximale();
+        avg = getAverage();
     }
     public void display()
     {
-        GUIboard.writeUpperDigits(getCurrentWindSpeed());
-        GUIboard.writeLeftDigits(getMaxWindSpeed());
-        GUIboard.writeRightDigits(getMinWindSpeed());
+        GUIboard.writeUpperDigits(temp);
+        GUIboard.writeLeftDigits(max);
+        GUIboard.writeRightDigits(min);
     }
-    
-    
 }
