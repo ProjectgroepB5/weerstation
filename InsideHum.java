@@ -54,7 +54,7 @@ public class Humiditie
        }
    
    public void getAverage()
-      {
+    {
          IO.init();
         laatste24uur = weerstation.getAllMeasurementsLast24h();
         int average = 0;
@@ -64,7 +64,24 @@ public class Humiditie
         }
         average = average / laatste24uur.size();
         System.out.println(average);
-      }  
+     }  
+      public void updateRecent(Measurement measurement1)
+    {
+		this.laatsteMeting = measurement1;
+		setInsidehum(laatsteMeting.getInsideHum());
+	}
+	public void update24Hour(ArrayList<Measurement> measurement2)
+	{
+		this.laatste24Uur = measurement2;
+		calculateInsidehum();
+	}
+	
+	public void display()
+	{
+		GUIboard.writeUpperDigits(getCurrentInsidehum());
+		GUIboard.writeLeftDigits(getMaxInsidehum());
+		GUIboard.writeRightDigits(getMinInsidehum());
+	}
    }
     
     
