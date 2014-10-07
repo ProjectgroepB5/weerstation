@@ -7,19 +7,19 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class OpdrachtBuitenLuchtvochtigheid
+public class BuitenLuchtvochtigheid
 {
     Weerstation weerstation;
     Measurement meting;
     ArrayList<Measurement> laatste24uur; //ArrayList om de luchtvochtigheid op te slaan
     
-    public OpdrachtBuitenLuchtvochtigheid()
+    public BuitenLuchtvochtigheid()
     {
             weerstation = new Weerstation();  //maakt een nieuw weerstation aan
             meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
     }
     
-    public double buitenLuchtvochtigheid()
+    public double getBuitenLuchtvochtigheid()
     {
         IO.init();
         meting.getOutsideHum();
