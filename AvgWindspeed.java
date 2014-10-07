@@ -14,7 +14,7 @@ public class AvgWindspeed {
 	private double avgWindSpeed;
 	
 	//constructor
-	public AvgWindspeed(Measurement measurement1, ArrayList<Measurement> measurement2, int page){
+	public AvgWindspeed(Measurement measurement1, ArrayList<Measurement> measurement2){
 		calculator = new Calculator();
 		updateRecent(measurement1);
 		update24Hour(measurement2);
