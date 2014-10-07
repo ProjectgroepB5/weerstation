@@ -8,7 +8,6 @@ public class AvgWindspeed {
 	private Measurement laatsteMeting;
 	private ArrayList<Measurement> laatste24Uur;
 	private Calculator calculator;
-	private int pageNumber;
 	private double currentWindSpeed;
 	private double maxWindSpeed;
 	private double minWindSpeed;
@@ -16,7 +15,6 @@ public class AvgWindspeed {
 	
 	//constructor
 	public AvgWindspeed(Measurement measurement1, ArrayList<Measurement> measurement2, int page){
-		pageNumber = page;
 		calculator = new Calculator();
 		updateRecent(measurement1);
 		update24Hour(measurement2);
