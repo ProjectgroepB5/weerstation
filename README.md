@@ -84,6 +84,8 @@ OutsideTemp;
 InsideTemp;
 ```
 
+---
+
 *Opgeleverd door school*
 ```
 IO;
@@ -91,4 +93,10 @@ IO;
 ```
 WeerstationConnector;
 ```
+
+---
+
+
+##Other
+Nothing here yet
 
