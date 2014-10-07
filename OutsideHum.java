@@ -1,36 +1,36 @@
-import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 /**
  * Write a description of class OpdrachtDinges here.
  * 
- * @author (Tim van Lieshout) 
+ * @author (your name) 
  * @version (a version number or a date)
  */
-public class OutsideHum
+public class OpdrachtBuitenLuchtvochtigheid
 {
     Weerstation weerstation; //connectie maken met Weerstation klasse
     Measurement meting; //connectie maken met Measurement klasse
     ArrayList<Measurement> laatste24uur; //ArrayList om de luchtvochtigheid op te slaan
+    double vochtigheid;
+    private Measurement laatsteMeting;
+    double max;
+    double min;
+    double avg;
     
-    public OutsideHum()
+    public OpdrachtBuitenLuchtvochtigheid()
     {
-            weerstation = new Weerstation();  //maakt een nieuw weerstation aan
-            meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
+        weerstation = new Weerstation();  //maakt een nieuw weerstation aan
+        meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
     }
     
     public double buitenLuchtvochtigheid()
     {
-        IO.init();
         meting.getOutsideHum(); //waardes van buitenluchtvochtigheid ophalen uit de meting klasse
         return meting.getOutsideHum();
     }
     
-    public void getMaximale()
+    public double berekenMaximale()
     {
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h(); //geef inhoud aan de (nu nog lege) ArrayList laatste24uur
-        
         short maximale = 0;
         for(int i=0; i < laatste24uur.size();i++) //zolang i kleiner is dan de grootte van de ArrayList laatste24uur voert het de if-statement uit
         {
@@ -39,14 +39,11 @@ public class OutsideHum
                 maximale = laatste24uur.get(i).getRawOutsideHum();
             }
         }
-        System.out.println(maximale); //laat de waarde van maximale zien.
+        return(maximale);
     }
     
-    public void getMinimale()
+    public double berekenMinimale()
     {
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
-        
         short minimale = 100;
         for(int i=0; i < laatste24uur.size();i++)
         {
@@ -55,32 +52,35 @@ public class OutsideHum
                 minimale = laatste24uur.get(i).getRawOutsideHum();
             }
         }
-        System.out.println(minimale);
+        return(minimale);
     }
     
-    public void getAverage()
+    public double berekenAverage()
     {
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
-        
         int average = 0;
         for(int i=0; i < laatste24uur.size(); i ++)
         {
             average += laatste24uur.get(i).getRawOutsideHum();
         }
         average /= laatste24uur.size();
-        System.out.println(average);
+        return(average);
     }
     
-    public void matrixScherm()
-    {
-        IO.init();
-        if( IO.readShort(0x80) != 0 )
-        {
-            IO.writeShort(0x40,'q'); //tussen de '' moet de tekst komen die op het scherm komt
-        }
-        else {
-            //hier code voor grafiek te laten tekenen
-        }
-    }
+    public void updateRecent(Measurement measurement1){
+		this.laatsteMeting = measurement1;
+		vochtigheid = laatsteMeting.getOutsideHum();
+	}
+	
+	public void update24Hour(ArrayList<Measurement> measurement2){
+		this.laatste24uur = measurement2;
+		min = berekenMinimale();
+		max = berekenMaximale();
+		avg = berekenAverage();
+	}
+	
+	public void display(){
+		GUIboard.writeUpperDigits(vochtigheid);
+		GUIboard.writeLeftDigits(max);
+		GUIboard.writeRightDigits(min);
+	}
 }
