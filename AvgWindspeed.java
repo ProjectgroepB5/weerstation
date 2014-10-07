@@ -24,27 +24,27 @@ public class AvgWindspeed {
 	}
 	
 	//getters & setters
-	double getCurrentWindSpeed() {
+	public double getCurrentWindSpeed() {
 		return currentWindSpeed;
 	}
 
-	void setCurrentWindSpeed(double currentWindSpeed) {
+	public void setCurrentWindSpeed(double currentWindSpeed) {
 		if(currentWindSpeed >= 0){
 			this.currentWindSpeed = currentWindSpeed;
 		}
 	}
 
-	double getMaxWindSpeed() {
+	public double getMaxWindSpeed() {
 		return maxWindSpeed;
 	}
 
-	void setMaxWindSpeed(double maxWindSpeed) {
+	public void setMaxWindSpeed(double maxWindSpeed) {
 		if(maxWindSpeed >= 0){
 			this.maxWindSpeed = maxWindSpeed;
 		}
 	}
 
-	double getMinWindSpeed() {
+	public double getMinWindSpeed() {
 		return minWindSpeed;
 	}
 
@@ -54,7 +54,7 @@ public class AvgWindspeed {
 		}
 	}
 
-	double getAvgWindSpeed() {
+	public double getAvgWindSpeed() {
 		return avgWindSpeed;
 	}
 
@@ -63,9 +63,9 @@ public class AvgWindspeed {
 	}
 	
 	//Methods
-	public void calculateMaxMinAvgWindSpeed(){
+	private void calculateMaxMinAvgWindSpeed(){
 		int max = 0;
-		int min = 0;
+		int min = 1000;
 		float avg = 0;
 		for(Measurement minut :laatste24Uur){
 			if(minut.getRawAvgWindSpeed() > max){
