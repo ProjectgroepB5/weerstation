@@ -63,15 +63,23 @@ public class BuitenTemperatuur
         average /= laatste24uur.size(); // Berekening average
         System.out.println(average); // Geeft average terug
     }
-    public void matrixScherm()
+    
+    public void updateRecent(Measurement measurement1)
     {
-        IO.init();
-        if( IO.readShort(0x80) != 0 )
-        {
-            IO.writeShort(0x40,'q'); //tussen de '' moet de tekst komen die op het scherm komt
-        }
-        else {
-            //hier code voor grafiek te laten tekenen
-        }
+        this.laatsteMeting = measurement1;
+        setCurrentWindSpeed(laatsteMeting.getAvgWindSpeed());
     }
+    public void update24Hour(ArrayList<Measurement> measurement2)
+    {
+        this.laatste24Uur = measurement2;
+        calculateMaxMinAvgWindSpeed();
+    }
+    public void display()
+    {
+        GUIboard.writeUpperDigits(getCurrentWindSpeed());
+        GUIboard.writeLeftDigits(getMaxWindSpeed());
+        GUIboard.writeRightDigits(getMinWindSpeed());
+    }
+    
+    
 }
