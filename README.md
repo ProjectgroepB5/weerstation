@@ -25,14 +25,35 @@ Hier staan alle benodigde bestanden van het Weerstation project.
 
 *Janco*
 ```
-AvgWindSpeed();
+AvgWindSpeed;
+```
+```
+Main;
+```
+```
+Weerstation;
+```
+```
+GUIboard;
 ```
 
 ---
 
 *Kenneth*
 ```
-RainRate();
+RainRate;
+```
+```
+Calculator;
+```
+```
+GUIboard;
+```
+```
+Measurement;
+```
+```
+README.md;
 ```
 
 ---
@@ -46,20 +67,28 @@ OutsideHum;
 
 *Malek*
 ```
-InsideHum();
+InsideHum;
 ```
 
 ---
 
 *Daniel*
 ```
-OutsideTemp();
+OutsideTemp;
 ```
 
 ---
 
 *Tom*
 ```
-RainRate();
+RainRate;
+```
+
+*Opgeleverd door school*
+```
+IO;
+```
+```
+WeerstationConnector;
 ```
 
