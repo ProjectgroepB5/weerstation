@@ -81,7 +81,7 @@ OutsideTemp;
 
 *Tom*
 ```
-RainRate;
+InsideTemp;
 ```
 
 *Opgeleverd door school*
