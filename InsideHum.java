@@ -1,87 +1,86 @@
-import java.util.ArrayList; 
 import java.io.*;
 import java.net.*;
-public class Humiditie 
+import java.util.ArrayList;
+/**
+* Write a description of class OpdrachtDinges here.
+*
+* @author (your name)
+* @version (a version number or a date)
+*/
+public class InsideHum
 {
-    Weerstation weerstation; //maken een nieuw weerstation aan
-    Measurement  meting; // pakken recente gegeven
-    ArrayList<Measurement>laatste24uur;
+    private Measurement laatsteMeting;
+    Weerstation weerstation;
+    Measurement meting;
+    ArrayList<Measurement> laatste24uur; //ArrayList om de Temperatuur in op te slaan
+    double Hum;
+    double max;
+    double min;
+    double avg;
     
-   public Humiditie()
+    public InsideHum()
     {
-     weerstation = new Weerstation();
-     meting = weerstation.getMostRecentMeasurement(); 
+        weerstation = new Weerstation(); //maakt een nieuw weerstation aan
+        meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
     }
-   
-   public double InsideHum()
-      {
-       IO.init();
-       meting.getInsideHum();
-       return meting.getInsideHum();
-       
-      }
-   
-    public void  MaxHum()
-      {    
-        IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
-        
-        short maximale = 0;
-        for(int i = 0; i < laatste24uur.size(); i++)
+    public double InsideHum()
+    {
+        meting.getInsideHum();
+        return meting.getInsideHum();
+    }
+    public double getMaximale()
+    {
+        short maximale = 0; // Maximale is iets boven de 100
+        for(int i=0; i < laatste24uur.size();i++)
         {
             if(laatste24uur.get(i).getRawInsideHum() > maximale)
             {
                 maximale = laatste24uur.get(i).getRawInsideHum();
             }
         }
-        System.out.println(maximale);
-      }
-   
-   public void MinHum()
-      {
-       IO.init();
-       laatste24uur = weerstation.getAllMeasurementsLast24h();
-        
-       short minimale = 100; // kan niet groter dan 100 worden
-       for(int i = 0; i < laatste24uur.size(); i++)
-       {
-           if(laatste24uur.get(i).getRawInsideHum() < minimale)
-           {
-                minimale = laatste24uur.get(i).getRawInsideHum(); 
-           }
-       }
-        System.out.println(minimale);
-       }
-   
-   public void getAverage()
+        return(maximale);
+    }
+    public double getMinimale()
     {
-         IO.init();
-        laatste24uur = weerstation.getAllMeasurementsLast24h();
-        int average = 0;
+        short minimale = 100; // Minimale is iets onder de 100
         for(int i=0; i < laatste24uur.size();i++)
         {
-            average += laatste24uur.get(i).getRawInsideHum();
+            if(laatste24uur.get(i).getRawInsideHum() < minimale)
+            {
+                minimale = laatste24uur.get(i).getRawInsideHum(); // Defineert average
+            }
         }
-        average = average / laatste24uur.size();
-        System.out.println(average);
-     }  
-      public void updateRecent(Measurement measurement1)
+        return(minimale); // Geeft minimale
+    }
+    public double getAverage()
     {
-		this.laatsteMeting = measurement1;
-		setInsidehum(laatsteMeting.getInsideHum());
-	}
-	public void update24Hour(ArrayList<Measurement> measurement2)
-	{
-		this.laatste24Uur = measurement2;
-		calculateInsidehum();
-	}
-	
-	public void display()
-	{
-		GUIboard.writeUpperDigits(getCurrentInsidehum());
-		GUIboard.writeLeftDigits(getMaxInsidehum());
-		GUIboard.writeRightDigits(getMinInsidehum());
-	}
-   }
+        int average = 0; // Average is nieuw
+        for(int i=0; i < laatste24uur.size();i++)
+        {
+            average += laatste24uur.get(i).getRawInsideHum(); // Defineert average
+        }
+        average /= laatste24uur.size(); // Berekening average
+        return(average); // Geeft average terug
+    }
     
+    public void updateRecent(Measurement measurement1)
+    {
+        this.laatsteMeting = measurement1;
+        temp = laatsteMeting.getInsideHum();
+    }
+    public void update24Hour(ArrayList<Measurement> measurement2)
+    {
+        this.laatste24uur = measurement2;
+        min = getMinimale();
+        max = getMaximale();
+        avg = getAverage();
+    }
+    public void display()
+    {
+        GUIboard.writeUpperDigits(Hum);
+        GUIboard.writeLeftDigits(max);
+        GUIboard.writeRightDigits(min);
+    }
+}
+
     
