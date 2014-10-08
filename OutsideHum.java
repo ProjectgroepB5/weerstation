@@ -1,3 +1,4 @@
+package weerstation;
 import java.net.*;
 import java.util.ArrayList;
 /**
@@ -6,9 +7,8 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class OpdrachtBuitenLuchtvochtigheid
+public class OutsideHum
 {
-    Weerstation weerstation; //connectie maken met Weerstation klasse
     Measurement meting; //connectie maken met Measurement klasse
     ArrayList<Measurement> laatste24uur; //ArrayList om de luchtvochtigheid op te slaan
     double vochtigheid;
@@ -17,10 +17,10 @@ public class OpdrachtBuitenLuchtvochtigheid
     double min;
     double avg;
     
-    public OpdrachtBuitenLuchtvochtigheid()
+    public OutsideHum(Measurement measurement1, ArrayList<Measurement> measurement2)
     {
-        weerstation = new Weerstation();  //maakt een nieuw weerstation aan
-        meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
+    	updateRecent(measurement1);
+		update24Hour(measurement2);
     }
     
     public double buitenLuchtvochtigheid()
