@@ -1,3 +1,4 @@
+package weerstation;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class BuitenTemperatuur
 {
     private Measurement laatsteMeting;
-    Weerstation weerstation;
+    Calculator calculator = new Calculator();
     Measurement meting;
     ArrayList<Measurement> laatste24uur; //ArrayList om de Temperatuur in op te slaan
     double temp;
@@ -18,10 +19,10 @@ public class BuitenTemperatuur
     double min;
     double avg;
     
-    public BuitenTemperatuur()
+    public BuitenTemperatuur(Measurement measurement1, ArrayList<Measurement> measurement2)
     {
-        weerstation = new Weerstation(); //maakt een nieuw weerstation aan
-        meting = weerstation.getMostRecentMeasurement(); //pakken recenste gegevens MOET VERWIJDERD WORDEN
+    	updateRecent(measurement1);
+		update24Hour(measurement2);
     }
     public double buitenTemperatuur()
     {
@@ -38,11 +39,11 @@ public class BuitenTemperatuur
                 maximale = laatste24uur.get(i).getRawOutsideTemp();
             }
         }
-        return(maximale);
+        return(calculator.temperatuur((maximale)));
     }
     public double getMinimale()
     {
-        short minimale = 100; // Minimale is iets onder de 100
+        short minimale = 1000; // Minimale is iets onder de 100
         for(int i=0; i < laatste24uur.size();i++)
         {
             if(laatste24uur.get(i).getRawOutsideTemp() < minimale)
@@ -50,17 +51,18 @@ public class BuitenTemperatuur
                 minimale = laatste24uur.get(i).getRawOutsideTemp(); // Defineert average
             }
         }
-        return(minimale); // Geeft minimale
+        
+        return(calculator.temperatuur((minimale))); // Geeft minimale
     }
     public double getAverage()
     {
-        int average = 0; // Average is nieuw
+        short average = 0; // Average is nieuw
         for(int i=0; i < laatste24uur.size();i++)
         {
             average += laatste24uur.get(i).getRawOutsideTemp(); // Defineert average
         }
         average /= laatste24uur.size(); // Berekening average
-        return(average); // Geeft average terug
+        return(calculator.temperatuur((average))); // Geeft average terug
     }
     
     public void updateRecent(Measurement measurement1)
