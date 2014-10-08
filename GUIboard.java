@@ -67,36 +67,38 @@ public class GUIboard {
 	}
 
     
-    public static boolean writePageToMatrix(String name, double median, int page)
+    public static boolean writePageToMatrix(String regel1, String regel2, String regel3)
     {
         clearBottom();
-  
-        char[] charArray = name.toCharArray();
-        String num = "Avg: " + median;
-        char[] numArray  = num.toCharArray();
-        String nav = page + "/" + page + "  <  >  S";
-        char[] navArray  = nav.toCharArray();
-        
-        if(charArray.length > 20)
+        if(regel1.length() > 20 && regel2.length() > 20 && regel3.length() > 11) //check if the length is not to long
         {
             return false;
         }
+        
+        String nav = "<   >  S";							//creates the navigation and will center it out to the right
+        
+        for(int i=0; i < (12-regel3.length()); i++){
+        	nav = " " + nav;
+        }
+        char[] regel1CharArray = regel1.toCharArray();
+        char[] regel2CharArray = regel2.toCharArray();
+        char[] regel3CharArray  = (regel3 + nav).toCharArray();
 
-        for(char ch : charArray)
+        for(char ch : regel1CharArray)
         {
             IO.writeShort(0x40, ch);
         }
         
         IO.writeShort(0x40, '\n');
         
-        for(char ch : numArray)
+        for(char ch : regel2CharArray)
         {
             IO.writeShort(0x40, ch);
         }
         
         IO.writeShort(0x40, '\n');
         
-        for(char ch : navArray)
+        for(char ch : regel3CharArray)
         {
             IO.writeShort(0x40, ch);
         }
@@ -118,8 +120,6 @@ public class GUIboard {
             IO.delay(10); 
         } 
     }
-    
-    
     
     //Private functions
     private static void createAxis(int x, int y)
