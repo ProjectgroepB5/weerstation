@@ -13,15 +13,15 @@ public class InsideHum
     Weerstation weerstation;
     Measurement meting;
     ArrayList<Measurement> dag; 
-    double Hum;
+    double hum;
     double max;
     double min;
     double avg;
     
     public InsideHum(Measurement measurement1, ArrayList<Measurement> laatste24uur )
     {
-        dag = laatste24uur();
-        meting = measurement(); 
+        dag = laatste24uur;
+        meting = measurement1; 
     }
     public double InsideHum()
     {
@@ -66,7 +66,7 @@ public class InsideHum
     public void updateRecent(Measurement measurement1)
     {
         this.laatsteMeting = measurement1;
-        temp = laatsteMeting.getInsideHum();
+        hum = laatsteMeting.getInsideHum();
     }
     public void update24Hour(ArrayList<Measurement> measurement2)
     {
@@ -77,7 +77,7 @@ public class InsideHum
     }
     public void display()
     {
-        GUIboard.writeUpperDigits(Hum);
+        GUIboard.writeUpperDigits(hum);
         GUIboard.writeLeftDigits(max);
         GUIboard.writeRightDigits(min);
     }
