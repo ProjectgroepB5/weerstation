@@ -1,88 +1,86 @@
-package weerstation;
-import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 /**
-* Write a description of class OpdrachtDinges here.
-*
-* @author (your name)
-* @version (a version number or a date)
-*/
+ * Write a description of class OpdrachtDinges here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
 public class InsideHum
 {
+    Measurement meting; 
+    ArrayList<Measurement> laatste24uur; 
+    double vochtigheid;
     private Measurement laatsteMeting;
-    Weerstation weerstation;
-    Measurement meting;
-    ArrayList<Measurement> dag; 
-    double hum;
     double max;
     double min;
     double avg;
     
-    public InsideHum(Measurement measurement1, ArrayList<Measurement> laatste24uur )
+    public InsideHum(Measurement measurement1, ArrayList<Measurement> measurement2)
     {
-        dag = laatste24uur;
-        meting = measurement1; 
+    	updateRecent(measurement1);
+		update24Hour(measurement2);
     }
-    public double InsideHum()
+    
+    public double binnenLuchtvochtigheid()
     {
-        meting.getInsideHum();
+        meting.getInsideHum(); 
         return meting.getInsideHum();
     }
-    public double getMaximale()
+    
+    public double berekenMaximale()
     {
-        short maximale = 0; // Maximale is iets boven de 100
-        for(int i=0; i < dag.size();i++)
+        short maximale = 0;
+        for(int i=0; i < laatste24uur.size();i++) 
         {
-            if(dag.get(i).getRawInsideHum() > maximale)
+            if(laatste24uur.get(i).getRawInsideHum() > maximale) 
             {
-                maximale = dag.get(i).getRawInsideHum();
+                maximale = laatste24uur.get(i).getRawInsideHum();
             }
         }
         return(maximale);
     }
-    public double getMinimale()
+    
+    public double berekenMinimale()
     {
-        short minimale = 100; // Minimale is iets onder de 100
-        for(int i=0; i < dag.size();i++)
+        short minimale = 100;
+        for(int i=0; i < laatste24uur.size();i++)
         {
-            if(dag.get(i).getRawInsideHum() < minimale)
+            if(laatste24uur.get(i).getRawInsideHum() < minimale)
             {
-                minimale = dag.get(i).getRawInsideHum(); 
+                minimale = laatste24uur.get(i).getRawInsideHum();
             }
         }
-        return(minimale); // Geeft minimale
+        return(minimale);
     }
-    public double getAverage()
+    
+    public double berekenAverage()
     {
-        int average = 0; // Average is nieuw
-        for(int i=0; i < dag.size();i++)
+        int average = 0;
+        for(int i=0; i < laatste24uur.size(); i ++)
         {
-            average += dag.get(i).getRawInsideHum(); 
+            average += laatste24uur.get(i).getRawInsideHum();
         }
-        average /= dag.size(); // Berekening average
-        return(average); // Geeft average terug
+        average /= laatste24uur.size();
+        return(average);
     }
     
-    public void updateRecent(Measurement measurement1)
-    {
-        this.laatsteMeting = measurement1;
-        hum = laatsteMeting.getInsideHum();
-    }
-    public void update24Hour(ArrayList<Measurement> measurement2)
-    {
-        this.dag = measurement2;
-        min = getMinimale();
-        max = getMaximale();
-        avg = getAverage();
-    }
-    public void display()
-    {
-        GUIboard.writeUpperDigits(hum);
-        GUIboard.writeLeftDigits(max);
-        GUIboard.writeRightDigits(min);
+    public void updateRecent(Measurement measurement1){
+		this.laatsteMeting = measurement1;
+		vochtigheid = laatsteMeting.getInsideHum();
+	}
+	
+	public void update24Hour(ArrayList<Measurement> measurement2){
+		this.laatste24uur = measurement2;
+		min = berekenMinimale();
+		max = berekenMaximale();
+		avg = berekenAverage();
+	}
+	
+	public void display(){
+		GUIboard.writeUpperDigits(vochtigheid);
+		GUIboard.writeLeftDigits(max);
+		GUIboard.writeRightDigits(min);
 		GUIboard.writePageToMatrix("Luchtv. Binnen", "Gemiddelde: " + avg, "");
-    }
+	}
 }
-
-    
