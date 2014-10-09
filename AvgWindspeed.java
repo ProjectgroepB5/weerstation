@@ -88,7 +88,7 @@ public class AvgWindspeed {
 		GUIboard.writeUpperDigits(getCurrentWindSpeed());
 		GUIboard.writeLeftDigits(getMaxWindSpeed());
 		GUIboard.writeRightDigits(getMinWindSpeed());
-		GUIboard.writePageToMatrix("Windsnelheid in m/s", "Avg: " + avgWindSpeed, "");
+		GUIboard.writePageToMatrix("Windsnelheid in m/s", "Gemiddelde: " + avgWindSpeed, "");
 	}
 	
 }
