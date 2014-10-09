@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class RainRate {
@@ -5,7 +6,6 @@ public class RainRate {
     //fields
     private Measurement laatsteMeting;
     private ArrayList<Measurement> laatste24Uur;
-    private Calculator calculator;
     private double currentRainRate;
     private double maxRainRate;
     private double minRainRate;
@@ -13,10 +13,8 @@ public class RainRate {
     
     //constructor
     public RainRate(Measurement measurement1, ArrayList<Measurement> measurement2){
-        calculator = new Calculator();
         updateRecent(measurement1);
         update24Hour(measurement2);
-        
     }
     
     //getters & setters
@@ -74,9 +72,9 @@ public class RainRate {
         }
         avg /= laatste24Uur.size();
         
-        setAvgRainRate(calculator.regenmeter((short)avg));
-        setMaxRainRate(calculator.regenmeter((short)max));
-        setMinRainRate(calculator.regenmeter((short)min));
+        setAvgRainRate(Calculator.regenmeter((short)avg));
+        setMaxRainRate(Calculator.regenmeter((short)max));
+        setMinRainRate(Calculator.regenmeter((short)min));
     }
     
     public void updateRecent(Measurement measurement1){
@@ -92,7 +90,6 @@ public class RainRate {
         GUIboard.writeUpperDigits(getCurrentRainRate());
         GUIboard.writeLeftDigits(getMaxRainRate());
         GUIboard.writeRightDigits(getMinRainRate());
-        GUIboard.writePageToMatrix("Regenval in mm/h", "Gemiddelde: " + avgRainRate, "");
     }
     
 }

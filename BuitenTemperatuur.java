@@ -1,8 +1,4 @@
- 
-<<<<<<< HEAD
-=======
- 
->>>>>>> origin/master
+package weerstation;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -15,7 +11,6 @@ import java.util.ArrayList;
 public class BuitenTemperatuur
 {
     private Measurement laatsteMeting;
-    Calculator calculator = new Calculator();
     Measurement meting;
     ArrayList<Measurement> laatste24uur; //ArrayList om de Temperatuur in op te slaan
     double temp;
@@ -43,7 +38,7 @@ public class BuitenTemperatuur
                 maximale = laatste24uur.get(i).getRawOutsideTemp();
             }
         }
-        return(calculator.temperatuur((maximale)));
+        return(Calculator.temperatuur((maximale)));
     }
     public double getMinimale()
     {
@@ -56,7 +51,7 @@ public class BuitenTemperatuur
             }
         }
         
-        return(calculator.temperatuur((minimale))); // Geeft minimale
+        return(Calculator.temperatuur((minimale))); // Geeft minimale
     }
     public double getAverage()
     {
@@ -66,7 +61,7 @@ public class BuitenTemperatuur
             average += laatste24uur.get(i).getRawOutsideTemp(); // Defineert average
         }
         average /= laatste24uur.size(); // Berekening average
-        return(calculator.temperatuur((average))); // Geeft average terug
+        return(Calculator.temperatuur((average))); // Geeft average terug
     }
     
     public void updateRecent(Measurement measurement1)
@@ -86,6 +81,5 @@ public class BuitenTemperatuur
         GUIboard.writeUpperDigits(temp);
         GUIboard.writeLeftDigits(max);
         GUIboard.writeRightDigits(min);
-        GUIboard.writePageToMatrix("Buitentemperatuur", "Gemiddelde: " + avg, "");
     }
 }
