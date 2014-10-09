@@ -153,18 +153,16 @@ public class GUIboard {
         IO.init();
         clearBottom();
         createAxis(min,max);
-   
         
-        /*
-        int x,y; 
-        for(x = 0; x < 128; x++ ) 
-        { 
-            y = (int) (Math.sin(x)*2f) + 10;
-            y = 31-y;
-            IO.writeShort(0x42, 1 << 12 | x << 5 | y); 
-            IO.delay(10); 
-        } 
-        */
+        int x,y;
+        double getal;
+        for(int i=0;i<1440;i++)
+        {
+            getal = msList.get(i);
+            x = ((i/1439)*127);
+            y = (int) ((getal - min)/(max-min))*31;
+            IO.writeShort(0x42, 1 << 12 | x << 5 | y );
+        }
     }
     
     //Private functions
