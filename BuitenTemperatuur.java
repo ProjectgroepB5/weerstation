@@ -55,13 +55,13 @@ public class BuitenTemperatuur
     }
     public double getAverage()
     {
-        short average = 0; // Average is nieuw
+        float average = 0; // Average is nieuw
         for(int i=0; i < laatste24uur.size();i++)
         {
             average += laatste24uur.get(i).getRawOutsideTemp(); // Defineert average
         }
         average /= laatste24uur.size(); // Berekening average
-        return(Calculator.temperatuur((average))); // Geeft average terug
+        return(Calculator.temperatuur(((short)average))); // Geeft average terug
     }
     
     public void updateRecent(Measurement measurement1)
