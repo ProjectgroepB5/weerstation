@@ -81,5 +81,6 @@ public class BuitenTemperatuur
         GUIboard.writeUpperDigits(temp);
         GUIboard.writeLeftDigits(max);
         GUIboard.writeRightDigits(min);
+        GUIboard.writePageToMatrix("Buitentemperatuur", "Gemiddelde: " + avg, "");
     }
 }

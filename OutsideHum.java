@@ -82,5 +82,6 @@ public class OutsideHum
 		GUIboard.writeUpperDigits(vochtigheid);
 		GUIboard.writeLeftDigits(max);
 		GUIboard.writeRightDigits(min);
+		GUIboard.writePageToMatrix("Luchtv. Buiten", "Gemiddelde: " + avg, "");
 	}
 }

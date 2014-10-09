@@ -76,5 +76,6 @@ public class BinnenTemperatuur
         GUIboard.writeUpperDigits(temp);
         GUIboard.writeLeftDigits(max);
         GUIboard.writeRightDigits(min);
+        GUIboard.writePageToMatrix("Binnentemperatuur", "Gemiddelde: " + avg, "");
     }
 }

@@ -90,6 +90,7 @@ public class RainRate {
         GUIboard.writeUpperDigits(getCurrentRainRate());
         GUIboard.writeLeftDigits(getMaxRainRate());
         GUIboard.writeRightDigits(getMinRainRate());
+        GUIboard.writePageToMatrix("Regenval in mm/h", "Gemiddelde: " + avgRainRate, "");
     }
     
 }

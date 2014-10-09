@@ -81,6 +81,7 @@ public class InsideHum
         GUIboard.writeUpperDigits(hum);
         GUIboard.writeLeftDigits(max);
         GUIboard.writeRightDigits(min);
+		GUIboard.writePageToMatrix("Luchtv. Binnen", "Gemiddelde: " + avg, "");
     }
 }
 
