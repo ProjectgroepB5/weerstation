@@ -70,7 +70,7 @@ public class InsideHum
     }
     public void update24Hour(ArrayList<Measurement> measurement2)
     {
-        this.laatste24uur = measurement2;
+        this.dag = measurement2;
         min = getMinimale();
         max = getMaximale();
         avg = getAverage();
