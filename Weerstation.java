@@ -1,6 +1,4 @@
- 
-
-
+package weerstation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +10,14 @@ public class Weerstation {
 	Measurement meting1;
 	ArrayList<Measurement> meting2;
 	int currentScreen;
+	boolean wait;
 	
 	public Weerstation(){
 		weerstation1 = new WeerstationConnector();
 		meting1 = weerstation1.getMostRecentMeasurement();
 		meting2 = weerstation1.getAllMeasurementsLast24h();
-		currentScreen = -1;
-		
+		currentScreen = 0;
+		wait = true;
 		IO.init();
 		Timer timer = new Timer();
 
@@ -36,7 +35,9 @@ public class Weerstation {
 		//Screen switcher
 		timer.scheduleAtFixedRate(new TimerTask() {
 	        public void run() {
-	        	currentScreen++;
+	        	if(wait == false){
+		        	currentScreen++;
+	        	}
 	        	if(currentScreen == lstScreens.size()){
 	        		currentScreen = 0;
 	        	}
@@ -85,9 +86,17 @@ public class Weerstation {
 		//Button checker
 		timer.scheduleAtFixedRate(new TimerTask() {
 	        public void run() {
-	    		
+	        	if(IO.readShort(0x100) == 1){
+	    			if(IO.readShort(0x80) == 1){
+		    			wait = true;
+		    		}else if(IO.readShort(0x80) == 0){
+		    			wait = false;
+		    		}
+	    		}else if(IO.readShort(0x100) == 0){
+	    			wait = true;
+	    		}	    		
 	        }
-	    }, 0, 60*1000);
+	    }, 0, 100);
 		
 	}
 }
