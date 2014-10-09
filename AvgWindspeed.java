@@ -1,4 +1,4 @@
- 
+package weerstation;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,7 @@ public class AvgWindspeed {
 	}
 
 	public void setAvgWindSpeed(double avgWindSpeed) {
-		this.avgWindSpeed = avgWindSpeed;
+		this.avgWindSpeed = Math.round(avgWindSpeed*100)/100;
 	}
 	
 	//Methods
