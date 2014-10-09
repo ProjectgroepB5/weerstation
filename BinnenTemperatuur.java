@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class BinnenTemperatuur
             average += laatste24uur.get(i).getRawInsideTemp(); // Defineert average
         }
         average /= laatste24uur.size(); // Berekening average
-        return(Calculator.temperatuur(((short)average))); // Geeft average terug
+        return  (Math.round((Calculator.temperatuur(((short)average)))*1000))/1000  ; // Geeft average terug
     }
     
     public void updateRecent(Measurement measurement1)
