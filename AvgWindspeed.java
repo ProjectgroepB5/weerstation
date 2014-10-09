@@ -5,9 +5,6 @@ import java.util.ArrayList;
 public class AvgWindspeed {
 	
 	//fields
-	private Measurement laatsteMeting;
-	private ArrayList<Measurement> laatste24Uur;
-	private Calculator calculator;
 	private double currentWindSpeed;
 	private double maxWindSpeed;
 	private double minWindSpeed;
@@ -15,10 +12,8 @@ public class AvgWindspeed {
 	
 	//constructor
 	public AvgWindspeed(Measurement measurement1, ArrayList<Measurement> measurement2){
-		calculator = new Calculator();
 		updateRecent(measurement1);
 		update24Hour(measurement2);
-		
 	}
 	
 	//getters & setters
@@ -61,11 +56,11 @@ public class AvgWindspeed {
 	}
 	
 	//Methods
-	private void calculateMaxMinAvgWindSpeed(){
+	private void calculateMaxMinAvgWindSpeed(ArrayList<Measurement> laatste24uur){
 		int max = 0;
 		int min = 1000;
 		float avg = 0;
-		for(Measurement minut :laatste24Uur){
+		for(Measurement minut :laatste24uur){
 			if(minut.getRawAvgWindSpeed() > max){
 				max = minut.getRawAvgWindSpeed();
 			}
@@ -74,26 +69,26 @@ public class AvgWindspeed {
 			}
 			avg += minut.getRawWindSpeed();
 		}
-		avg /= laatste24Uur.size();
+		avg /= laatste24uur.size();
 		
-		setAvgWindSpeed(calculator.windSnelheid((short)avg));
-		setMaxWindSpeed(calculator.windSnelheid((short)max));
-		setMinWindSpeed(calculator.windSnelheid((short)min));
+		setAvgWindSpeed(Calculator.windSnelheid((short)avg));
+		setMaxWindSpeed(Calculator.windSnelheid((short)max));
+		setMinWindSpeed(Calculator.windSnelheid((short)min));
 	}
+
 	
 	public void updateRecent(Measurement measurement1){
-		this.laatsteMeting = measurement1;
-		setCurrentWindSpeed(laatsteMeting.getAvgWindSpeed());
+		setCurrentWindSpeed(measurement1.getAvgWindSpeed());
 	}
 	public void update24Hour(ArrayList<Measurement> measurement2){
-		this.laatste24Uur = measurement2;
-		calculateMaxMinAvgWindSpeed();
+		calculateMaxMinAvgWindSpeed(measurement2);
 	}
 	
 	public void display(){
 		GUIboard.writeUpperDigits(getCurrentWindSpeed());
 		GUIboard.writeLeftDigits(getMaxWindSpeed());
 		GUIboard.writeRightDigits(getMinWindSpeed());
+		GUIboard.writePageToMatrix("Windsnelheid in m/s", "Avg: " + avgWindSpeed, "");
 	}
 	
 }

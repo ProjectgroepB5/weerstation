@@ -22,11 +22,9 @@ public class Measurement
     private short battLevel;
     private short sunrise;
     private short sunset;
-    Calculator calc;
     
     public Measurement()
     {
-        calc = new Calculator();
     }
     
     // stationId
@@ -40,52 +38,52 @@ public class Measurement
     // barometer
     public void setRawBarometer (short val) { this.barometer = val;};
     public short getRawBarometer () { return barometer; };  
-    public double getBarometer () { return round(calc.luchtdruk(barometer),0); };
+    public double getBarometer () { return round(Calculator.luchtdruk(barometer),0); };
 
     // insideTemp
     public void setRawInsideTemp (short val) { this.insideTemp = val;};
     public short getRawInsideTemp () { return insideTemp; };   
-    public double getInsideTemp () { return round(calc.temperatuur(insideTemp),2); };
+    public double getInsideTemp () { return round(Calculator.temperatuur(insideTemp),2); };
 
     // insideHum
     public void setRawInsideHum (short val) { this.insideHum = val;};
     public short getRawInsideHum () { return insideHum; }; 
-    public double getInsideHum () { return round(calc.luchtVochtigheid(insideHum),0); };
+    public double getInsideHum () { return round(Calculator.luchtVochtigheid(insideHum),0); };
 
     // outsideTemp
     public void setRawOutsideTemp (short val) { this.outsideTemp = val;};
     public short getRawOutsideTemp () { return outsideTemp; };
-    public double getOutsideTemp () { return round(calc.temperatuur(outsideTemp),2); };
+    public double getOutsideTemp () { return round(Calculator.temperatuur(outsideTemp),2); };
 
     // windSpeed
     public void setRawWindSpeed (short val) { this.windSpeed = val;};
     public short getRawWindSpeed () { return windSpeed; };
-    public double getWindSpeed () { return round(calc.windSnelheid(windSpeed),2); };
+    public double getWindSpeed () { return round(Calculator.windSnelheid(windSpeed),2); };
 
     // avgWindSpeed
     public void setRawAvgWindSpeed (short val) { this.avgWindSpeed = val;};
     public short getRawAvgWindSpeed () { return avgWindSpeed; };
-    public double getAvgWindSpeed () { return round(calc.windSnelheid(avgWindSpeed),2); };
+    public double getAvgWindSpeed () { return round(Calculator.windSnelheid(avgWindSpeed),2); };
 
     // windDir
     public void setRawWindDir (short val) { this.windDir = val;};
     public short getRawWindDir () { return windDir; };
-    public String getWindDir () { return calc.windRichting(windDir); };
+    public String getWindDir () { return Calculator.windRichting(windDir); };
 
     // outsideHum
     public void setRawOutsideHum (short val) { this.outsideHum = val;};
     public short getRawOutsideHum () { return outsideHum; };
-    public double getOutsideHum () { return round(calc.luchtVochtigheid(outsideHum),0); };
+    public double getOutsideHum () { return round(Calculator.luchtVochtigheid(outsideHum),0); };
 
     // rainRate
     public void setRawRainRate (short val) { this.rainRate = val;};
     public short getRawRainRate () { return rainRate; };
-    public double getRainRate () { return calc.regenmeter(rainRate); };
+    public double getRainRate () { return Calculator.regenmeter(rainRate); };
 
     // UVLevel
     public void setRawUVLevel (short val) { this.UVLevel = val;};
     public short getRawUVLevel () { return UVLevel; };
-    public double getUVLevel () { return Math.ceil(calc.uvIndex(UVLevel)); };
+    public double getUVLevel () { return Math.ceil(Calculator.uvIndex(UVLevel)); };
 
     // solarRad
     public void setRawSolarRad (short val) { this.solarRad = val;};
@@ -99,29 +97,29 @@ public class Measurement
     // battLevel
     public void setRawBattLevel (short val) { this.battLevel = val;};
     public short getRawBattLevel () { return battLevel; };
-    public double getBattLevel () { return round(calc.batterySpanning(battLevel),2); };
+    public double getBattLevel () { return round(Calculator.batterySpanning(battLevel),2); };
 
     // sunrise
     public void setRawSunrise (short val) { this.sunrise = val;};
     public short getRawSunrise () { return sunrise; };
-    public String getSunrise () { return calc.sunRise(sunrise); };
+    public String getSunrise () { return Calculator.sunRise(sunrise); };
 
     // sunset
     public void setRawSunset (short val) { this.sunset = val;};
     public short getRawSunset () { return sunset; };
-    public String getSunset () { return calc.sunSet(sunset); };
+    public String getSunset () { return Calculator.sunSet(sunset); };
     
     // windChill
-    public double getWindChill () { return round(calc.windChill(outsideTemp, windSpeed),2); };
+    public double getWindChill () { return round(Calculator.windChill(outsideTemp, windSpeed),2); };
      
     // heatIndex
-    public double getHeatIndex () { return round(calc.heatIndex(outsideHum, outsideTemp),0); };
+    public double getHeatIndex () { return round(Calculator.heatIndex(outsideHum, outsideTemp),0); };
      
     // dewPoint
-    public double getDewPoint () { return round(calc.dewPoint( getOutsideTemp() , outsideHum),2); };
+    public double getDewPoint () { return round(Calculator.dewPoint( getOutsideTemp() , outsideHum),2); };
     
     //wolkHoogte
-    public double getCloudHeight () { return round(calc.cloudHeight(outsideTemp, outsideHum),1); };
+    public double getCloudHeight () { return round(Calculator.cloudHeight(outsideTemp, outsideHum),1); };
 
     public String toString()
     {
