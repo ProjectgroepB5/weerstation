@@ -165,13 +165,10 @@ public class Calculator {
     
     //Heatindex in celcius
 	//Tom met Malek
-    public static double heatIndex(double luchtv, double t)
+    public static double heatIndex(double RH, double T)
     {
-        double heatindex = -42.379 + (2.04901523 * t) + (10.14333127 * luchtv) - (0.22475541 * t * luchtv) 
-        - (6.83783 * Math.pow(10,-3) * Math.pow(t,2)) - (5.481717 * Math.pow(10,-2) * Math.pow(luchtv,2)) 
-        + (1.22874 * Math.pow(10,-3) * Math.pow(t,2) * luchtv) + (8.5282 * Math.pow(10,-4) * t * Math.pow(luchtv,2)) 
-        - (1.99 * Math.pow(10,-6) * Math.pow(t,2) * Math.pow(luchtv,2));
-        
+        double HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH;
+        double heatindex = Calculator.temperatuur( (short) (HI*10) );
         return heatindex;
     }
     
