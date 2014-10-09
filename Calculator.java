@@ -1,12 +1,10 @@
   
 
 public class Calculator {
-	public Calculator(){
-	}
 	
 	// Luchtdruk in hPa
 	// Malek&Tom
-	public double luchtdruk(short mval)
+	public static double luchtdruk(short mval)
     {
         double luchtdruk = (mval / 1000f) * 33.86389;
         return luchtdruk;
@@ -14,7 +12,7 @@ public class Calculator {
 	
 	// Temperatuur in graden Celcius
     // Malek&Tom
-    public double temperatuur(short mval)
+    public static double temperatuur(short mval)
     {
         double temperatuur = (((double)mval / 10) -32) / 1.8;
         return temperatuur;
@@ -22,7 +20,7 @@ public class Calculator {
 	
     // Relatieve luchtvochtigheid in %
     // Malek&Tom
-    public double luchtVochtigheid(short mval)
+    public static double luchtVochtigheid(short mval)
     {
         double luchtvochtigheid = mval;
         return luchtvochtigheid;
@@ -30,7 +28,7 @@ public class Calculator {
     
     // Windsnelheid in m/s
 	// Janco&Tim
-	public double windSnelheid(short mval)
+	public static double windSnelheid(short mval)
 	{
 		double windSpeed = mval * 0.44704;
 		return windSpeed;
@@ -38,7 +36,7 @@ public class Calculator {
 	
 	// Windrichting in noord, oost, zuid en west. 
 	// Kenneth&Daniël
-    public String windRichting(short mval)
+    public static String windRichting(short mval)
     {
         String direction = "Error";
         
@@ -116,7 +114,7 @@ public class Calculator {
 	
     // Regenmeter in mm
     // Kenneth&Daniël
-    public double regenmeter(short mval)
+    public static double regenmeter(short mval)
 	{
     	double rainAmount = (double)mval*0.2;
     	return rainAmount;
@@ -124,7 +122,7 @@ public class Calculator {
     
 	// uvIndex in index    
     // Kenneth&Daniël
-    public double uvIndex(short mval)
+    public static double uvIndex(short mval)
     {
         double index = (double) mval/10;
         return index;
@@ -132,20 +130,20 @@ public class Calculator {
     
     // BatterySpanning in Volt
     // Janco&Tim
-    public double batterySpanning(short mval){
+    public static double batterySpanning(short mval){
 		double voltage = (((double)mval * 300)/512)/100;
     	return voltage; 
 	}
 	
     // sunRise en Sunset in tijdformaat hh:mm
 	// Janco&Tim
-    public String sunRise(short mval){
+    public static String sunRise(short mval){
     	return sun(mval);
     }
-    public String sunSet(short mval){
+    public static String sunSet(short mval){
     	return sun(mval);
     }
-	private String sun(short sunRaw){
+	private static String sun(short sunRaw){
 		String tijd = "";
 		for(int i = 0; i <= 3; i++){
 			tijd = sunRaw % 10 + tijd;
@@ -159,7 +157,7 @@ public class Calculator {
 
     //windchill in graden Celcius
 	//Janco en Keneth
-    public double windChill(short gradenFahrenheit, short mijlPerUur)
+    public static double windChill(short gradenFahrenheit, short mijlPerUur)
     {
         short windChill = (short) (35.74 + (0.6215*gradenFahrenheit) - 35.75*Math.pow(mijlPerUur, 0.16) + 0.4275*gradenFahrenheit*Math.pow(mijlPerUur, 0.16));
         return temperatuur(windChill);
@@ -167,7 +165,7 @@ public class Calculator {
     
     //Heatindex in celcius
 	//Tom met Malek
-    public double heatIndex(double luchtv, double t)
+    public static double heatIndex(double luchtv, double t)
     {
         double heatindex = -42.379 + (2.04901523 * t) + (10.14333127 * luchtv) - (0.22475541 * t * luchtv) 
         - (6.83783 * Math.pow(10,-3) * Math.pow(t,2)) - (5.481717 * Math.pow(10,-2) * Math.pow(luchtv,2)) 
@@ -179,23 +177,17 @@ public class Calculator {
     
     //Dauwpunt in Celcius
     //Daniel en Tim
-    public double dewPoint(double omgevingsTemp, short luchtVochtigheid)
+    public static double dewPoint(double omgevingsTemp, short luchtVochtigheid)
     {
        double hm = luchtVochtigheid/100f;
        double dauwpunt = Math.pow( hm, (1/8f)) * (112 + 0.9*omgevingsTemp) + (0.1*omgevingsTemp) - 112;
        return dauwpunt;
     }
 	
-    public double cloudHeight(double temp, short luchtVochtigheid ){
+    public static double cloudHeight(double temp, short luchtVochtigheid ){
     	
     	double wolkhoogte = 125 * (temp-dewPoint(temp, luchtVochtigheid));
     	return wolkhoogte; 
-	} 
-    public void opdrachtEenA(){
-    	for(int i = 0; i<4; i++){
-    		
-    	}
-    }
-    
+	}    
 
 }
