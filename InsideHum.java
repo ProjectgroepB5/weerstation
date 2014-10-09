@@ -47,7 +47,7 @@ public class InsideHum
         {
             if(dag.get(i).getRawInsideHum() < minimale)
             {
-                minimale = dag.get(i).getRawInsideHum(); // Defineert average
+                minimale = dag.get(i).getRawInsideHum(); 
             }
         }
         return(minimale); // Geeft minimale
@@ -57,7 +57,7 @@ public class InsideHum
         int average = 0; // Average is nieuw
         for(int i=0; i < dag.size();i++)
         {
-            average += dag.get(i).getRawInsideHum(); // Defineert average
+            average += dag.get(i).getRawInsideHum(); 
         }
         average /= dag.size(); // Berekening average
         return(average); // Geeft average terug
