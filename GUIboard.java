@@ -148,11 +148,14 @@ public class GUIboard {
         return true;
     }
     
-    public static void writeGraphToMatrix(ArrayList<Measurement> msList, int axisx, int axisy)
+    public static void writeGraphToMatrix(ArrayList<Double> msList, double min, double max)
     {
+        IO.init();
         clearBottom();
-        createAxis(axisx,axisy);
+        createAxis(min,max);
    
+        
+        /*
         int x,y; 
         for(x = 0; x < 128; x++ ) 
         { 
@@ -161,16 +164,29 @@ public class GUIboard {
             IO.writeShort(0x42, 1 << 12 | x << 5 | y); 
             IO.delay(10); 
         } 
+        */
     }
     
     //Private functions
-    private static void createAxis(int x, int y)
-    {
-        y = 31-y;
-        for(int x2 = 0; x2 < 128; x2++)
-        {
-            IO.writeShort(0x42, 1 << 12 | x2 << 5 | y );
+    private static void createAxis(double min, double max)
+    {        
+        int x,y;
+        double diff = max-min;
+        double valpix = diff/32;
+            
+        if(min<=0){
+            y = (int) ( (diff-max) / valpix);
+            System.out.println(y);
+            y = 32 - y;
+            System.out.println(y);
+            
+            for(int x2 = 0; x2 < 128; x2++)
+            {
+                IO.writeShort(0x42, 1 << 12 | x2 << 5 | y );
+            }
         }
+        
+        x = 0;
         
         for(int y2 = 0; y2 < 32; y2++)
         {
