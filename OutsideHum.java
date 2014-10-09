@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.net.*;
 import java.util.ArrayList;
 /**
@@ -82,5 +82,6 @@ public class OutsideHum
 		GUIboard.writeUpperDigits(vochtigheid);
 		GUIboard.writeLeftDigits(max);
 		GUIboard.writeRightDigits(min);
+		GUIboard.writePageToMatrix("Luchtv. Buiten", "Gemiddelde: " + avg, "");
 	}
 }
