@@ -57,7 +57,7 @@ public class OutsideHum
     
     public double berekenAverage()
     {
-        int average = 0;
+        short average = 0;
         for(int i=0; i < laatste24uur.size(); i ++)
         {
             average += laatste24uur.get(i).getRawOutsideHum();
