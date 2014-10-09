@@ -194,7 +194,7 @@ public class GUIboard {
         }
     }
     
-    private static void clearTop()
+    public  static void clearTop()
     {
          IO.writeShort(0x10, 0x100 | 0x0);
          IO.writeShort(0x12, 0x100 | 0x0);
@@ -203,21 +203,21 @@ public class GUIboard {
          IO.writeShort(0x18, 0x100 | 0x0);
     }
     
-    private static void clearLeft()
+    public  static void clearLeft()
     {
         IO.writeShort(0x24, 0x100 | 0x0);
         IO.writeShort(0x22, 0x100 | 0x0);
         IO.writeShort(0x20, 0x100 | 0x0);
     }
     
-    private static void clearRight()
+    public  static void clearRight()
     {
         IO.writeShort(0x34, 0x100 | 0x0);
         IO.writeShort(0x32, 0x100 | 0x0);
         IO.writeShort(0x30, 0x100 | 0x0);
     }
     
-    private static void clearBottom()
+    public static void clearBottom()
     {
         IO.writeShort(0x40, 0xFE);
         IO.writeShort(0x40, 0x01);
