@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class AvgWindspeed {
 	
 	//fields
-	private Calculator calculator;
 	private double currentWindSpeed;
 	private double maxWindSpeed;
 	private double minWindSpeed;
@@ -13,7 +12,6 @@ public class AvgWindspeed {
 	
 	//constructor
 	public AvgWindspeed(Measurement measurement1, ArrayList<Measurement> measurement2){
-		calculator = new Calculator();
 		updateRecent(measurement1);
 		update24Hour(measurement2);
 	}
@@ -73,9 +71,9 @@ public class AvgWindspeed {
 		}
 		avg /= laatste24uur.size();
 		
-		setAvgWindSpeed(calculator.windSnelheid((short)avg));
-		setMaxWindSpeed(calculator.windSnelheid((short)max));
-		setMinWindSpeed(calculator.windSnelheid((short)min));
+		setAvgWindSpeed(Calculator.windSnelheid((short)avg));
+		setMaxWindSpeed(Calculator.windSnelheid((short)max));
+		setMinWindSpeed(Calculator.windSnelheid((short)min));
 	}
 
 	
