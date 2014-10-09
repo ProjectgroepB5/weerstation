@@ -1,4 +1,4 @@
-package weerstation; 
+  
 
 public class Calculator {
 	public Calculator(){

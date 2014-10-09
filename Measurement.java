@@ -1,4 +1,4 @@
-package weerstation;
+ 
 
 import java.math.BigDecimal;
 

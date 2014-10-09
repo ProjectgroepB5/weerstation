@@ -1,4 +1,4 @@
-package weerstation;
+ 
 //
 // Port IO emulator class. All read/writes are send over TCP/IP to the host
 // using a dedicated protocol on port 81.

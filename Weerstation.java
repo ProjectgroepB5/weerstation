@@ -1,4 +1,4 @@
-package weerstation;
+ 
 
 
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +27,10 @@ public class Weerstation {
 		final List<Object> lstScreens = new ArrayList<Object>();
 		lstScreens.add(new AvgWindspeed(meting1, meting2));
 		lstScreens.add(new RainRate(meting1, meting2));
+		lstScreens.add(new BinnenTemperatuur(meting1, meting2));
+		lstScreens.add(new BuitenTemperatuur(meting1, meting2));
+		lstScreens.add(new InsideHum(meting1, meting2));
+		lstScreens.add(new OutsideHum(meting1, meting2));
 		
 		
 		//Screen switcher

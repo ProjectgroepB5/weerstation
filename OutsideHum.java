@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.net.*;
 import java.util.ArrayList;
 /**
