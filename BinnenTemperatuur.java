@@ -1,9 +1,9 @@
-package weerstation;
+ 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class BuitenTemperatuur
+public class BinnenTemperatuur
 {
     private Measurement laatsteMeting;
     Calculator calculator = new Calculator();
@@ -77,5 +77,6 @@ public class BuitenTemperatuur
         GUIboard.writeUpperDigits(temp);
         GUIboard.writeLeftDigits(max);
         GUIboard.writeRightDigits(min);
+        GUIboard.writePageToMatrix("Binnentemeratuur", "Gemiddelde: " + avg, "");
     }
 }
