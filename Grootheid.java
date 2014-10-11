@@ -83,4 +83,8 @@ public class Grootheid
         GUIboard.writeLeftDigits(getMax());
         GUIboard.writeRightDigits(getMin());
     }
+    
+    public void displayGraph()
+    {
+    }
 }

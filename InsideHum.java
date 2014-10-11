@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 
 public class InsideHum extends Grootheid{
+    public ArrayList<Double> list;
     
     //constructor
     public InsideHum(Measurement measurement1, ArrayList<Measurement> measurement2){
+        list = new ArrayList<Double>();
         updateRecent(measurement1);
         update24Hour(measurement2);
     }
@@ -13,14 +15,7 @@ public class InsideHum extends Grootheid{
         setCurrent(measurement1.getInsideHum());
     }
     public void update24Hour(ArrayList<Measurement> measurement2){
-        
-        ArrayList<Double> list = new ArrayList<Double>();
-        
-        for(Measurement ms : measurement2)
-        {
-            list.add(ms.getInsideHum());
-        }
-        
+        createList(measurement2);
         calculateMaxMinAvg(list);
     }
     
@@ -29,4 +24,21 @@ public class InsideHum extends Grootheid{
         GUIboard.writePageToMatrix("Luchtv. Binnen", "Gemiddelde: " + getAvg(), "");
     }
     
+    public void displayGraph()
+    {
+        GUIboard.writeGraphToMatrix(list, getMin(), getMax());
+    }
+    
+    private void createList(ArrayList<Measurement> measurement2)
+    {
+        if(!list.isEmpty())
+        {
+            list.clear();
+        }
+        
+        for(Measurement ms : measurement2)
+        {
+            list.add(ms.getInsideHum());
+        }
+    }
 }

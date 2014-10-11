@@ -1,32 +1,44 @@
 import java.util.ArrayList;
 
-public class AvgWindspeed extends Grootheid{
+public class AvgWindSpeed extends Grootheid{
+    public ArrayList<Double> list;
     
     //constructor
-    public AvgWindspeed(Measurement measurement1, ArrayList<Measurement> measurement2){
+    public AvgWindSpeed(Measurement measurement1, ArrayList<Measurement> measurement2){
+        list = new ArrayList<Double>();
         updateRecent(measurement1);
         update24Hour(measurement2);
     }
+
     
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getAvgWindSpeed());
     }
-    
     public void update24Hour(ArrayList<Measurement> measurement2){
-        
-        ArrayList<Double> list = new ArrayList<Double>();
-        
-        for(Measurement ms : measurement2)
-        {
-            list.add(ms.getAvgWindSpeed());
-        }
-        
+        createList(measurement2);
         calculateMaxMinAvg(list);
     }
     
     public void display(){
         super.display();
-        GUIboard.writePageToMatrix("Windsnelheid in m/s", "Gemiddelde: " + getAvg(), "");
+        GUIboard.writePageToMatrix("Gem. Windsnelheid", "Gemiddelde: " + getAvg(), "");
     }
     
+    public void displayGraph()
+    {
+        GUIboard.writeGraphToMatrix(list, getMin(), getMax());
+    }
+    
+    private void createList(ArrayList<Measurement> measurement2)
+    {
+        if(!list.isEmpty())
+        {
+            list.clear();
+        }
+        
+        for(Measurement ms : measurement2)
+        {
+            list.add(ms.getAvgWindSpeed());
+        }
+    }
 }

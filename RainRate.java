@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 
 public class RainRate extends Grootheid{
-    
+    public ArrayList<Double> list;
     //constructor
     public RainRate(Measurement measurement1, ArrayList<Measurement> measurement2){
+        list = new ArrayList<Double>();
         updateRecent(measurement1);
         update24Hour(measurement2);
     }
@@ -13,14 +14,7 @@ public class RainRate extends Grootheid{
         setCurrent(measurement1.getRainRate());
     }
     public void update24Hour(ArrayList<Measurement> measurement2){
-        
-        ArrayList<Double> list = new ArrayList<Double>();
-        
-        for(Measurement ms : measurement2)
-        {
-            list.add(ms.getRainRate());
-        }
-        
+        createList(measurement2);
         calculateMaxMinAvg(list);
     }
     
@@ -29,4 +23,21 @@ public class RainRate extends Grootheid{
         GUIboard.writePageToMatrix("Regenval in mm/h", "Gemiddelde: " + getAvg(), "");
     }
     
+    public void displayGraph()
+    {
+        GUIboard.writeGraphToMatrix(list, getMin(), getMax());
+    }
+    
+    private void createList(ArrayList<Measurement> measurement2)
+    {
+        if(!list.isEmpty())
+        {
+            list.clear();
+        }
+        
+        for(Measurement ms : measurement2)
+        {
+            list.add(ms.getRainRate());
+        }
+    }
 }

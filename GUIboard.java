@@ -125,7 +125,15 @@ public class GUIboard {
         char[] regel1CharArray = regel1.toCharArray();
         char[] regel2CharArray = regel2.toCharArray();
         char[] regel3CharArray  = (regel3 + nav).toCharArray();
-
+        
+        double centerMargins = 20-regel1CharArray.length;
+        int centerLeft = (int) Math.floor(centerMargins/2.0);
+        
+        
+        for(int i=0; i<centerLeft; i++)
+        {
+            IO.writeShort(0x40, ' ');
+        }
         for(char ch : regel1CharArray)
         {
             IO.writeShort(0x40, ch);
@@ -150,34 +158,43 @@ public class GUIboard {
     
     public static void writeGraphToMatrix(ArrayList<Double> msList, double min, double max)
     {
-        IO.init();
         clearBottom();
         createAxis(min,max);
         
         int x,y;
         double getal;
-        for(int i=0;i<1440;i++)
+        for(double i=0;i<msList.size();i++)
         {
-            getal = msList.get(i);
-            x = ((i/1439)*127);
-            y = (int) ((getal - min)/(max-min))*31;
+            getal = msList.get((int)i);
+            x = (int)((i/msList.size())*127.0);
+            double temp = ((getal - min)/(max-min));
+            y = (int)(temp*31.0);
+            System.out.println(x + ", " + y + " <- " + getal + "/" + msList.size() + " " + i + " -> " + temp);
+            y = 31 - y;
             IO.writeShort(0x42, 1 << 12 | x << 5 | y );
         }
     }
     
     //Private functions
-    private static void createAxis(double min, double max)
+    public static void createAxis(double min, double max)
     {        
+        //temp
+        
         int x,y;
         double diff = max-min;
         double valpix = diff/32;
             
         if(min<=0){
-            y = (int) ( (diff-max) / valpix);
-            System.out.println(y);
-            y = 32 - y;
-            System.out.println(y);
-            
+            if(min==0)
+            {
+                y = 31;
+            }
+            else
+            {
+                y = (int) ( (diff-max) / valpix);
+                y = 31 - y;
+                System.out.println("Y: " + y);
+            }
             for(int x2 = 0; x2 < 128; x2++)
             {
                 IO.writeShort(0x42, 1 << 12 | x2 << 5 | y );
