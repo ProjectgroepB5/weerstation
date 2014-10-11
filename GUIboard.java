@@ -76,16 +76,16 @@ public class GUIboard {
         
         //Digits
         int[] digits = {
-        segA | segB | segC | segD | segE | segF,    //0
-        segB | segC,                                //1
-        segA | segB | segG | segE | segD,           //2
-        segA | segB | segC | segG | segD,           //3
-        segB | segC | segF | segG | segC,           //4
-        segA | segF | segG | segC | segD,           //5
-        segA | segF | segG | segC | segD | segE,    //6
-        segA | segB | segC,                         //7
-        segDP - 1,                                  //8
-        segA | segF | segG | segC | segD | segB,    //9
+        segA | segB | segC | segD | segE | segF,        //0
+        segB | segC,                                    //1
+        segA | segB | segG | segE | segD,               //2
+        segA | segB | segC | segG | segD,               //3
+        segB | segC | segF | segG | segC,               //4
+        segA | segF | segG | segC | segD,               //5
+        segA | segF | segG | segC | segD | segE,        //6
+        segA | segB | segC,                             //7
+        segA | segB | segC | segD | segE | segF | segG, //8
+        segA | segF | segG | segC | segD | segB,        //9
         };
         
         int digit = firstSegment;
@@ -169,7 +169,6 @@ public class GUIboard {
             x = (int)((i/msList.size())*127.0);
             double temp = ((getal - min)/(max-min));
             y = (int)(temp*31.0);
-            System.out.println(x + ", " + y + " <- " + getal + "/" + msList.size() + " " + i + " -> " + temp);
             y = 31 - y;
             IO.writeShort(0x42, 1 << 12 | x << 5 | y );
         }
