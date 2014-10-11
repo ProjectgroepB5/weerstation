@@ -7,19 +7,25 @@ Hier staan alle benodigde bestanden van het Weerstation project.
 
 | Klasse | Uitleg | Af |
 | ------------- | ------------------------------------------- | ---- |
-| AvgWindSpeed | Bevat alles voor de gemiddelde windsnelheid | [x] |
-| OutsideTemp | Bevat alles voor de buitentemperatuur | [x] |
-| Calculator | Kan alle ruwe waarden omrekenen naar Nederlandse standaarden | [x] |
-| GUIboard | Kan alle opgegeven waarden weergeven op het GUIboard | [ ] |
-| IO | Geleverd | [-] |
-| InsideHum | Bevat alles voor de binnen luchtvochtigheid | [x] |
-| Main | Niet meer in gebruik | [-] |
-| Measurement | Slaat alle eenheden van een meetpunt op (elke minuut). Kan ook alle waarden omrekenen via de Calculator | [x] |
-| OutsideHum | Bevat alles voor de buiten luchtvochtigheid | [x] |
-| README | Dit bestand | [ ] |
-| RainRate | Bevat alles voor de regen hoeveelheid | [x] |
-| Weerstation | Brengt alle code samen | [ ] |
-| WeerstationConnector | Haalt alle data op uit de Database | [ ] |
+| AvgWindSpeed | Bevat alles voor de gemiddelde windsnelheid | X |
+| Barometer | Bevat alles voor de luchtdruk |  |
+| Calculator | Kan alle ruwe waarden omrekenen naar Nederlandse standaarden | X |
+| CloudHeight | Bevat alles voor de wolkhoogte | X |
+| GUIboard | Kan alle opgegeven waarden weergeven op het GUIboard |  |
+| Grootheid | Bevat alles voor de grootheid, brengt alle eenheden samen | X |
+| IO | Geleverd | - |
+| InsideHum | Bevat alles voor de binnen luchtvochtigheid | X |
+| InsideTemp | Bevat alles voor de binnentemperatuur | X |
+| Main | Niet meer in gebruik | - |
+| Measurement | Slaat alle eenheden van een meetpunt op (elke minuut). Kan ook alle waarden omrekenen via de Calculator | X |
+| OutsideHum | Bevat alles voor de buiten luchtvochtigheid | X |
+| OutsideTemp | Bevat alles voor de buitentemperatuur | X |
+| README | Dit bestand | - |
+| RainRate | Bevat alles voor de regen hoeveelheid | X |
+| UVLevel | Bevat alles voor de zonkracht | X |
+| Weerstation | Brengt alle code samen |  |
+| WeerstationConnector | Haalt alle data op uit de Database | - |
+| WindChill | Bevat alles voor de gevoelstemperatuur | X |
 
 ##De code
 
@@ -36,12 +42,18 @@ Weerstation;
 ```
 GUIboard;
 ```
+```
+WindChill;
+```
 
 ---
 
 *Kenneth*
 ```
 RainRate;
+```
+```
+Grootheid;
 ```
 ```
 Calculator;
@@ -53,6 +65,12 @@ GUIboard;
 Measurement;
 ```
 ```
+Main;
+```
+```
+Barometer;
+```
+```
 README.md;
 ```
 
@@ -61,6 +79,9 @@ README.md;
 *Tim*
 ```
 OutsideHum;
+```
+```
+UVLevel;
 ```
 
 ---
