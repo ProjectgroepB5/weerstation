@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
-public class CloudHeight extends Grootheid{
+public class InsideTemp extends Grootheid{
     
     //constructor
-    public CloudHeight(Measurement measurement1, ArrayList<Measurement> measurement2){
+    public InsideTemp(Measurement measurement1, ArrayList<Measurement> measurement2){
         updateRecent(measurement1);
         update24Hour(measurement2);
     }
 
     
     public void updateRecent(Measurement measurement1){
-        setCurrent(measurement1.getCloudHeight());
+        setCurrent(measurement1.getInsideTemp());
     }
     public void update24Hour(ArrayList<Measurement> measurement2){
         
@@ -18,7 +18,7 @@ public class CloudHeight extends Grootheid{
         
         for(Measurement ms : measurement2)
         {
-            list.add(ms.getCloudHeight());
+            list.add(ms.getInsideTemp());
         }
         
         calculateMaxMinAvg(list);
@@ -26,7 +26,7 @@ public class CloudHeight extends Grootheid{
     
     public void display(){
         super.display();
-        GUIboard.writePageToMatrix("Wolkhoogte", "Gemiddelde: " + getAvg(), "");
+        GUIboard.writePageToMatrix("Binnentemperatuur", "Gemiddelde: " + getAvg(), "");
     }
     
 }

@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +23,16 @@ public class Weerstation {
 
 		//All the different screen classes
 	
-		final List<Object> lstScreens = new ArrayList<Object>();
+		final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
 		lstScreens.add(new AvgWindspeed(meting1, meting2));
 		lstScreens.add(new RainRate(meting1, meting2));
-		lstScreens.add(new BinnenTemperatuur(meting1, meting2));
-		lstScreens.add(new BuitenTemperatuur(meting1, meting2));
-		lstScreens.add(new InsideHum(meting1, meting2));
+		lstScreens.add(new OutsideTemp(meting1, meting2));
+		lstScreens.add(new InsideTemp(meting1, meting2));
 		lstScreens.add(new OutsideHum(meting1, meting2));
+		lstScreens.add(new InsideHum(meting1, meting2));
+		lstScreens.add(new CloudHeight(meting1, meting2));
+		lstScreens.add(new WindChill(meting1, meting2));
+		lstScreens.add(new UVLevel(meting1, meting2));
 		
 		
 		//Screen switcher
@@ -41,14 +44,8 @@ public class Weerstation {
 	        	if(currentScreen == lstScreens.size()){
 	        		currentScreen = 0;
 	        	}
-	        	Object obj = lstScreens.get(currentScreen);
-	        	try {
-					obj.getClass().getMethod("display").invoke(obj);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					e.printStackTrace();
-				}        	
+	        	Grootheid obj = lstScreens.get(currentScreen);
+	        	obj.display();   	
 	        }
 	    }, 0, 5*1000);
 		
@@ -57,12 +54,8 @@ public class Weerstation {
 	        public void run() {
 	        	
 	    		meting1 = weerstation1.getMostRecentMeasurement();
-	    		for(Object obj : lstScreens){
-	    			try {
-						obj.getClass().getMethod("updateRecent", Measurement.class).invoke(obj, meting1 );
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-						e.printStackTrace();
-					}
+	    		for(Grootheid obj : lstScreens){
+	    			obj.updateRecent(meting1);
 	    		}
 	        }
 	    }, 60*1000, 60*1000);
@@ -72,12 +65,8 @@ public class Weerstation {
 		timer.scheduleAtFixedRate(new TimerTask() {
 	        public void run() {
 	        	meting2 = weerstation1.getAllMeasurementsLast24h();
-	    		for(Object obj : lstScreens){
-	    			try {
-						obj.getClass().getMethod("update24Hour", ArrayList.class).invoke(obj, meting2 );
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-						e.printStackTrace();
-					}
+	    		for(Grootheid obj : lstScreens){
+	    			obj.update24Hour(meting2);
 	    		}
 	        }
 	    }, 10*60*1000, 10*60*1000);

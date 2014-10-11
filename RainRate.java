@@ -1,96 +1,32 @@
-package weerstation;
 import java.util.ArrayList;
 
-public class RainRate {
-    
-    //fields
-    private Measurement laatsteMeting;
-    private ArrayList<Measurement> laatste24Uur;
-    private double currentRainRate;
-    private double maxRainRate;
-    private double minRainRate;
-    private double avgRainRate;
+public class RainRate extends Grootheid{
     
     //constructor
     public RainRate(Measurement measurement1, ArrayList<Measurement> measurement2){
         updateRecent(measurement1);
         update24Hour(measurement2);
     }
-    
-    //getters & setters
-    public double getCurrentRainRate() {
-        return currentRainRate;
-    }
 
-    public void setCurrentRainRate(double currentRainRate) {
-        if(currentRainRate >= 0){
-            this.currentRainRate = currentRainRate;
-        }
-    }
-
-    public double getMaxRainRate() {
-        return maxRainRate;
-    }
-
-    public void setMaxRainRate(double maxRainRate) {
-        if(maxRainRate >= 0){
-            this.maxRainRate = maxRainRate;
-        }
-    }
-
-    public double getMinRainRate() {
-        return minRainRate;
-    }
-
-    public void setMinRainRate(double minRainRate) {
-        if(minRainRate >= 0){
-            this.minRainRate = minRainRate;
-        }
-    }
-
-    public double getAvgRainRate() {
-        return avgRainRate;
-    }
-
-    public void setAvgRainRate(double avgRainRate) {
-        this.avgRainRate = avgRainRate;
-    }
-    
-    //Methods
-    public void calculateMaxMinAvgRainRate(){
-        int max = 0;
-        int min = 0;
-        float avg = 0;
-        for(Measurement minut : laatste24Uur){
-            if(minut.getRawRainRate() > max){
-                max = minut.getRawRainRate();
-            }
-            if(minut.getRawRainRate() <  min){
-                min = minut.getRawRainRate();
-            }
-            avg += minut.getRawRainRate();
-        }
-        avg /= laatste24Uur.size();
-        
-        setAvgRainRate(Calculator.regenmeter((short)avg));
-        setMaxRainRate(Calculator.regenmeter((short)max));
-        setMinRainRate(Calculator.regenmeter((short)min));
-    }
     
     public void updateRecent(Measurement measurement1){
-        this.laatsteMeting = measurement1;
-        setCurrentRainRate(laatsteMeting.getRainRate());
+        setCurrent(measurement1.getRainRate());
     }
     public void update24Hour(ArrayList<Measurement> measurement2){
-        this.laatste24Uur = measurement2;
-        calculateMaxMinAvgRainRate();
+        
+        ArrayList<Double> list = new ArrayList<Double>();
+        
+        for(Measurement ms : measurement2)
+        {
+            list.add(ms.getRainRate());
+        }
+        
+        calculateMaxMinAvg(list);
     }
     
     public void display(){
-        GUIboard.writeUpperDigits(getCurrentRainRate());
-        GUIboard.writeLeftDigits(getMaxRainRate());
-        GUIboard.writeRightDigits(getMinRainRate());
-        GUIboard.writePageToMatrix("Regenval in mm/h", "Gemiddelde: " + avgRainRate, "");
+        super.display();
+        GUIboard.writePageToMatrix("Regenval in mm/h", "Gemiddelde: " + getAvg(), "");
     }
     
 }
