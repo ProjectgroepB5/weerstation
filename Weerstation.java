@@ -26,14 +26,15 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
+        lstScreens.add(new OutsideTemp(meting1, meting2));
+        lstScreens.add(new WindChill(meting1, meting2));
+        lstScreens.add(new OutsideHum(meting1, meting2));
+        lstScreens.add(new Barometer(meting1, meting2));
         lstScreens.add(new AvgWindSpeed(meting1, meting2));
         lstScreens.add(new RainRate(meting1, meting2));
-        lstScreens.add(new OutsideTemp(meting1, meting2));
         lstScreens.add(new InsideTemp(meting1, meting2));
-        lstScreens.add(new OutsideHum(meting1, meting2));
         lstScreens.add(new InsideHum(meting1, meting2));
         lstScreens.add(new CloudHeight(meting1, meting2));
-        lstScreens.add(new WindChill(meting1, meting2));
         lstScreens.add(new UVLevel(meting1, meting2));
         
         
@@ -87,13 +88,38 @@ public class Weerstation {
             public void run() {
                 if(IO.readShort(0x100) == 1){
                     if(IO.readShort(0x80) == 1){
-                        wait = true;   
+                        wait = true;
+                        if(!graph)
+                        {
+                            Grootheid obj = lstScreens.get(currentScreen);
+                            obj.displayGraph();
+                        }
                         graph = true;
                     }else if(IO.readShort(0x80) == 0){
                         wait = false;
+                        if(graph)
+                        {
+                            Grootheid obj = lstScreens.get(currentScreen);
+                            obj.display();
+                        }
                         graph = false;
                     }
                 }else if(IO.readShort(0x100) == 0){
+                    if(IO.readShort(0x80) == 1){
+                        if(!graph)
+                        {
+                            Grootheid obj = lstScreens.get(currentScreen);
+                            obj.displayGraph();
+                        }
+                        graph = true;
+                    }else if(IO.readShort(0x80) == 0){
+                        if(graph)
+                        {
+                            Grootheid obj = lstScreens.get(currentScreen);
+                            obj.display();
+                        }
+                        graph = false;
+                    }
                     wait = true;
                 }               
             }
