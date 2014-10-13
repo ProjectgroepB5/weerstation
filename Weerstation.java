@@ -36,6 +36,7 @@ public class Weerstation {
         lstScreens.add(new InsideHum(meting1, meting2));
         lstScreens.add(new CloudHeight(meting1, meting2));
         lstScreens.add(new UVLevel(meting1, meting2));
+        lstScreens.add(new Zonsterkte(meting1, meting2));
         lstScreens.add(new DewPoint(meting1, meting2));
         
         
