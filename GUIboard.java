@@ -159,6 +159,9 @@ public class GUIboard {
     public static void writeGraphToMatrix(ArrayList<Double> msList, double min, double max)
     {
         clearBottom();
+        
+        msList = normalizeData(msList, (max-min)/32);
+        
         createAxis(min,max);
         
         int x,y;
@@ -166,7 +169,7 @@ public class GUIboard {
         for(double i=0;i<msList.size();i++)
         {
             getal = msList.get((int)i);
-            x = (int)((i/msList.size())*127.0);
+            x = (int)(i/(msList.size()-1)*127.0);
             double temp = ((getal - min)/(max-min));
             y = (int)(temp*31.0);
             y = 31 - y;
@@ -177,8 +180,6 @@ public class GUIboard {
     //Private functions
     public static void createAxis(double min, double max)
     {        
-        //temp
-        
         int x,y;
         double diff = max-min;
         double valpix = diff/32;
@@ -200,13 +201,51 @@ public class GUIboard {
             }
         }
         
+        /*
         x = 0;
         
         for(int y2 = 0; y2 < 32; y2++)
         {
             IO.writeShort(0x42, 1 << 12 | x << 5 | y2 );
         }
+        */
     }
+    
+    private static ArrayList<Double> normalizeData(ArrayList<Double> data2 , double margin){
+        
+        ArrayList<Double> data = new ArrayList<Double>(data2);
+        
+        double prevPrevVal = 0.0, prevVal = 0.0, nextVal = 0.0, nextNextVal = 0.0, avrVal = 0.0, setVal = 0.0;
+        
+        for(int i = 0; i < data.size(); i ++){
+            if(i + 1 < data.size()){
+                nextVal = data.get(i+1);
+            }
+            if(i + 2 < data.size()){
+                nextNextVal = data.get(i+2);
+            }
+            if(prevPrevVal > 0 && prevVal > 0 && nextVal > 0 && nextNextVal > 0){
+                avrVal = (prevPrevVal + prevVal + nextVal + nextNextVal) / 4;
+                if((data.get(i) - avrVal) >= margin){
+                    setVal = avrVal;
+                }else{
+                    setVal = data.get(i);
+                }
+            }else{
+                setVal = data.get(i);
+            }
+            
+            data.set(i, setVal);
+            prevVal = data.get(i);
+            
+            if(i - 1 >= 0){
+                prevPrevVal = data.get(i-1);
+            }
+        }
+        
+        return data;
+    }
+    
     
     public  static void clearTop()
     {
