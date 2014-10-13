@@ -110,7 +110,7 @@ public class Measurement
     public String getSunset () { return Calculator.sunSet(sunset); };
     
     // windChill
-    public double getWindChill () { return round(Calculator.windChill(outsideTemp, windSpeed),2); };
+    public double getWindChill () { return round(Calculator.windChill(outsideTemp, avgWindSpeed),2); };
      
     // heatIndex
     public double getHeatIndex () { return round(Calculator.heatIndex(outsideHum, outsideTemp),0); };

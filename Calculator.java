@@ -157,9 +157,12 @@ public class Calculator {
 
     //windchill in graden Celcius
 	//Janco en Keneth
-    public static double windChill(short gradenFahrenheit, short mijlPerUur)
+    public static double windChill(short grdnFh, short mph)
     {
-        short windChill = (short) (35.74 + (0.6215*gradenFahrenheit) - 35.75*Math.pow(mijlPerUur, 0.16) + 0.4275*gradenFahrenheit*Math.pow(mijlPerUur, 0.16));
+        double gradenFahrenheit = grdnFh;
+        double mijlPerUur = mph;
+        double windChill2 = (35.74 + (0.6215*gradenFahrenheit) - 35.75*Math.pow(mijlPerUur, 0.16) + 0.4275*gradenFahrenheit*Math.pow(mijlPerUur, 0.16));
+        short windChill = (short) windChill2;
         return temperatuur(windChill);
     }
     
