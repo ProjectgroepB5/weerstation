@@ -133,6 +133,9 @@ public class GUIboard {
         double centerMargins = 20-regel1CharArray.length;
         int centerLeft = (int) Math.floor(centerMargins/2.0);
         
+        double centerMargins2 = 20-regel2CharArray.length;
+        int centerLeft2 = (int) Math.floor(centerMargins2/2.0);
+        
         
         for(int i=0; i<centerLeft; i++)
         {
@@ -145,6 +148,10 @@ public class GUIboard {
         
         IO.writeShort(0x40, '\n');
         
+        for(int i=0; i<centerLeft2; i++)
+        {
+            IO.writeShort(0x40, ' ');
+        }
         for(char ch : regel2CharArray)
         {
             IO.writeShort(0x40, ch);
