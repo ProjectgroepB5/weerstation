@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class GUIboard {
     
+    public static void init()
+    {
+        IO.init();
+    }
 
     public static void writeUpperDigits(double number){
         clearTop();
