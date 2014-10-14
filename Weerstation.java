@@ -9,18 +9,39 @@ public class Weerstation {
     WeerstationConnector weerstation1;
     Measurement meting1;
     ArrayList<Measurement> meting2;
+    Timer starter;
     int currentScreen;
     boolean wait;
     boolean graph;
+    boolean startup;
     
     public Weerstation(){
         weerstation1 = new WeerstationConnector();
+        
+        GUIboard.init();
+        starter = new Timer();
+        startAnimatie();
+        
         meting1 = weerstation1.getMostRecentMeasurement();
         meting2 = weerstation1.getAllMeasurementsLast24h();
+        
+        stopAnimatie();
+        while(startup)
+        {
+            try
+            {
+                Thread.sleep(1);
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        
         currentScreen = 0;
         wait = true;
         graph = false;
-        IO.init();
         Timer timer = new Timer();
 
         //All the different screen classes
@@ -128,5 +149,32 @@ public class Weerstation {
             }
         }, 0, 100);
         
+    }
+    
+    public void startAnimatie()
+    {
+        starter.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                startup = true;
+                
+                GUIboard.clearBottom();
+                
+                for(int i=0; i<128;i++)
+                {
+                    for(int n=0; n<32;n++)
+                    {
+                        IO.writeShort(0x42, 1 << 12 | i << 5 | n);
+                        IO.delay(1);
+                    }
+                }
+                
+                startup = false;
+            }
+        }, 0, 64*2);
+    }
+    
+    public void stopAnimatie()
+    {
+        starter.cancel();
     }
 }
