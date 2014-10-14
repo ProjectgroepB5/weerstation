@@ -59,6 +59,7 @@ public class Weerstation {
         lstScreens.add(new UVLevel(meting1, meting2));
         lstScreens.add(new Zonsterkte(meting1, meting2));
         lstScreens.add(new DewPoint(meting1, meting2));
+        lstScreens.add(new Sun(meting1));
         
         
         
@@ -159,10 +160,11 @@ public class Weerstation {
                 
                 GUIboard.clearBottom();
                 
-                for(int i=0; i<128;i++)
+                for(int i=1; i<128;i+=2)
                 {
                     for(int n=0; n<32;n++)
                     {
+                        IO.writeShort(0x42, 1 << 12 | i-1 << 5 | n);
                         IO.writeShort(0x42, 1 << 12 | i << 5 | n);
                         IO.delay(1);
                     }
@@ -170,7 +172,7 @@ public class Weerstation {
                 
                 startup = false;
             }
-        }, 0, 64*2);
+        }, 0, 128*32);
     }
     
     public void stopAnimatie()
