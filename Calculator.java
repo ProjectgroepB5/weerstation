@@ -154,6 +154,11 @@ public class Calculator {
 		}
 		return tijd;
 	}
+	
+	public static double solarRad(short mval){
+	    double zonSterkte = mval;
+    	return zonSterkte;
+    }
 
     //windchill in graden Celcius
 	//Janco en Keneth
