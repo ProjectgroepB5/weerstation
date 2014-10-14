@@ -88,6 +88,7 @@ public class Measurement
     // solarRad
     public void setRawSolarRad (short val) { this.solarRad = val;};
     public short getRawSolarRad () { return solarRad; };
+    public double getSolarRad () { return Calculator.solarRad(solarRad); };
     
 
     // xmitBatt

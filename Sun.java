@@ -1,8 +1,8 @@
-package weerstation;
+ 
 
 import java.util.ArrayList;
 
-public class Sun {
+public class Sun extends Grootheid{
 	
 	//fields
 	private String sunSet;

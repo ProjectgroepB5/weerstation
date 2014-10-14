@@ -22,7 +22,7 @@ public class DewPoint extends Grootheid
     
     public void display(){
         GUIboard.writeUpperDigits(current);
-        GUIboard.writePageToMatrix("Douwpunt", "Gemiddelde: " + getAvg(), "");
+        GUIboard.writePageToMatrix("Dauwpunt", "Gemiddelde: " + getAvg(), "");
     }
     
     public void displayGraph()
