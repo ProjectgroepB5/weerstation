@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Grootheid
 {
     // instance variables - replace the example below with your own
-    public double avg;
-    public double max;
-    public double min;
-    public double current;
+    private double avg;
+    private double max;
+    private double min;
+    private double current;
 
     //constructor
     public Grootheid(){
