@@ -25,6 +25,7 @@ public class WeerstationConnector
     //Start connection with Databse
     public WeerstationConnector(String host, String port, String dbName, String userName, String password)
     {
+        System.out.println("Verbinding maken met de database...\n");
         try
         {
             String url = "jdbc:mysql://" + host + ":" + port + "/"+ dbName + "?user="
@@ -33,7 +34,7 @@ public class WeerstationConnector
             + password;
             Class.forName("com.mysql.jdbc.Driver").newInstance ();
             myConn = DriverManager.getConnection(url);
-            System.out.println("Database connection established");
+            System.out.println("Verbonden met de database");
         }
         catch( SQLException ex)
         {

@@ -46,12 +46,14 @@ public class Weerstation {
 
         //All the different screen classes
     
-        final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
+        final List<Grootheid> lstScreens = new ArrayList<Grootheid>();        
+            
         lstScreens.add(new OutsideTemp(meting1, meting2));
         lstScreens.add(new WindChill(meting1, meting2));
         lstScreens.add(new HeatIndex(meting1, meting2));
         lstScreens.add(new OutsideHum(meting1, meting2));
         lstScreens.add(new Barometer(meting1, meting2));
+        lstScreens.add(new Voorspellingen(meting1));
         lstScreens.add(new AvgWindSpeed(meting1, meting2));
         lstScreens.add(new RainRate(meting1, meting2));
         lstScreens.add(new InsideTemp(meting1, meting2));
