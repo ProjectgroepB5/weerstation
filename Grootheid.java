@@ -50,25 +50,10 @@ public class Grootheid
     }
     
     //Methods
-    public void calculateMaxMinAvg(ArrayList<Double> laatste24uur){
-        double tempMax = 0;
-        double tempAvg = 0;
-        double tempMin = laatste24uur.get(0);
-        
-        for(double ms : laatste24uur){
-            if(ms > tempMax){
-                tempMax = ms;
-            }
-            if(ms <  tempMin){
-                tempMin = ms;
-            }
-            tempAvg += ms;
-        }
-        tempAvg /= laatste24uur.size();
-        
-        setMax(tempMax);
-        setMin(tempMin);
-        setAvg(tempAvg);
+    public void calculateMaxMinAvg(ArrayList<Double> array){
+        setMax( StatisticsCalculator.max(array) );
+        setMin( StatisticsCalculator.min(array) );
+        setAvg( StatisticsCalculator.avg(array) );
     }
 
     public void updateRecent(Measurement measurement1){
