@@ -47,9 +47,9 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
+        lstScreens.add(new WindDirection(meting1, meting2));
         lstScreens.add(new OutsideTemp(meting1, meting2));
         lstScreens.add(new WindChill(meting1, meting2));
-        lstScreens.add(new HeatIndex(meting1, meting2));
         lstScreens.add(new OutsideHum(meting1, meting2));
         lstScreens.add(new Barometer(meting1, meting2));
         lstScreens.add(new AvgWindSpeed(meting1, meting2));
@@ -60,6 +60,7 @@ public class Weerstation {
         lstScreens.add(new UVLevel(meting1, meting2));
         lstScreens.add(new Zonsterkte(meting1, meting2));
         lstScreens.add(new DewPoint(meting1, meting2));
+        lstScreens.add(new Sun(meting1));
         
         
         
@@ -91,7 +92,7 @@ public class Weerstation {
                 
                 meting1 = weerstation1.getMostRecentMeasurement();
                 for(Grootheid obj : lstScreens){
-                    obj.updateRecent(meting1);                    
+                    obj.updateRecent(meting1);
                 }
             }
         }, 60*1000, 60*1000);
@@ -160,10 +161,11 @@ public class Weerstation {
                 
                 GUIboard.clearBottom();
                 
-                for(int i=0; i<128;i++)
+                for(int i=1; i<128;i+=2)
                 {
                     for(int n=0; n<32;n++)
                     {
+                        IO.writeShort(0x42, 1 << 12 | i-1 << 5 | n);
                         IO.writeShort(0x42, 1 << 12 | i << 5 | n);
                         IO.delay(1);
                     }
@@ -171,7 +173,7 @@ public class Weerstation {
                 
                 startup = false;
             }
-        }, 0, 64*2);
+        }, 0, 128*32);
     }
     
     public void stopAnimatie()
