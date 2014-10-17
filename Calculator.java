@@ -1,23 +1,23 @@
   
 
 public class Calculator {
-    
-    // Luchtdruk in hPa
-    // Malek&Tom
-    public static double luchtdruk(short mval)
+	
+	// Luchtdruk in hPa
+	// Malek&Tom
+	public static double luchtdruk(short mval)
     {
         double luchtdruk = (mval / 1000f) * 33.86389;
         return luchtdruk;
     }
-    
-    // Temperatuur in graden Celcius
+	
+	// Temperatuur in graden Celcius
     // Malek&Tom
     public static double temperatuur(short mval)
     {
         double temperatuur = (((double)mval / 10) -32) / 1.8;
         return temperatuur;
     }
-    
+	
     // Relatieve luchtvochtigheid in %
     // Malek&Tom
     public static double luchtVochtigheid(short mval)
@@ -27,15 +27,15 @@ public class Calculator {
     }
     
     // Windsnelheid in m/s
-    // Janco&Tim
-    public static double windSnelheid(short mval)
-    {
-        double windSpeed = mval * 0.44704;
-        return windSpeed;
-    }
-    
-    // Windrichting in noord, oost, zuid en west. 
-    // Kenneth&Daniël
+	// Janco&Tim
+	public static double windSnelheid(short mval)
+	{
+		double windSpeed = mval * 0.44704;
+		return windSpeed;
+	}
+	
+	// Windrichting in noord, oost, zuid en west. 
+	// Kenneth&Daniël
     public static String windRichting(short mval)
     {
         String direction = "Error";
@@ -111,16 +111,16 @@ public class Calculator {
         
         return direction;
     }
-    
+	
     // Regenmeter in mm
     // Kenneth&Daniël
     public static double regenmeter(short mval)
-    {
-        double rainAmount = (double)mval*0.2;
-        return rainAmount;
-    }
+	{
+    	double rainAmount = (double)mval*0.2;
+    	return rainAmount;
+	}
     
-    // uvIndex in index    
+	// uvIndex in index    
     // Kenneth&Daniël
     public static double uvIndex(short mval)
     {
@@ -131,37 +131,37 @@ public class Calculator {
     // BatterySpanning in Volt
     // Janco&Tim
     public static double batterySpanning(short mval){
-        double voltage = (((double)mval * 300)/512)/100;
-        return voltage; 
-    }
-    
+		double voltage = (((double)mval * 300)/512)/100;
+    	return voltage; 
+	}
+	
     // sunRise en Sunset in tijdformaat hh:mm
-    // Janco&Tim
+	// Janco&Tim
     public static String sunRise(short mval){
-        return sun(mval);
+    	return sun(mval);
     }
     public static String sunSet(short mval){
-        return sun(mval);
+    	return sun(mval);
     }
-    private static String sun(short sunRaw){
-        String tijd = "";
-        for(int i = 0; i <= 3; i++){
-            tijd = sunRaw % 10 + tijd;
-            sunRaw /= 10;
-            if(i == 1){             
-                tijd = ":" + tijd;
-            }
-        }
-        return tijd;
-    }
-    
-    public static double solarRad(short mval){
-        double zonSterkte = mval;
-        return zonSterkte;
+	private static String sun(short sunRaw){
+		String tijd = "";
+		for(int i = 0; i <= 3; i++){
+			tijd = sunRaw % 10 + tijd;
+			sunRaw /= 10;
+			if(i == 1){				
+				tijd = ":" + tijd;
+			}
+		}
+		return tijd;
+	}
+	
+	public static double solarRad(short mval){
+	    double zonSterkte = mval;
+    	return zonSterkte;
     }
 
     //windchill in graden Celcius
-    //Janco en Keneth
+	//Janco en Keneth
     public static double windChill(short grdnFh, short mph)
     {
         double gradenFahrenheit = grdnFh;
@@ -172,29 +172,12 @@ public class Calculator {
     }
     
     //Heatindex in celcius
-    //Tom met Malek
-    public static double heatIndex(short RH, short T2)
-    {        
-            double T = T2/10;
-            double HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH;
-                
-            if (RH < 13 && T < 112 && T > 80)
-            {
-                HI =- ((13-RH)/4)*Math.sqrt((17-Math.abs(T-95.))/17);
-            }
-            
-            if (RH > 85 && T < 87 && T > 80)
-            {
-                HI =+ ((RH-85)/10) * ((87-T)/5);
-            }
-            
-            if (T > 80)
-            {
-                HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094));
-            }
-            
-            double heatindex = Calculator.temperatuur( (short) (HI*10) );   
-            return heatindex;     
+	//Tom met Malek
+    public static double heatIndex(double RH, double T)
+    {
+        double HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH;
+        double heatindex = Calculator.temperatuur( (short) (HI*10) );
+        return heatindex;
     }
     
     //Dauwpunt in Celcius
@@ -205,11 +188,11 @@ public class Calculator {
        double dauwpunt = Math.pow( hm, (1/8f)) * (112 + 0.9*omgevingsTemp) + (0.1*omgevingsTemp) - 112;
        return dauwpunt;
     }
-    
+	
     public static double cloudHeight(double temp, short luchtVochtigheid ){
-        
-        double wolkhoogte = 125 * (temp-dewPoint(temp, luchtVochtigheid));
-        return wolkhoogte; 
-    }    
+    	
+    	double wolkhoogte = 125 * (temp-dewPoint(temp, luchtVochtigheid));
+    	return wolkhoogte; 
+	}    
 
 }
