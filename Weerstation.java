@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Calendar;
 
 public class Weerstation {
     WeerstationConnector weerstation1;
+    Calendar now;
     Measurement meting1;
+    Periode periodeDag;
     ArrayList<Measurement> meting2;
     Timer starter;
     int currentScreen;
@@ -17,13 +20,16 @@ public class Weerstation {
     
     public Weerstation(){
         weerstation1 = new WeerstationConnector();
+        now = Calendar.getInstance();
+        
+        periodeDag = new Periode(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH);
         
         GUIboard.init();
         starter = new Timer();
         startAnimatie();
         
         meting1 = weerstation1.getMostRecentMeasurement();
-        meting2 = weerstation1.getAllMeasurementsLast24h();
+        meting2 = weerstation1.getAllMeasurementsBetween(periodeDag.getBeginPeriode(), periodeDag.getEindePeriode());
         
         stopAnimatie();
         while(startup)
