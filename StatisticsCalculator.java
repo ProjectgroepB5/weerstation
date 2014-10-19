@@ -1,6 +1,5 @@
-package weerstation1;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.ArrayList; 
+import java.util.Collections; 
 
 public class StatisticsCalculator {
     
@@ -41,7 +40,7 @@ public class StatisticsCalculator {
         return avg;
     }
     
-    public static double median(ArrayList<Double> array){
+      public static double median(ArrayList<Double> array){
     	Collections.sort(array);							//sort the array
     	
     	double median = 0;
@@ -86,36 +85,147 @@ public class StatisticsCalculator {
     }   
 
     
-    public static Periode langsteDroogstePeriode(ArrayList<Double> array)
+    public static double graagDagen(ArrayList<Double> array)
     {
-        Periode periode = new Periode();
+        int graaddagen = 0;
         
+        //Code
         
-        return periode;
+        return graaddagen;
     }
     
-    public static Periode langsteDroogstePeriodeMetMax(ArrayList<Double> array, int maxNeerslag)
+    public static int[] langsteDroogstePeriode(ArrayList<Double> array)
     {
-        Periode periode = new Periode();
-        
-        
-        return periode;
+        return langsteDroogstePeriodeMetMax(array, 0);
     }
     
-    public static Periode langsteRegenPeriode(ArrayList<Double> array)
+    public static int[] langsteDroogstePeriodeMetMax(ArrayList<Double> array, int maxNeerslag)
     {
-        Periode periode = new Periode();
+        int[] index = new int[2];
+        int index1 = 0;
+        int index2 = 0;
         
+        //Code
         
-        return periode;
+        index[0] = index1;
+        index[1] = index2;
+        return index;
     }
     
-    public static double meesteRegenAchterElkaar(ArrayList<Double> array)
+    public static int[] langsteRegenPeriode(ArrayList<Double> array)
     {
-        double regenHoeveelheid = 0;
+        int[] index = new int[2];
+        int index1 = 0;
+        int index2 = 0;
         
+        //Code
         
-        return regenHoeveelheid;
+        index[0] = index1;
+        index[1] = index2;
+        return index;
+    }
+    
+    public static double maximaleRegenPeriode(ArrayList<Double> array)
+    {
+        double totaleRegen = 0;
+        
+        for(double db : array)
+        {
+            totaleRegen += db;
+        }
+        
+        return totaleRegen;
+    }
+    
+    public static int[] langsteZomersePeriode(ArrayList<Double> array)
+    {
+      
+        ArrayList<Double> maxTempDag = new ArrayList<Double>();
+        int i = 0;
+        double maxTemp = 0;
+        
+        //Bereken de maximale temperatuur per dag.
+        for(double db : array)
+        {
+           i++;
+           if(i%1440==0)
+           {
+               maxTempDag.add(maxTemp);
+               maxTemp = 0;
+           }
+           
+           if(db > maxTemp)
+           {
+               maxTemp = db;
+           }  
+        }
+
+        //Creer een array met twee indexen
+        int[] index = new int[2];
+        int index1 = 0;
+        int index2 = 0;
+        
+        //Een tijdelijke index om bij te houden wat de index was in het geval dat de vorige groter was.
+        int index1_1 = 0;
+        
+        //Een boolean 
+        boolean zomers = false;
+        
+        int p = 0;
+        int maxDays = 0;
+        
+        //Doorloop je maximale temperaturen en zoek de langste periode 
+        for(int t=0; t<maxTempDag.size(); t++) {
+            if(maxTempDag.get(t) > 25) {
+            	p++;
+            	if(!zomers)
+            	{
+            	    zomers = true;
+            	    index1_1 = t;
+            	}
+            }
+            else {
+                if(p > maxDays) {
+                    maxDays = p;
+                    index1 = index1_1;
+                    index2 = t-1;
+                    zomers=false;
+                }
+                p=0;
+            }
+        }
+
+        //Het terugsturen van de gevonden indexen. Je doet ze keer 1440 omdat je bij het berekenen van 
+        //de temperatuur per dag je het in stukken van 1440 samenvoegde.
+        index[0] = index1*1440;
+        index[1] = index2*1440;
+        return index;
+    }
+    
+    public static int[] langsteHitteGolfPeriode(ArrayList<Double> array)
+    {
+        int[] index = new int[2];
+        int index1 = 0;
+        int index2 = 0;
+        
+        //Code
+        
+        index[0] = index1;
+        index[1] = index2;
+        return index;
+    }
+    
+    public static int[] langsteTempStijgingPeriode(ArrayList<Double> array)
+    {
+        int[] index = new int[2];
+        int index1 = 0;
+        int index2 = 0;
+        
+        //Code
+        
+        index[0] = index1;
+        index[1] = index2;
+        return index;
     }
     
 }

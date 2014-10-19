@@ -1,12 +1,12 @@
  
-
+import java.sql.Timestamp;
 import java.math.BigDecimal;
 
 public class Measurement
 {
 
     private String stationId;
-    private java.sql.Timestamp dateStamp;
+    private Timestamp dateStamp;
     private short barometer;
     private short insideTemp;
     private short insideHum;
@@ -32,8 +32,8 @@ public class Measurement
     public String getStationId () { return stationId; };
 
     // dateStamp
-    public void setDateStamp (java.sql.Timestamp ts) { this.dateStamp = ts;};
-    public java.sql.Timestamp getDateStamp () { return dateStamp; };
+    public void setDateStamp (Timestamp ts) { this.dateStamp = ts;};
+    public Timestamp getDateStamp () { return dateStamp; };
     
     // barometer
     public void setRawBarometer (short val) { this.barometer = val;};

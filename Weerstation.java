@@ -1,5 +1,5 @@
  
-import java.lang.reflect.InvocationTargetException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -8,9 +8,11 @@ import java.util.Calendar;
 
 public class Weerstation {
     WeerstationConnector weerstation1;
+    
     Calendar now;
-    Measurement meting1;
     Periode periodeDag;
+    
+    Measurement meting1;
     ArrayList<Measurement> meting2;
     Timer starter;
     int currentScreen;
@@ -22,7 +24,8 @@ public class Weerstation {
         weerstation1 = new WeerstationConnector();
         now = Calendar.getInstance();
         
-        periodeDag = new Periode(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH);
+        periodeDag = new Periode(2013,12,25,2014,1,5);
+        System.out.println(periodeDag);
         
         GUIboard.init();
         starter = new Timer();
@@ -30,6 +33,7 @@ public class Weerstation {
         
         meting1 = weerstation1.getMostRecentMeasurement();
         meting2 = weerstation1.getAllMeasurementsBetween(periodeDag.getBeginPeriode(), periodeDag.getEindePeriode());
+        System.out.println(meting2.size());
         
         stopAnimatie();
         while(startup)
@@ -53,6 +57,8 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
+        lstScreens.add(new LangsteZomerPeriode(meting1, meting2, periodeDag));
+        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2));
         lstScreens.add(new WindDirection(meting1, meting2));
         lstScreens.add(new OutsideTemp(meting1, meting2));
         lstScreens.add(new WindChill(meting1, meting2));
