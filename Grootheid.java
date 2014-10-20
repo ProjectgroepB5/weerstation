@@ -1,4 +1,4 @@
-package weerstation1;
+package weerstation;
 import java.util.ArrayList;
 
 public class Grootheid
@@ -14,10 +14,6 @@ public class Grootheid
 
     //constructor
     public Grootheid(){
-        avg = 0;
-        max = 0;
-        min = 0;
-        current = 0;
     }
     
     //getters & setters
@@ -34,7 +30,7 @@ public class Grootheid
     }
 
     public void setMax(double max) {
-        this.max= max;
+        this.max= Math.round(max * 100.0) / 100.0;;
     }
 
     public double getMin() {
@@ -42,7 +38,7 @@ public class Grootheid
     }
 
     public void setMin(double min) {
-        this.min = min;
+        this.min = Math.round(min * 100.0) / 100.0;;
     }
 
     public double getAvg() {
@@ -50,7 +46,7 @@ public class Grootheid
     }
 
     public void setAvg(double avg) {
-        this.avg = avg;
+        this.avg = Math.round(avg * 100.0) / 100.0;
     }
     
     public double getMode() {
@@ -58,7 +54,7 @@ public class Grootheid
 	}
 
 	public void setMode(double mode) {
-		this.mode = mode;
+		this.mode = Math.round(mode * 100.0) / 100.0;
 	}
 
 	public double getMedian() {
@@ -66,7 +62,7 @@ public class Grootheid
 	}
 
 	public void setMedian(double median) {
-		this.median = median;
+		this.median = Math.round(median * 100.0) / 100.0;
 	}
 
 	public double getDeviation() {
@@ -74,23 +70,20 @@ public class Grootheid
 	}
 
 	public void setDeviation(double deviation) {
-		this.deviation = deviation;
+		this.deviation = Math.round(deviation * 100.0) / 100.0;
 	}
 
 	//Methods
-    public void calculateMaxMinAvg(ArrayList<Double> array){
-        setMax( StatisticsCalculator.max(array) );
-        setMin( StatisticsCalculator.min(array) );
-        setAvg( StatisticsCalculator.avg(array) );
-        setMedian( StatisticsCalculator.median(array) );
-        setMode( StatisticsCalculator.modus(array) );
-        setDeviation( StatisticsCalculator.afwijking(array) );
+    public void calculateMaxMin(ArrayList<Double> array){
+    	setMax(StatisticsCalculator.max(array));
+    	setMin(StatisticsCalculator.min(array));
     }
 
     public void updateRecent(Measurement measurement1){
 
     }
-    public void update24Hour(ArrayList<Measurement> measurement2){
+    
+    public void updatePeriod(ArrayList<Measurement> measurement2){
         
     }
     
@@ -102,5 +95,6 @@ public class Grootheid
     
     public void displayGraph()
     {
+    	
     }
 }

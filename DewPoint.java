@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class DewPoint extends Grootheid
@@ -8,21 +9,22 @@ public class DewPoint extends Grootheid
     public DewPoint(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
         updateRecent(measurement1);
-        update24Hour(measurement2);
+        updatePeriod(measurement2);
     }
 
     
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getDewPoint());
     }
-    public void update24Hour(ArrayList<Measurement> measurement2){
+    public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMinAvg(list);
+        calculateMaxMin(list);
+        setMedian(StatisticsCalculator.median(list));
     }
     
     public void display(){
-        GUIboard.writeUpperDigits(getCurrent());
-        GUIboard.writePageToMatrix("Dauwpunt", "Gemiddelde: " + getAvg(), "");
+        super.display();
+        GUIboard.writePageToMatrix("Dauwpunt", "Mediaan: " + getMedian(), "");
     }
     
     public void displayGraph()

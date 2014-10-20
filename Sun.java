@@ -1,3 +1,4 @@
+package weerstation;
  
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class Sun extends Grootheid{
 		setSunRise(measurement1.getSunrise());
 	}
 	
-	public void update24Hour(ArrayList<Measurement> measurement2){
+	public void updatePeriod(ArrayList<Measurement> measurement2){
 	}
 	
 	public void display(){		

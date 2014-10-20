@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class Zonsterkte extends Grootheid{
@@ -7,20 +8,23 @@ public class Zonsterkte extends Grootheid{
     public Zonsterkte(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
         updateRecent(measurement1);
-        update24Hour(measurement2);
+        updatePeriod(measurement2);
     }
 
     
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getSolarRad());
     }
-    public void update24Hour(ArrayList<Measurement> measurement2){
+    public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMinAvg(list);
+        calculateMaxMin(list);
+        setAvg(StatisticsCalculator.avg(list));
     }
     
     public void display(){
         super.display();
+		GUIboard.clearLeft();
+		GUIboard.clearRight();
         GUIboard.writePageToMatrix("Zonsterkte", "Gemiddelde: " + getAvg(), "");
     }
     

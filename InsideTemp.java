@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class InsideTemp extends Grootheid{
@@ -7,16 +8,17 @@ public class InsideTemp extends Grootheid{
     public InsideTemp(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
         updateRecent(measurement1);
-        update24Hour(measurement2);
+        updatePeriod(measurement2);
     }
 
     
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getInsideTemp());
     }
-    public void update24Hour(ArrayList<Measurement> measurement2){
+    public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMinAvg(list);
+        calculateMaxMin(list);
+        setAvg(StatisticsCalculator.avg(list));
     }
     
     public void display(){
