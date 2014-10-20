@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 
@@ -14,21 +15,17 @@ public class Periode
     
     public Periode(int jaar, int maand, int dag, int eindjaar, int eindmaand, int einddag)
     {
-        beginPeriode = new GregorianCalendar(jaar, maand, dag);
-        eindePeriode = new GregorianCalendar(eindjaar, eindmaand, einddag);
-        
-        /*
-        if(eindjaar > jaar && eindmaand > maand && einddag > dag)
-        {
-            beginPeriode.set(eindjaar, eindmaand, einddag);
-            eindePeriode.set(jaar, maand, dag);
-        }
-        else
-        {
-            beginPeriode.set(jaar, maand, dag);
-            eindePeriode.set(eindjaar, eindmaand, einddag);
-        }
-        */
+        beginPeriode = new GregorianCalendar();
+        eindePeriode = new GregorianCalendar();
+        setBeginPeriode(jaar, maand, dag);
+        setEindePeriode(eindjaar, eindmaand, einddag);
+    }
+    
+    public Periode(Calendar cal1, Calendar cal2){
+        beginPeriode = new GregorianCalendar();
+        eindePeriode = new GregorianCalendar();
+        setBeginPeriode(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DAY_OF_MONTH));
+        setBeginPeriode(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DAY_OF_MONTH));
     }
     
     public GregorianCalendar getBeginPeriode()
@@ -53,11 +50,9 @@ public class Periode
     
     public String toString()
     {
-        Calendar cal = getBeginPeriode().getInstance();
-        Calendar cal2 = getEindePeriode().getInstance();
-        String returnString = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.DATE);
+    	String returnString = beginPeriode.get(Calendar.YEAR) + "-" + (beginPeriode.get(Calendar.MONTH)+1) + "-" + beginPeriode.get(Calendar.DATE);
         returnString += " | ";
-        returnString += cal2.get(Calendar.YEAR) + "-" + (cal2.get(Calendar.MONTH)+1) + "-" + cal2.get(Calendar.DATE);
+        returnString += eindePeriode.get(Calendar.YEAR) + "-" + (eindePeriode.get(Calendar.MONTH)+1) + "-" + eindePeriode.get(Calendar.DATE);
         return returnString;
     }
 }
