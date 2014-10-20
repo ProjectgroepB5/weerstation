@@ -197,11 +197,11 @@ public class Weerstation {
                 
                 if(startupState)
                 {
-                    charray = new char[] {' ', ' ', ' ', ' ', ' ', 'C', 'o', 'n', 'n', 'e', 'c', 't', 'i', 'n', 'g'};
+                    charray = " Weerstation Breda\n     Connecting".toCharArray();
                 }
                 else
                 {
-                    charray = new char[]{' ', ' ', ' ', ' ', ' ', 'C', 'a', 'l', 'c', 'u', 'l', 'a', 't', 'i', 'n', 'g'};
+                    charray = " Weerstation Breda\n     Calculating".toCharArray();
                 }
                 
                 for(char ch : charray)
@@ -214,7 +214,7 @@ public class Weerstation {
                     //for(int n=0; n<32;n++)
                     //{
                         //IO.writeShort(0x42, 1 << 12 | i-1 << 5 | n);
-                        IO.writeShort(0x42, 1 << 12 | i << 5 | 20);
+                        IO.writeShort(0x42, 1 << 12 | i << 5 | 26);
                         IO.delay(8);
                     //}
                 }
