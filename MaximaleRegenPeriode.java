@@ -20,7 +20,7 @@ public class MaximaleRegenPeriode extends Grootheid{
     }
     
     public void display(){
-        GUIboard.writePageToMatrix("Periode met meeste regen", StatisticsCalculator.maximaleRegenPeriode(list) + "", "");
+        GUIboard.writePageToMatrix("Totale regenval", StatisticsCalculator.maximaleRegenPeriode(list) + "", "");
     }
     
     public void displayGraph()

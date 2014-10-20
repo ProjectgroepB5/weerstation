@@ -5,7 +5,7 @@ public class LangsteZomerPeriode extends Grootheid{
     private Periode zomerPeriode;
     
     //constructor
-    public LangsteZomerPeriode(Measurement measurement1, ArrayList<Measurement> measurement2, Periode totalePeriode){
+    public LangsteZomerPeriode(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
         zomerPeriode = new Periode();
         updateRecent(measurement1);

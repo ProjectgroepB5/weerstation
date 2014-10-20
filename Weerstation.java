@@ -1,5 +1,3 @@
-package weerstation;
- 
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +17,17 @@ public class Weerstation {
     boolean wait;
     boolean graph;
     boolean startup;
+    boolean startupState;
     
     public Weerstation(){
     	now = Calendar.getInstance();
     	calPeriod = Calendar.getInstance();
     	ArrayList<Periode> periods = new ArrayList<Periode>();
+    	
+    	GUIboard.init();
+    	startupState = true;
+        starter = new Timer();
+        startAnimatie();
     	
 		calPeriod.add(Calendar.DATE, -1);
 		periods.add(new Periode(now, calPeriod));
@@ -48,27 +52,11 @@ public class Weerstation {
         
 		System.out.println(periods.get(0));
 	    
-    	GUIboard.init();
-        starter = new Timer();
-        startAnimatie();
-
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
         meting2 = weerstation1.getAllMeasurementsBetween(periods.get(0).getBeginPeriode(), periods.get(0).getEindePeriode());
 
-        
-        stopAnimatie();
-        while(startup)
-        {
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        startupState = false;
         
         currentScreen = 0;
         wait = true;
@@ -78,7 +66,7 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
-       // lstScreens.add(new LangsteZomerPeriode(meting1, meting2, periodeDag));
+        //lstScreens.add(new LangsteZomerPeriode(meting1, meting2));
         lstScreens.add(new MaximaleRegenPeriode(meting1, meting2));
         lstScreens.add(new WindDirection(meting1, meting2));
         lstScreens.add(new OutsideTemp(meting1, meting2));
@@ -94,6 +82,19 @@ public class Weerstation {
         lstScreens.add(new Zonsterkte(meting1, meting2));
         lstScreens.add(new DewPoint(meting1, meting2));
         lstScreens.add(new Sun(meting1));
+        
+        stopAnimatie();
+        while(startup)
+        {
+            try
+            {
+                Thread.sleep(1);
+            }
+            catch(InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
         
         
         
@@ -192,20 +193,35 @@ public class Weerstation {
                 startup = true;
                 
                 GUIboard.clearBottom();
+                char[] charray;
                 
-                for(int i=1; i<128;i+=2)
+                if(startupState)
                 {
-                    for(int n=0; n<32;n++)
-                    {
-                        IO.writeShort(0x42, 1 << 12 | i-1 << 5 | n);
-                        IO.writeShort(0x42, 1 << 12 | i << 5 | n);
-                        IO.delay(1);
-                    }
+                    charray = new char[] {' ', ' ', ' ', ' ', ' ', 'C', 'o', 'n', 'n', 'e', 'c', 't', 'i', 'n', 'g'};
+                }
+                else
+                {
+                    charray = new char[]{' ', ' ', ' ', ' ', ' ', 'C', 'a', 'l', 'c', 'u', 'l', 'a', 't', 'i', 'n', 'g'};
+                }
+                
+                for(char ch : charray)
+                {
+                    IO.writeShort(0x40, ch);
+                }
+                
+                for(int i=1; i<128;i++)
+                {
+                    //for(int n=0; n<32;n++)
+                    //{
+                        //IO.writeShort(0x42, 1 << 12 | i-1 << 5 | n);
+                        IO.writeShort(0x42, 1 << 12 | i << 5 | 20);
+                        IO.delay(8);
+                    //}
                 }
                 
                 startup = false;
             }
-        }, 0, 128*32);
+        }, 0, 128*8 + 2);
     }
     
     public void stopAnimatie()
