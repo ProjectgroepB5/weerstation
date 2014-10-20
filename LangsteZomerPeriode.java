@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class LangsteZomerPeriode extends Grootheid{
@@ -9,16 +10,16 @@ public class LangsteZomerPeriode extends Grootheid{
         list = new ArrayList<Double>();
         zomerPeriode = new Periode();
         updateRecent(measurement1);
-        update24Hour(measurement2);
+        updatePeriod(measurement2);
     }
 
     
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getOutsideTemp());
     }
-    public void update24Hour(ArrayList<Measurement> measurement2){
+    public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMinAvg(list);
+        calculateMaxMin(list);
         
         int[] index = StatisticsCalculator.langsteZomersePeriode(list);
         zomerPeriode = Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());
