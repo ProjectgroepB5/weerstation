@@ -95,7 +95,9 @@ public class Weerstation {
                 e.printStackTrace();
             }
         }
-        
+        GUIboard.clearTop();
+        GUIboard.clearLeft();
+        GUIboard.clearRight();
         
         
         //Screen switcher
@@ -193,6 +195,10 @@ public class Weerstation {
                 startup = true;
                 
                 GUIboard.clearBottom();
+                GUIboard.clearTop();
+                GUIboard.clearLeft();
+                GUIboard.clearRight();
+                
                 char[] charray;
                 
                 if(startupState)
@@ -209,19 +215,30 @@ public class Weerstation {
                     IO.writeShort(0x40, ch);
                 }
                 
-                for(int i=1; i<128;i++)
+                int p = 1;
+                for(int i=0; i<128;i++)
                 {
-                    //for(int n=0; n<32;n++)
-                    //{
-                        //IO.writeShort(0x42, 1 << 12 | i-1 << 5 | n);
                         IO.writeShort(0x42, 1 << 12 | i << 5 | 26);
-                        IO.delay(8);
-                    //}
+                        
+                        if(i%21==0)
+                        {
+                            p = p << 1;
+                            if(p>32)
+                            {
+                                p=1;
+                            }
+                            for(int q=0x10; q<0x40; q+=0x02)
+                            {
+                                IO.writeShort(q, 0x100 | p);
+                            }
+                        }
+                        
+                        IO.delay(6);
                 }
                 
                 startup = false;
             }
-        }, 0, 128*8 + 2);
+        }, 0, 128*6 + 2);
     }
     
     public void stopAnimatie()
