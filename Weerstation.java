@@ -1,3 +1,4 @@
+package weerstation;
  
 
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ import java.util.Calendar;
 public class Weerstation {
     WeerstationConnector weerstation1;
     
-    Calendar now;
-    Periode periodeDag;
-    
+    Periode periodeDag, periodeWeek, periodeMaand, periode3Maanden, periode6Maanden, periodeJaar, periode2Jaar;
+    Calendar now, calDag, calWeek, calMaand, cal3Maanden, cal6Maanden, calJaar, cal2Jaar;
+
     Measurement meting1;
     ArrayList<Measurement> meting2;
     Timer starter;
@@ -21,19 +22,33 @@ public class Weerstation {
     boolean startup;
     
     public Weerstation(){
-        weerstation1 = new WeerstationConnector();
-        now = Calendar.getInstance();
-        
-        periodeDag = new Periode(2013,12,25,2014,1,5);
+    	now =  calDag =  calWeek =  calMaand =  cal3Maanden =  cal6Maanden =  calJaar =  cal2Jaar = Calendar.getInstance();
+	    
+		calDag.add(Calendar.DATE, -1);
+		calWeek.add(Calendar.DATE, -7);
+		calMaand.add(Calendar.MONTH, -1);
+		cal3Maanden.add(Calendar.MONTH, -3);
+		cal6Maanden.add(Calendar.MONTH, -6);
+		calJaar.add(Calendar.YEAR, -1);
+		cal2Jaar.add(Calendar.YEAR, -2);
+    	
+    	periodeDag = new Periode(now, calDag);
         System.out.println(periodeDag);
-        
-        GUIboard.init();
+    	periodeWeek = new Periode(now, calWeek);
+    	periodeMaand = new Periode(now, calMaand);
+    	periode3Maanden = new Periode(now, cal3Maanden);
+    	periode6Maanden = new Periode(now, cal6Maanden);
+    	periodeJaar = new Periode(now, calJaar);
+    	periode2Jaar = new Periode(now, cal2Jaar);
+	    
+    	GUIboard.init();
         starter = new Timer();
         startAnimatie();
-        
+
+        weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
         meting2 = weerstation1.getAllMeasurementsBetween(periodeDag.getBeginPeriode(), periodeDag.getEindePeriode());
-        System.out.println(meting2.size());
+
         
         stopAnimatie();
         while(startup)
@@ -47,7 +62,6 @@ public class Weerstation {
                 e.printStackTrace();
             }
         }
-        
         
         currentScreen = 0;
         wait = true;
@@ -101,7 +115,6 @@ public class Weerstation {
         //Update recent measurement every 60 seconds
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                
                 meting1 = weerstation1.getMostRecentMeasurement();
                 for(Grootheid obj : lstScreens){
                     obj.updateRecent(meting1);
