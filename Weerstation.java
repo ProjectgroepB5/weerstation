@@ -10,8 +10,7 @@ import java.util.Calendar;
 public class Weerstation {
     WeerstationConnector weerstation1;
     
-    Periode periodeDag, periodeWeek, periodeMaand, periode3Maanden, periode6Maanden, periodeJaar, periode2Jaar;
-    Calendar now, calDag, calWeek, calMaand, cal3Maanden, cal6Maanden, calJaar, cal2Jaar;
+    Calendar now, calPeriod;
 
     Measurement meting1;
     ArrayList<Measurement> meting2;
@@ -22,24 +21,32 @@ public class Weerstation {
     boolean startup;
     
     public Weerstation(){
-    	now =  calDag =  calWeek =  calMaand =  cal3Maanden =  cal6Maanden =  calJaar =  cal2Jaar = Calendar.getInstance();
-	    
-		calDag.add(Calendar.DATE, -1);
-		calWeek.add(Calendar.DATE, -7);
-		calMaand.add(Calendar.MONTH, -1);
-		cal3Maanden.add(Calendar.MONTH, -3);
-		cal6Maanden.add(Calendar.MONTH, -6);
-		calJaar.add(Calendar.YEAR, -1);
-		cal2Jaar.add(Calendar.YEAR, -2);
+    	now = Calendar.getInstance();
+    	calPeriod = Calendar.getInstance();
+    	ArrayList<Periode> periods = new ArrayList<Periode>();
     	
-    	periodeDag = new Periode(now, calDag);
-        System.out.println(periodeDag);
-    	periodeWeek = new Periode(now, calWeek);
-    	periodeMaand = new Periode(now, calMaand);
-    	periode3Maanden = new Periode(now, cal3Maanden);
-    	periode6Maanden = new Periode(now, cal6Maanden);
-    	periodeJaar = new Periode(now, calJaar);
-    	periode2Jaar = new Periode(now, cal2Jaar);
+		calPeriod.add(Calendar.DATE, -1);
+		periods.add(new Periode(now, calPeriod));
+		
+		calPeriod.add(Calendar.DATE, -6);
+		periods.add(new Periode(now, calPeriod));
+		
+		calPeriod.add(Calendar.MONTH, -1);
+		periods.add(new Periode(now, calPeriod));
+		
+		calPeriod.add(Calendar.MONTH, -2);
+		periods.add(new Periode(now, calPeriod));
+		
+		calPeriod.add(Calendar.MONTH, -3);
+		periods.add(new Periode(now, calPeriod));
+		
+		calPeriod.add(Calendar.MONTH, -6);
+		periods.add(new Periode(now, calPeriod));
+		
+		calPeriod.add(Calendar.YEAR, -1);
+		periods.add(new Periode(now, calPeriod));
+        
+		System.out.println(periods.get(0));
 	    
     	GUIboard.init();
         starter = new Timer();
@@ -47,7 +54,7 @@ public class Weerstation {
 
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
-        meting2 = weerstation1.getAllMeasurementsBetween(periodeDag.getBeginPeriode(), periodeDag.getEindePeriode());
+        meting2 = weerstation1.getAllMeasurementsBetween(periods.get(0).getBeginPeriode(), periods.get(0).getEindePeriode());
 
         
         stopAnimatie();
@@ -71,7 +78,7 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
-        lstScreens.add(new LangsteZomerPeriode(meting1, meting2, periodeDag));
+       // lstScreens.add(new LangsteZomerPeriode(meting1, meting2, periodeDag));
         lstScreens.add(new MaximaleRegenPeriode(meting1, meting2));
         lstScreens.add(new WindDirection(meting1, meting2));
         lstScreens.add(new OutsideTemp(meting1, meting2));

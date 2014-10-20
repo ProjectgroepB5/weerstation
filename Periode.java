@@ -22,10 +22,10 @@ public class Periode
     }
     
     public Periode(Calendar cal1, Calendar cal2){
-        beginPeriode = new GregorianCalendar();
+    	beginPeriode = new GregorianCalendar();
         eindePeriode = new GregorianCalendar();
         setBeginPeriode(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DAY_OF_MONTH));
-        setBeginPeriode(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DAY_OF_MONTH));
+        setEindePeriode(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DAY_OF_MONTH));
     }
     
     public GregorianCalendar getBeginPeriode()
