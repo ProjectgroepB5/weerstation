@@ -1,10 +1,13 @@
+package weerstation;
  
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Calendar;
+
 
 public class Weerstation {
     WeerstationConnector weerstation1;
@@ -76,7 +79,7 @@ public class Weerstation {
         wait = true;
         graph = false;
         Timer timer = new Timer();
-
+        checkData();
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
@@ -153,7 +156,7 @@ public class Weerstation {
             public void run() {
                 meting2 = weerstation1.getAllMeasurementsLast24h();
                 for(Grootheid obj : lstScreens){
-                    obj.update24Hour(meting2);
+                    obj.updatePeriod(meting2);
                 }
             }
         }, 10*60*1000, 10*60*1000);
@@ -259,5 +262,17 @@ public class Weerstation {
     public void stopAnimatie()
     {
         starter.cancel();
+    }
+    
+    public void checkData(){
+    	Iterator<Measurement> it = meting2.iterator();
+        while( it.hasNext() )
+        {
+            Measurement m = it.next();
+            if(m.getRawOutsideTemp() >= 30000)
+            {
+                it.remove();
+            }
+        }
     }
 }
