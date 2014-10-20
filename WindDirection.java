@@ -44,7 +44,6 @@ public class WindDirection extends Grootheid{
         {
             x = (int)(64 + (radius*Math.cos(i * Math.PI / 180)));
             y = (int)(16 + radius*Math.sin(i * Math.PI / 180));
-            System.out.println("x: " + x + "  Y: " + y);
             if(i == degree){
                 x2 = x;
                 y2 = y;
