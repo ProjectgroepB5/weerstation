@@ -1,4 +1,4 @@
-package weerstation1;
+ 
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +59,17 @@ public class Weerstation {
 		periods.add(new Periode(now, calPeriod));
 		calPeriod = Calendar.getInstance(); 
 		
-		System.out.println(periods.get(0));
+		System.out.println("Day: " + periods.get(0));
+		System.out.println("Week: " + periods.get(1));
+		System.out.println("Month: " + periods.get(2));
+		System.out.println("2 Months: " + periods.get(3));
+		System.out.println("3 Months: " + periods.get(4));
+		System.out.println("6 Months: " + periods.get(5));
+		System.out.println("Year: " + periods.get(6));
 	    
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
-        meting2 = weerstation1.getAllMeasurementsBetween(periods.get(0).getBeginPeriode(), periods.get(0).getEindePeriode());
+        meting2 = weerstation1.getAllMeasurementsBetween(periods.get(3).getBeginPeriode(), periods.get(3).getEindePeriode());
         currentGraph = false;
         startupState = false;
         currentScreen = 0;
@@ -74,7 +80,6 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
-        //lstScreens.add(new LangsteZomerPeriode(meting1, meting2));
         lstScreens.add(new MaximaleRegenPeriode(meting1, meting2));
         lstScreens.add(new WindDirection(meting1, meting2));
         lstScreens.add(new OutsideTemp(meting1, meting2));
@@ -90,6 +95,7 @@ public class Weerstation {
         lstScreens.add(new Zonsterkte(meting1, meting2));
         lstScreens.add(new DewPoint(meting1, meting2));
         lstScreens.add(new Sun(meting1));
+        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));
         
         stopAnimatie();
         while(startup)

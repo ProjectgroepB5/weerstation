@@ -172,6 +172,8 @@ public class GUIboard {
         clearBottom();
         
         msList = normalizeData(msList, (max-min)/32);
+        max = StatisticsCalculator.max(msList)+1;
+        min = StatisticsCalculator.min(msList)-1 > 0 ? StatisticsCalculator.min(msList)-1 : StatisticsCalculator.min(msList);
         
         createAxis(min,max);
         
@@ -214,7 +216,22 @@ public class GUIboard {
     
     private static ArrayList<Double> normalizeData(ArrayList<Double> data2 , double margin){
         
-        ArrayList<Double> data = new ArrayList<Double>(data2);
+        ArrayList<Double> data = new ArrayList<Double>();
+        
+        int deler = data2.size() / 256; //Delen door het aantal punten dat je over wil houden.
+        double avg=0;
+        
+        for(int q=0;q<data2.size(); q++)
+        {
+            if(q%deler==0)
+            {
+                avg /= deler;
+                data.add(avg);
+                avg=0;
+            }
+            avg += data2.get(q);
+        }
+        
         
         double prevPrevVal = 0.0, prevVal = 0.0, nextVal = 0.0, nextNextVal = 0.0, avrVal = 0.0, setVal = 0.0;
         
@@ -225,7 +242,7 @@ public class GUIboard {
             if(i + 2 < data.size()){
                 nextNextVal = data.get(i+2);
             }
-            if(prevPrevVal > 0 && prevVal > 0 && nextVal > 0 && nextNextVal > 0){
+            if(prevPrevVal != 0 && prevVal != 0 && nextVal != 0 && nextNextVal != 0){
                 avrVal = (prevPrevVal + prevVal + nextVal + nextNextVal) / 4;
                 if((data.get(i) - avrVal) >= margin){
                     setVal = avrVal;

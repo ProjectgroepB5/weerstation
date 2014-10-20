@@ -33,7 +33,6 @@ public class WeerstationConnector
             + password;
             Class.forName("com.mysql.jdbc.Driver").newInstance ();
             myConn = DriverManager.getConnection(url);
-            System.out.println("Database connection established");
         }
         catch( SQLException ex)
         {

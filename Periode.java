@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 
@@ -24,8 +24,8 @@ public class Periode
     public Periode(Calendar cal1, Calendar cal2){
     	beginPeriode = new GregorianCalendar();
         eindePeriode = new GregorianCalendar();
-        setBeginPeriode(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DAY_OF_MONTH));
-        setEindePeriode(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DAY_OF_MONTH));
+        setBeginPeriode(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DATE));
+        setEindePeriode(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DATE));
     }
     
     public GregorianCalendar getBeginPeriode()
@@ -50,9 +50,9 @@ public class Periode
     
     public String toString()
     {
-    	String returnString = beginPeriode.get(Calendar.YEAR) + "-" + (beginPeriode.get(Calendar.MONTH)+1) + "-" + beginPeriode.get(Calendar.DATE);
-        returnString += " | ";
-        returnString += eindePeriode.get(Calendar.YEAR) + "-" + (eindePeriode.get(Calendar.MONTH)+1) + "-" + eindePeriode.get(Calendar.DATE);
+    	String returnString = beginPeriode.get(Calendar.DATE) + "-" + (beginPeriode.get(Calendar.MONTH)+1) + "-" + beginPeriode.get(Calendar.YEAR);
+        returnString += "|";
+        returnString += eindePeriode.get(Calendar.DATE) + "-" + (eindePeriode.get(Calendar.MONTH)+1) + "-" + eindePeriode.get(Calendar.YEAR);
         return returnString;
     }
 }

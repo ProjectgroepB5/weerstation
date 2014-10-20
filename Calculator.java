@@ -200,24 +200,15 @@ public class Calculator {
     public static Periode timeStampToPeriode(Timestamp timeStamp1, Timestamp timeStamp2)
     {
         Periode periode = new Periode();
-        Calendar cal = Calendar.getInstance();
         int year,month,day;
- 
-        //Zet de eerste TimeStamp om
-        cal.setTime(new Date(timeStamp1.getTime()));  
-        year = cal.get(Calendar.YEAR);  
-        month = cal.get(Calendar.MONTH+1);  
-        day = cal.get(Calendar.DAY_OF_MONTH); 
         
-        periode.setBeginPeriode(year,month, day);
+        String[] ts1 = timeStamp1.toString().split(" ");
+        ts1 = ts1[0].split("-");
+        periode.setBeginPeriode(Integer.valueOf(ts1[0]), Integer.valueOf(ts1[1]), Integer.valueOf(ts1[2]));
         
-        //Zet de tweede TimeStamp om
-        cal.setTime(new Date(timeStamp2.getTime()));  
-        year = cal.get(Calendar.YEAR);  
-        month = cal.get(Calendar.MONTH+1);  
-        day = cal.get(Calendar.DAY_OF_MONTH); 
-        
-        periode.setEindePeriode(year,month, day);
+        String[] ts2 = timeStamp2.toString().split(" ");
+        ts2 = ts2[0].split("-");
+        periode.setEindePeriode(Integer.valueOf(ts2[0]), Integer.valueOf(ts2[1]), Integer.valueOf(ts2[2]));
         
         return periode;
     }

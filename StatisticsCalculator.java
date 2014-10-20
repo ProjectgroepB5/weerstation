@@ -205,7 +205,9 @@ public class StatisticsCalculator {
         //Het terugsturen van de gevonden indexen. Je doet ze keer 1440 omdat je bij het berekenen van 
         //de temperatuur per dag je het in stukken van 1440 samenvoegde.
         index[0] = index1*1440;
+        if(index2<0){index2=0;}
         index[1] = index2*1440;
+        
         return index;
     }
     
