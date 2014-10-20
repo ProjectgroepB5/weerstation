@@ -204,22 +204,12 @@ public class GUIboard {
             {
                 y = (int) ( (diff-max) / valpix);
                 y = 31 - y;
-                System.out.println("Y: " + y);
             }
             for(int x2 = 0; x2 < 128; x2++)
             {
                 IO.writeShort(0x42, 1 << 12 | x2 << 5 | y );
             }
         }
-        
-        /*
-        x = 0;
-        
-        for(int y2 = 0; y2 < 32; y2++)
-        {
-            IO.writeShort(0x42, 1 << 12 | x << 5 | y2 );
-        }
-        */
     }
     
     private static ArrayList<Double> normalizeData(ArrayList<Double> data2 , double margin){
