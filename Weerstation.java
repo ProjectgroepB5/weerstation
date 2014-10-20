@@ -1,3 +1,4 @@
+package weerstation1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Weerstation {
     int currentScreen;
     boolean wait;
     boolean graph;
+    boolean currentGraph;
     boolean startup;
     boolean startupState;
     
@@ -31,33 +33,39 @@ public class Weerstation {
     	
 		calPeriod.add(Calendar.DATE, -1);
 		periods.add(new Periode(now, calPeriod));
+		calPeriod = Calendar.getInstance(); 
 		
-		calPeriod.add(Calendar.DATE, -6);
+		calPeriod.add(Calendar.DATE, -7);
 		periods.add(new Periode(now, calPeriod));
-		
+		calPeriod = Calendar.getInstance(); 
+				
 		calPeriod.add(Calendar.MONTH, -1);
 		periods.add(new Periode(now, calPeriod));
-		
-		calPeriod.add(Calendar.MONTH, -2);
-		periods.add(new Periode(now, calPeriod));
-		
+		calPeriod = Calendar.getInstance(); 
+				
 		calPeriod.add(Calendar.MONTH, -3);
 		periods.add(new Periode(now, calPeriod));
+		calPeriod = Calendar.getInstance(); 
 		
 		calPeriod.add(Calendar.MONTH, -6);
 		periods.add(new Periode(now, calPeriod));
+		calPeriod = Calendar.getInstance(); 
 		
 		calPeriod.add(Calendar.YEAR, -1);
 		periods.add(new Periode(now, calPeriod));
-        
+		calPeriod = Calendar.getInstance(); 
+		
+		calPeriod.add(Calendar.YEAR, -2);
+		periods.add(new Periode(now, calPeriod));
+		calPeriod = Calendar.getInstance(); 
+		
 		System.out.println(periods.get(0));
 	    
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
         meting2 = weerstation1.getAllMeasurementsBetween(periods.get(0).getBeginPeriode(), periods.get(0).getEindePeriode());
-
+        currentGraph = false;
         startupState = false;
-        
         currentScreen = 0;
         wait = true;
         graph = false;
@@ -111,11 +119,12 @@ public class Weerstation {
                 }
                 
                 Grootheid obj = lstScreens.get(currentScreen);
-                if(graph)
+                if(graph && (graph != currentGraph))
                 {
-                    obj.displayGraph();    
+                	obj.displayGraph(); 
+                	currentGraph = true;
                 }
-                else
+                else if(!graph)
                 {
                     obj.display();      
                 }
