@@ -40,8 +40,15 @@ public class StatisticsCalculator {
         return avg;
     }
     
-      public static double median(ArrayList<Double> array){
-    	Collections.sort(array);							//sort the array
+      public static double median(ArrayList<Double> array2){
+    	ArrayList<Double> array = new ArrayList<Double>();
+    	
+    	for(double db : array2)
+    	{
+    	    array.add(db);
+    	}
+          
+        Collections.sort(array);							//sort the array
     	
     	double median = 0;
     	int middle = array.size()/2; 						//calculate the middle of the array
