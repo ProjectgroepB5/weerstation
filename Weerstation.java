@@ -1,4 +1,4 @@
-package weerstation;
+ 
  
 
 import java.util.ArrayList;
@@ -17,62 +17,67 @@ public class Weerstation {
     Measurement meting1;
     ArrayList<Measurement> meting2;
     Timer starter;
+    Timer animator;
     int currentScreen;
     boolean wait;
     boolean graph;
     boolean currentGraph;
     boolean startup;
     boolean startupState;
+    boolean load;
     
     public Weerstation(){
-    	now = Calendar.getInstance();
-    	calPeriod = Calendar.getInstance();
-    	ArrayList<Periode> periods = new ArrayList<Periode>();
-    	
-    	GUIboard.init();
-    	startupState = true;
+        now = Calendar.getInstance();
+        calPeriod = Calendar.getInstance();
+        ArrayList<Periode> periods = new ArrayList<Periode>();
+        
+        GUIboard.init();
+        startupState = true;
         starter = new Timer();
-        startAnimatie();
-    	
-		calPeriod.add(Calendar.DATE, -1);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-		
-		calPeriod.add(Calendar.DATE, -7);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-				
-		calPeriod.add(Calendar.MONTH, -1);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-				
-		calPeriod.add(Calendar.MONTH, -3);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-		
-		calPeriod.add(Calendar.MONTH, -6);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-		
-		calPeriod.add(Calendar.YEAR, -1);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-		
-		calPeriod.add(Calendar.YEAR, -2);
-		periods.add(new Periode(now, calPeriod));
-		calPeriod = Calendar.getInstance(); 
-		
-		System.out.println("Day: " + periods.get(0));
-		System.out.println("Week: " + periods.get(1));
-		System.out.println("Month: " + periods.get(2));
-		System.out.println("2 Months: " + periods.get(3));
-		System.out.println("3 Months: " + periods.get(4));
-		System.out.println("6 Months: " + periods.get(5));
-		System.out.println("Year: " + periods.get(6));
-	    
+        startStartupAnimatie();
+        
+        calPeriod.add(Calendar.DATE, -1);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+        
+        calPeriod.add(Calendar.DATE, -7);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+                
+        calPeriod.add(Calendar.MONTH, -1);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+                
+        calPeriod.add(Calendar.MONTH, -3);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+        
+        calPeriod.add(Calendar.MONTH, -6);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+        
+        calPeriod.add(Calendar.YEAR, -1);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+        
+        calPeriod.add(Calendar.YEAR, -2);
+        periods.add(new Periode(now, calPeriod));
+        calPeriod = Calendar.getInstance(); 
+        
+        System.out.println("Day: " + periods.get(0));
+        System.out.println("Week: " + periods.get(1));
+        System.out.println("Month: " + periods.get(2));
+        System.out.println("3 Months: " + periods.get(3));
+        System.out.println("6 Months: " + periods.get(4));
+        System.out.println("Year: " + periods.get(5));
+        System.out.println("2 Years: " + periods.get(6));
+        
+        //Kies hier welke periode je wil laden, hij veranderd in een keer alles:
+        int periodeNr = 0;
+        
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
-        meting2 = weerstation1.getAllMeasurementsBetween(periods.get(3).getBeginPeriode(), periods.get(3).getEindePeriode());
+        meting2 = weerstation1.getAllMeasurementsBetween(periods.get(periodeNr).getBeginPeriode(), periods.get(periodeNr).getEindePeriode());
         currentGraph = false;
         startupState = false;
         currentScreen = 0;
@@ -83,25 +88,26 @@ public class Weerstation {
         //All the different screen classes
     
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
-        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2));
-        lstScreens.add(new WindDirection(meting1, meting2));
-        lstScreens.add(new OutsideTemp(meting1, meting2));
-        lstScreens.add(new WindChill(meting1, meting2));
-        lstScreens.add(new OutsideHum(meting1, meting2));
-        lstScreens.add(new Barometer(meting1, meting2));
-        lstScreens.add(new AvgWindSpeed(meting1, meting2));
-        lstScreens.add(new RainRate(meting1, meting2));
-        lstScreens.add(new InsideTemp(meting1, meting2));
-        lstScreens.add(new InsideHum(meting1, meting2));
-        lstScreens.add(new CloudHeight(meting1, meting2));
-        lstScreens.add(new UVLevel(meting1, meting2));
-        lstScreens.add(new Zonsterkte(meting1, meting2));
-        lstScreens.add(new DewPoint(meting1, meting2));
-        lstScreens.add(new Sun(meting1));
-        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));
-        lstScreens.add(new GraadDagen(meting1, meting2));
         
-        stopAnimatie();
+        lstScreens.add(new OutsideTemp(meting1, meting2));          //Buitentemperatuur
+        lstScreens.add(new WindDirection(meting1, meting2));        //Windrichting
+        lstScreens.add(new WindChill(meting1, meting2));            //Gevoelstemperatuur
+        lstScreens.add(new OutsideHum(meting1, meting2));           //Luchtv. Buiten
+        lstScreens.add(new Barometer(meting1, meting2));            //Luchtdruk
+        lstScreens.add(new AvgWindSpeed(meting1, meting2));         //Gem. Windsnelheid
+        lstScreens.add(new RainRate(meting1, meting2));             //Regenval
+        lstScreens.add(new InsideTemp(meting1, meting2));           //Binnentemperatuur
+        lstScreens.add(new InsideHum(meting1, meting2));            //Luchtv. Binnen
+        lstScreens.add(new CloudHeight(meting1, meting2));          //Wolkhoogte
+        lstScreens.add(new UVLevel(meting1, meting2));              //UV Level
+        lstScreens.add(new Zonsterkte(meting1, meting2));           //Zonkracht
+        lstScreens.add(new DewPoint(meting1, meting2));             //Dauwpunt
+        lstScreens.add(new Sun(meting1));                           //Sunrise en Sunset
+        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));  //Langste Zomerse Periode
+        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2)); //Totale regenval in een periode
+        lstScreens.add(new GraadDagen(meting1, meting2));           //Aantal graaddagen in een periode
+        
+        stopStartupAnimatie();
         while(startup)
         {
             try
@@ -131,8 +137,8 @@ public class Weerstation {
                 Grootheid obj = lstScreens.get(currentScreen);
                 if(graph && (graph != currentGraph))
                 {
-                	obj.displayGraph(); 
-                	currentGraph = true;
+                    obj.displayGraph(); 
+                    currentGraph = true;
                 }
                 else if(!graph)
                 {
@@ -155,12 +161,30 @@ public class Weerstation {
         //Update 24hours every 60 seconds
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                meting2 = weerstation1.getAllMeasurementsLast24h();
+                
+                animator = new Timer();
+                startLoadAnimatie();
+                
+                meting2 = weerstation1.getAllMeasurementsBetween(periods.get(periodeNr).getBeginPeriode(), periods.get(periodeNr).getEindePeriode());
                 for(Grootheid obj : lstScreens){
                     obj.updatePeriod(meting2);
                 }
+                
+                stopLoadAnimatie();
+                
+                while(load)
+                {
+                    try
+                    {
+                        Thread.sleep(1);
+                    }
+                    catch(InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }, 10*60*1000, 10*60*1000);
+        },10*60*1000, 10*60*1000);
         
         
         //Button checker
@@ -207,7 +231,7 @@ public class Weerstation {
         
     }
     
-    public void startAnimatie()
+    public void startStartupAnimatie()
     {
         starter.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -252,25 +276,51 @@ public class Weerstation {
                             }
                         }
                         
-                        IO.delay(6);
+                        IO.delay(8);
                 }
                 
                 startup = false;
             }
-        }, 0, 128*6 + 2);
+        }, 0, (128 + 1)*8);
     }
     
-    public void stopAnimatie()
+    public void stopStartupAnimatie()
     {
         starter.cancel();
     }
     
+        public void startLoadAnimatie()
+    {
+        animator.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                load = true;
+                for(int i=0; i<128;i++)
+                {
+                        IO.writeShort(0x42, 0 << 12 | i << 5 | 31);
+                        IO.delay(4);
+                }
+                
+                for(int i=0; i<128;i++)
+                {
+                        IO.writeShort(0x42, 1 << 12 | i << 5 | 31);
+                        IO.delay(4);
+                }
+                load = false;
+            }
+        }, 0, (128 + 1)*8);
+    }
+    
+    public void stopLoadAnimatie()
+    {
+        animator.cancel();
+    }
+    
     public void checkData(){
-    	Iterator<Measurement> it = meting2.iterator();
+        Iterator<Measurement> it = meting2.iterator();
         while( it.hasNext() )
         {
             Measurement m = it.next();
-            if(m.getRawOutsideTemp() >= 30000)
+            if(m.getRawOutsideTemp() >= Short.MAX_VALUE)
             {
                 it.remove();
             }
