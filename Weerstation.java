@@ -99,6 +99,7 @@ public class Weerstation {
         lstScreens.add(new DewPoint(meting1, meting2));
         lstScreens.add(new Sun(meting1));
         lstScreens.add(new LangsteZomerPeriode(meting1, meting2));
+        lstScreens.add(new GraadDagen(meting1, meting2));
         
         stopAnimatie();
         while(startup)
