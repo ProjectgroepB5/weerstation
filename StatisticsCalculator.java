@@ -152,17 +152,70 @@ public class StatisticsCalculator {
     
     public static int[] langsteRegenPeriode(ArrayList<Double> array)
     {
+        ArrayList<Double> rainday = new ArrayList<Double>();
+         
+        int i = 0;
+        double longRainday = 0;
+        
+        // Bereken de Rainrate per dag 
+         for(double rain : array)
+         {
+             i++;
+             if (i% 1440 ==0)
+             {
+                 rainday.add(longRainday);
+                 longRainday = 0;
+             }
+             
+             if (rain > longRainday)
+             {
+                longRainday = rain;
+             }
+        }
         int[] index = new int[2];
         int index1 = 0;
         int index2 = 0;
         
-        //Code
+        int index1_1 = 0;
         
-        index[0] = index1;
-        index[1] = index2;
+        boolean regen = false;
+        
+        int p = 0;
+        int maxDays = 0;
+        
+        for(int t = 0; t < rainday.size(); t++)
+        {
+            if (rainday.get(t) > 0 )
+            {
+                p++;
+                
+                if(!regen)
+                {
+                    regen = true;
+                    index1_1 = t; 
+                }
+                else
+                {
+                    if(p > maxDays)
+                    {
+                        maxDays = p;
+                        index1 = index1_1;
+                        index2 = t-1;
+                        regen=false;
+                    }
+                    p = 0;
+                }
+            }
+        }
+        
+        index[0] = index1*1440;
+        if(index2<0)
+        {
+            index2 =0;
+        }
+        index[1] = index2*1440;
         return index;
     }
-    
     public static double maximaleRegenPeriode(ArrayList<Double> array)
     {
         double totaleRegen = 0;
