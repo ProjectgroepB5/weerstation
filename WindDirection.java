@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.util.ArrayList;
 
 public class WindDirection extends Grootheid{
@@ -30,7 +30,14 @@ public class WindDirection extends Grootheid{
     
     public void displayGraph()
     {
-        GUIboard.writePageToMatrix("", "West        East", "");
+        GUIboard.clearBottom();
+        char[] charray = "   West       East".toCharArray();
+        
+        IO.writeShort(0x40, '\n'); 
+        for(char ch : charray)
+        {
+            IO.writeShort(0x40, ch);
+        }
         
         int x,y;
         int radius = 15;
