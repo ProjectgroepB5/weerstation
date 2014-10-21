@@ -41,59 +41,60 @@ public class StatisticsCalculator {
     }
     
       public static double median(ArrayList<Double> array2){
-    	ArrayList<Double> array = new ArrayList<Double>();
-    	
-    	for(double db : array2)
-    	{
-    	    array.add(db);
-    	}
+        ArrayList<Double> array = new ArrayList<Double>();
+        
+        for(double db : array2)
+        {
+            array.add(db);
+        }
           
-        Collections.sort(array);							//sort the array
-    	
-    	double median = 0;
-    	int middle = array.size()/2; 						//calculate the middle of the array
+        Collections.sort(array);                            //sort the array
+        
+        double median = 0;
+        int middle = array.size()/2;                        //calculate the middle of the array
 
-    	if (array.size()%2 == 1) { 							//check if the array is even or uneven 
-    		median = array.get(middle);			
-    	} else { 
-    		median = (array.get(middle-1) + array.get(middle+1)) / 2; 
-    	}
-    	return median;
+        if (array.size()%2 == 1) {                          //check if the array is even or uneven 
+            median = array.get(middle);         
+        } else { 
+            median = (array.get(middle-1) + array.get(middle+1)) / 2; 
+        }
+        return median;
     }
     
     public static double modus(ArrayList<Double> array){
-	    double maxValue = 0;
-	    int maxCount = 0;
-	
-	    for (int i = 0; i < array.size(); ++i){ 			//cycle through every number in the array
-	    	int count = 0;
-		    for (int j = 0; j < array.size(); ++j) { 		
-		    	if (array.get(j) == array.get(i)){
-		    		++count; 
-		    	}
-		    } 
-		    if (count > maxCount) { 						//if the count is bigger then the max count, it will be the temporary modus
-		    	maxCount = count; 
-		    	maxValue = array.get(i); 
-		    }
-	    }
-	    return maxValue;
-    }	
-	    
+        double maxValue = 0;
+        int maxCount = 0;
+    
+        for (int i = 0; i < array.size(); ++i){             //cycle through every number in the array
+            int count = 0;
+            for (int j = 0; j < array.size(); ++j) {        
+                if (array.get(j) == array.get(i)){
+                    ++count; 
+                }
+            } 
+            if (count > maxCount) {                         //if the count is bigger then the max count, it will be the temporary modus
+                maxCount = count; 
+                maxValue = array.get(i); 
+            }
+        }
+        return maxValue;
+    }   
+        
     public static double afwijking(ArrayList<Double> array){
-	    double mediaan = StatisticsCalculator.median(array);
-	    double afwijking = 0; 
-	    for(double m :array){
-		   	afwijking += (mediaan-m)*(mediaan-m); 
-	    }
-		afwijking /= array.size();
-		afwijking = Math.sqrt(afwijking);
-	    return afwijking;
+        double mediaan = StatisticsCalculator.median(array);
+        double afwijking = 0; 
+        for(double m :array){
+            afwijking += (mediaan-m)*(mediaan-m); 
+        }
+        afwijking /= array.size();
+        afwijking = Math.sqrt(afwijking);
+        return afwijking;
     }   
 
     
-    public static double graagDagen(ArrayList<Double> array)
-    ArrayList<Double> avgTempDag = new ArrayList<Double>();
+    public static double graadDagen(ArrayList<Double> array)
+    {
+        ArrayList<Double> avgTempDag = new ArrayList<Double>();
         int i = 0;
         double avgTemp = 0;
         
@@ -129,6 +130,7 @@ public class StatisticsCalculator {
         //graaddagen afronden
         
         return graaddagen;
+    }
     
     public static int[] langsteDroogstePeriode(ArrayList<Double> array)
     {
@@ -213,12 +215,12 @@ public class StatisticsCalculator {
         //Doorloop je maximale temperaturen en zoek de langste periode 
         for(int t=0; t<maxTempDag.size(); t++) {
             if(maxTempDag.get(t) > 25) {
-            	p++;
-            	if(!zomers)
-            	{
-            	    zomers = true;
-            	    index1_1 = t;
-            	}
+                p++;
+                if(!zomers)
+                {
+                    zomers = true;
+                    index1_1 = t;
+                }
             }
             else {
                 if(p > maxDays) {
