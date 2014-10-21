@@ -93,13 +93,42 @@ public class StatisticsCalculator {
 
     
     public static double graagDagen(ArrayList<Double> array)
-    {
-        int graaddagen = 0;
+    ArrayList<Double> avgTempDag = new ArrayList<Double>();
+        int i = 0;
+        double avgTemp = 0;
         
-        //Code
+        //Breken de gemiddelde temperatuur per dag.
+        for(double db : array)
+        {
+            i++;
+            if(i%1440==0)
+            {
+                avgTempDag.add(avgTemp);
+                avgTemp = 0;
+            }
+            avgTemp += db;         
+        }
+        avgTemp /= array.size();
+        
+        
+        int graaddagen = 0;
+        int periodeBegin = 0;
+        int periodeEind = 1439;
+        
+        for(int j = 0; j < avgTempDag.size(); j++)
+        {
+            if(avgTemp < 18)
+            {
+                graaddagen += 18 - avgTemp;
+            }
+        }
+        
+        periodeBegin += 1400;
+        periodeEind += 1400;
+        
+        //graaddagen afronden
         
         return graaddagen;
-    }
     
     public static int[] langsteDroogstePeriode(ArrayList<Double> array)
     {
