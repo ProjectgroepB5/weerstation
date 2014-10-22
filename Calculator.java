@@ -199,7 +199,7 @@ public class Calculator {
     
     public static Periode timeStampToPeriode(Timestamp timeStamp1, Timestamp timeStamp2)
     {
-        Periode periode = new Periode();
+        Periode periode = new Periode("-");
         int year,month,day;
         
         String[] ts1 = timeStamp1.toString().split(" ");
