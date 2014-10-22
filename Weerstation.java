@@ -73,7 +73,7 @@ public class Weerstation {
         System.out.println("2 Years: " + periods.get(6));
         
         //Kies hier welke periode je wil laden, hij veranderd in een keer alles:
-        int periodeNr = 0;
+        int periodeNr = 1;
         
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
@@ -103,7 +103,8 @@ public class Weerstation {
         lstScreens.add(new Zonsterkte(meting1, meting2));           //Zonkracht
         lstScreens.add(new DewPoint(meting1, meting2));             //Dauwpunt
         lstScreens.add(new Sun(meting1));                           //Sunrise en Sunset
-        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));  //Langste Zomerse Periode
+        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));//Langste Zomerse Periode
+        lstScreens.add(new LangsteTempStijgingPeriode(meting1, meting2)); //Langste temperatuurstijging
         lstScreens.add(new LangsteRegenPeriode(meting1, meting2));  //Langste Regen Periode
         lstScreens.add(new MaximaleRegenPeriode(meting1, meting2)); //Totale regenval in een periode
         lstScreens.add(new GraadDagen(meting1, meting2));           //Aantal graaddagen in een periode
