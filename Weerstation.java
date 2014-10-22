@@ -1,4 +1,4 @@
-package weerstation1;
+ 
  
  
 
@@ -74,7 +74,7 @@ public class Weerstation {
         System.out.println("2 Years: " + periods.get(6));
         
         //Kies hier welke periode je wil laden, hij veranderd in een keer alles:
-        final int periodeNr = 2;
+        final int periodeNr = 5;
         
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
@@ -98,7 +98,7 @@ public class Weerstation {
         lstScreens.add(new WindDirection(meting1, meting2));        //Windrichting
         lstScreens.add(new WindChill(meting1, meting2));            //Gevoelstemperatuur
         lstScreens.add(new Barometer(meting1, meting2));            //Luchtdruk
-        lstScreens.add(new Voorspellingen(meting1));            	//Weervoorspelling
+        lstScreens.add(new Voorspellingen(meting1));                //Weervoorspelling
         lstScreens.add(new RainRate(meting1, meting2));             //Regenval
         lstScreens.add(new CloudHeight(meting1, meting2));          //Wolkhoogte
         lstScreens.add(new UVLevel(meting1, meting2));              //UV Level
@@ -108,11 +108,11 @@ public class Weerstation {
         lstScreens.add(new Sun(meting1));                           //Sunrise en Sunset
         
         lstScreens.add(new LangsteHittegolfPeriode(meting1, meting2));
-        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));				//Langste Zomerse Periode
-        // lstScreens.add(new LangsteTempStijgingPeriode(meting1, meting2)); 	//Langste temperatuurstijging
-        lstScreens.add(new LangsteRegenPeriode(meting1, meting2)); 				//Langste Regen Periode
-        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2)); 			//Totale regenval in een periode
-        lstScreens.add(new GraadDagen(meting1, meting2));           			//Aantal graaddagen in een periode
+        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));              //Langste Zomerse Periode
+        // lstScreens.add(new LangsteTempStijgingPeriode(meting1, meting2));    //Langste temperatuurstijging
+        lstScreens.add(new LangsteRegenPeriode(meting1, meting2));              //Langste Regen Periode
+        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2));             //Totale regenval in een periode
+        lstScreens.add(new GraadDagen(meting1, meting2));                       //Aantal graaddagen in een periode
         
 
         stopStartupAnimatie();
@@ -267,11 +267,18 @@ public class Weerstation {
                 }
                 
                 int p = 1;
-                for(int i=0; i<128;i++)
+                for(int i=0; i<256;i++)
                 {
-                        IO.writeShort(0x42, 1 << 12 | i << 5 | 26);
+                        if(i<128)
+                        {
+                            IO.writeShort(0x42, 1 << 12 | i << 5 | 26);
+                        }
+                        else
+                        {
+                            IO.writeShort(0x42, 0 << 12 | i-128 << 5 | 26);
+                        }
                         
-                        if(i%21==0)
+                        if(i%42==0)
                         {
                             p = p << 1;
                             if(p>32)
@@ -284,7 +291,7 @@ public class Weerstation {
                             }
                         }
                         
-                        IO.delay(8);
+                        IO.delay(4);
                 }
                 
                 startup = false;
