@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.util.ArrayList;
 
 public class RainRate extends Grootheid{

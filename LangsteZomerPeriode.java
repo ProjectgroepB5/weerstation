@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.util.ArrayList;
 
 public class LangsteZomerPeriode extends Grootheid{
@@ -8,7 +8,7 @@ public class LangsteZomerPeriode extends Grootheid{
     //constructor
     public LangsteZomerPeriode(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
-        zomerPeriode = new Periode();
+        zomerPeriode = new Periode("Zomer");
         updateRecent(measurement1);
         updatePeriod(measurement2);
     }

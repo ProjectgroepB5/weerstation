@@ -7,7 +7,7 @@ public class LangsteRegenPeriode extends Grootheid{
     //constructor
     public LangsteRegenPeriode(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
-        regenPeriode = new Periode();
+        regenPeriode = new Periode("Regen");
         updateRecent(measurement1);
         update24Hour(measurement2);
     }

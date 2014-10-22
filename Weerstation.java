@@ -37,31 +37,31 @@ public class Weerstation {
         startStartupAnimatie();
         
         calPeriod.add(Calendar.DATE, -1);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Dag"));
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.DATE, -7);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Week"));
         calPeriod = Calendar.getInstance(); 
                 
         calPeriod.add(Calendar.MONTH, -1);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Maand"));
         calPeriod = Calendar.getInstance(); 
                 
         calPeriod.add(Calendar.MONTH, -3);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Maand 3"));
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.MONTH, -6);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Maand 6"));
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.YEAR, -1);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Jaar"));
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.YEAR, -2);
-        periods.add(new Periode(now, calPeriod));
+        periods.add(new Periode(now, calPeriod, "Jaar 2"));
         calPeriod = Calendar.getInstance(); 
         
         System.out.println("Day: " + periods.get(0));
@@ -104,6 +104,7 @@ public class Weerstation {
         lstScreens.add(new DewPoint(meting1, meting2));             //Dauwpunt
         lstScreens.add(new Sun(meting1));                           //Sunrise en Sunset
         lstScreens.add(new LangsteZomerPeriode(meting1, meting2));  //Langste Zomerse Periode
+        lstScreens.add(new LangsteRegenPeriode(meting1, meting2));  //Langste Regen Periode
         lstScreens.add(new MaximaleRegenPeriode(meting1, meting2)); //Totale regenval in een periode
         lstScreens.add(new GraadDagen(meting1, meting2));           //Aantal graaddagen in een periode
         
