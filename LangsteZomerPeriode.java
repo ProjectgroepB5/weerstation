@@ -2,12 +2,12 @@
 import java.util.ArrayList;
 
 public class LangsteZomerPeriode extends Grootheid{
-    private ArrayList<Double> list;
+    private ArrayList<Short> list;
     private Periode zomerPeriode;
     
     //constructor
     public LangsteZomerPeriode(Measurement measurement1, ArrayList<Measurement> measurement2){
-        list = new ArrayList<Double>();
+        list = new ArrayList<Short>();
         zomerPeriode = new Periode("Zomer");
         updateRecent(measurement1);
         updatePeriod(measurement2);
@@ -19,7 +19,6 @@ public class LangsteZomerPeriode extends Grootheid{
     }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMin(list);
         
         int[] index = StatisticsCalculator.langsteZomersePeriode(list);
         zomerPeriode = Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());
@@ -43,7 +42,7 @@ public class LangsteZomerPeriode extends Grootheid{
         
         for(Measurement ms : measurement2)
         {
-            list.add(ms.getOutsideTemp());
+            list.add(ms.getRawOutsideTemp());
         }
     }
 }

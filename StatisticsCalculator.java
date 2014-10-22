@@ -216,11 +216,12 @@ public class StatisticsCalculator {
         index[1] = index2*1440;
         return index;
     }
-    public static double maximaleRegenPeriode(ArrayList<Double> array)
+    
+    public static short maximaleRegenPeriode(ArrayList<Short> array)
     {
-        double totaleRegen = 0;
+        short totaleRegen = 0;
         
-        for(double db : array)
+        for(short db : array)
         {
             totaleRegen += db;
         }
@@ -228,20 +229,20 @@ public class StatisticsCalculator {
         return totaleRegen;
     }
     
-    public static int[] langsteZomersePeriode(ArrayList<Double> array)
+    public static int[] langsteZomersePeriode(ArrayList<Short> array)
     {
       
         ArrayList<Double> maxTempDag = new ArrayList<Double>();
         int i = 0;
-        double maxTemp = 0;
+        short maxTemp = 0;
         
         //Bereken de maximale temperatuur per dag.
-        for(double db : array)
+        for(short db : array)
         {
            i++;
            if(i%1440==0)
            {
-               maxTempDag.add(maxTemp);
+               maxTempDag.add( (double) maxTemp);
                maxTemp = 0;
            }
            
@@ -310,64 +311,15 @@ public class StatisticsCalculator {
     
     public static int[] langsteTempStijgingPeriode(ArrayList<Double> array)
     {
-        ArrayList<Double> maxTempDag = new ArrayList<Double>();
-        ArrayList<Integer> periodeLengteList = new ArrayList<Integer>();
-        ArrayList<Integer> periodeStartList = new ArrayList<Integer>();
-        
         int[] index = new int[2];
         int index1 = 0;
         int index2 = 0;
-        int indexStart = 0;
-        int indexEind = 1;
-        int periodeLengte = 0;
-        int i = 0;
-        double maxTemp = 0; 
         
-        //berekent maximale temp. per dag
-        for(double db : array)
-        {
-           i ++;
-           if(i % 1440 == 0)
-           {
-               maxTempDag.add(maxTemp);
-               maxTemp = 0;
-           }
-           
-           if(db > maxTemp) 
-           {
-               maxTemp = db;
-           }    
-        }        
+        //Code
         
-        for(int t = 1; t < maxTempDag.size(); t ++)  //zoekt naar periodes van temp.stijgingen
-        { 
-            if (maxTempDag.get(t) > maxTempDag.get(t - 1))
-            {                
-                indexEind ++;
-            }
-            
-            if (maxTempDag.get(t) <= maxTempDag.get(t - 1))
-            {
-               periodeLengte = indexEind - indexStart;
-               periodeLengteList.add(periodeLengte);
-               periodeStartList.add(indexStart);
-               indexStart = indexEind;
-            }
-        } 
-        
-        Integer tempMax = Collections.max(periodeLengteList); //onthoudt de grootste periode van een temp.stijging
-        
-        for (int u = 0; u < periodeLengteList.size(); u ++) //pakt de index van de grootste periode
-        {
-            if (tempMax == periodeLengteList.get(u))
-            {
-                index1 = u;
-                index2 = tempMax - u;
-            }
-        }
-        
-        index[0] = index1 * 1440;
-        index[1] = index2 * 1440;
-        return index; 
-    }       
+        index[0] = index1;
+        index[1] = index2;
+        return index;
+    }
+    
 }

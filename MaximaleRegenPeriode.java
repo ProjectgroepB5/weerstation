@@ -2,11 +2,11 @@
 import java.util.ArrayList;
 
 public class MaximaleRegenPeriode extends Grootheid{
-    private ArrayList<Double> list;
+    private ArrayList<Short> list;
     
     //constructor
     public MaximaleRegenPeriode(Measurement measurement1, ArrayList<Measurement> measurement2){
-        list = new ArrayList<Double>();
+        list = new ArrayList<Short>();
         updateRecent(measurement1);
         updatePeriod(measurement2);
     }
@@ -17,11 +17,10 @@ public class MaximaleRegenPeriode extends Grootheid{
     }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMin(list);
     }
     
     public void display(){
-        GUIboard.writePageToMatrix("Totale regenval", StatisticsCalculator.maximaleRegenPeriode(list) + "", "");
+        GUIboard.writePageToMatrix("Totale regenval", Calculator.regenmeter(StatisticsCalculator.maximaleRegenPeriode(list)) + "", "");
     }
     
     public void displayGraph()
@@ -38,7 +37,7 @@ public class MaximaleRegenPeriode extends Grootheid{
         
         for(Measurement ms : measurement2)
         {
-            list.add(ms.getRainRate());
+            list.add(ms.getRawRainRate());
         }
     }
 }
