@@ -15,7 +15,7 @@ public class WindDirection extends Grootheid{
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
         maxMin();
-        //modus();
+        modus();
     }
     
     public void displayGraph()

@@ -1,7 +1,9 @@
-package weerstation1;
+ 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Map;
+import java.util.HashMap;
 
 public class StatisticsCalculator {
     
@@ -64,22 +66,27 @@ public class StatisticsCalculator {
     }
     
     public static double modus(ArrayList<Double> array){
-        double maxValue = 0;
-        int maxCount = 0;
-    
-        for (int i = 0; i < array.size(); ++i){             //cycle through every number in the array
-            int count = 0;
-            for (int j = 0; j < array.size(); ++j) {        
-                if (array.get(j) == array.get(i)){
-                    ++count; 
-                }
-            } 
-            if (count > maxCount) {                         //if the count is bigger then the max count, it will be the temporary modus
-                maxCount = count; 
-                maxValue = array.get(i); 
+        Map<Double,Integer> map = new HashMap<Double,Integer>();
+        for(double number : array)
+        {
+            if(map.containsKey(number)){
+                map.put(number,(int)map.get(number)+1);
+            }else{
+                map.put(number, 1);
             }
         }
-        return maxValue;
+        
+        double maxVal = 0;
+        double maxKey = 0;
+        
+        for (Map.Entry<Double, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > maxVal) {
+                maxVal = entry.getValue();
+                maxKey = entry.getKey();
+            }
+        }
+        
+        return maxKey;
     }   
         
     public static double afwijking(ArrayList<Double> array){
