@@ -1,4 +1,4 @@
-package weerstation1;
+ 
 
 public class Voorspellingen extends Grootheid{
 	private double barometer;
@@ -86,6 +86,10 @@ public class Voorspellingen extends Grootheid{
         	setCustom("Zware storm");
             setCurrent(90);
         }
-        super.display();
+    }
+    
+    public void displayGraph()
+    {
+        display();
     }
 }
