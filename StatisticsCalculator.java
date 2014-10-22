@@ -219,11 +219,27 @@ public class StatisticsCalculator {
     
     public static short maximaleRegenPeriode(ArrayList<Short> array)
     {
+        short regen = 0;
+        ArrayList<Short> regenPerUur = new ArrayList<Short>();
+        
+        for(int i=0; i<array.size();i++)
+        {
+            if(i%60==0)
+            {
+                regen /= 60;
+                regenPerUur.add(regen);
+                regen = 0;
+            }
+            
+            regen += array.get(i);
+        }
+        
+        
         short totaleRegen = 0;
         
-        for(short db : array)
+        for(short sh : regenPerUur)
         {
-            totaleRegen += db;
+            totaleRegen += sh;
         }
         
         return totaleRegen;
