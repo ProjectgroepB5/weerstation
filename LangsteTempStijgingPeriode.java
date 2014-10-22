@@ -1,3 +1,4 @@
+package weerstation1;
 import java.util.ArrayList;
 
 public class LangsteTempStijgingPeriode extends Grootheid
@@ -23,7 +24,7 @@ public class LangsteTempStijgingPeriode extends Grootheid
     public void updatePeriod(ArrayList<Measurement> measurement2)
     {
         createList(measurement2);
-        calculateMaxMin(list);
+        
         
         int[] index = StatisticsCalculator.langsteTempStijgingPeriode(list);
         StijgingPeriode= Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());

@@ -1,36 +1,25 @@
- 
+package weerstation1;
 import java.util.ArrayList;
 
 public class LangsteZomerPeriode extends Grootheid{
-    private ArrayList<Short> list;
-    private Periode zomerPeriode;
     
     //constructor
     public LangsteZomerPeriode(Measurement measurement1, ArrayList<Measurement> measurement2){
-        list = new ArrayList<Short>();
-        zomerPeriode = new Periode("Zomer");
-        updateRecent(measurement1);
+    	setName("Langste zomerse periode");
         updatePeriod(measurement2);
     }
 
-    
-    public void updateRecent(Measurement measurement1){
-        setCurrent(measurement1.getOutsideTemp());
-    }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        
-        int[] index = StatisticsCalculator.langsteZomersePeriode(list);
-        zomerPeriode = Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());
-    }
-    
-    public void display(){
-        GUIboard.writePageToMatrix("Langste zomerse periode", zomerPeriode.toString(), "");
+        int[] index = StatisticsCalculator.langsteDroogstePeriode(list);
+        System.out.println(list.size());
+        System.out.println(index[0]);
+        System.out.println(index[1]);
+        setPeriod(Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp()));
     }
     
     public void displayGraph()
     {
-        display();
     }
     
     private void createList(ArrayList<Measurement> measurement2)
@@ -42,7 +31,7 @@ public class LangsteZomerPeriode extends Grootheid{
         
         for(Measurement ms : measurement2)
         {
-            list.add(ms.getRawOutsideTemp());
+            list.add((double)ms.getRawOutsideTemp());
         }
     }
 }

@@ -1,3 +1,4 @@
+package weerstation1;
  
 import java.sql.Timestamp;
 import java.math.BigDecimal;

@@ -1,89 +1,91 @@
-import java.util.ArrayList;
+package weerstation1;
 
 public class Voorspellingen extends Grootheid{
-    public ArrayList<Double> list;
+	private double barometer;
+    
     //constructor
     public Voorspellingen(Measurement measurement1){
-        updateRecent(measurement1);
+    	setName("Weersvoorspelling:");
+    	updateRecent(measurement1);
     }
 
-    
     public void updateRecent(Measurement measurement1){
-        setCurrent(measurement1.getBarometer());
+        barometer = measurement1.getBarometer();
     }
     
     public void display()
     {          
-        if (getCurrent() >= 1033 && getCurrent() <= 1084)
+        if (barometer >= 1033 && barometer <= 1084)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "mooi weer", "");
-            GUIboard.writeUpperDigits(10);
+            setCustom("Mooi weer");
+            setCurrent(10);
         }
         else
-        if (getCurrent() >= 1030 && getCurrent() <= 1033)
+        if (barometer >= 1030 && barometer <= 1033)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "mooi weer", "");
-            GUIboard.writeUpperDigits(10);
+        	setCustom("Mooi weer");
+            setCurrent(10);
         }
         else
-        if (getCurrent() >= 1020 && getCurrent() <= 1030)
+        if (barometer >= 1020 && barometer <= 1030)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "goed weer", "");
-            GUIboard.writeUpperDigits(20);
+        	setCustom("Goed weer");
+            setCurrent(20);
         }
         else
-        if (getCurrent() >= 1015 && getCurrent() <= 1020)
+        if (barometer >= 1015 && barometer <= 1020)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "wisselvallig weer", "");
-            GUIboard.writeUpperDigits(30);
+        	setCustom("Wisselvallig weer");
+            setCurrent(30);
         }
         else
-        if (getCurrent() >= 1010 && getCurrent() <= 1015)
+        if (barometer >= 1010 && barometer <= 1015)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "wisselvallig weer", "");
-            GUIboard.writeUpperDigits(40);
+        	setCustom("Wisselvallig weer");
+            setCurrent(40);
         }
         else
-        if (getCurrent() >= 1007 && getCurrent() <= 1010)
+        if (barometer >= 1007 && barometer <= 1010)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "wisselvallig weer", "");
-            GUIboard.writeUpperDigits(50);
+        	setCustom("Wisselvallig weer");
+            setCurrent(50);
         }
         else
-        if (getCurrent() >= 1003 && getCurrent() <= 1007)
+        if (barometer >= 1003 && barometer <= 1007)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "regen of wind", "");
-            GUIboard.writeUpperDigits(60);
+        	setCustom("Regen of wind");
+            setCurrent(60);
         }
         else
-        if (getCurrent() >= 1000 && getCurrent() <= 1003)
+        if (barometer >= 1000 && barometer <= 1003)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "regen of wind", "");
-            GUIboard.writeUpperDigits(70);
+        	setCustom("Regen of wind");
+            setCurrent(70);
         }
         else
-        if (getCurrent() >= 990 && getCurrent() <= 1000)
+        if (barometer >= 990 && barometer <= 1000)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "regen of wind", "");
-            GUIboard.writeUpperDigits(80);
+        	setCustom("Regen of wind");
+            setCurrent(80);
         }
         else
-        if (getCurrent() >= 980 && getCurrent() <= 990)
+        if (barometer >= 980 && barometer <= 990)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "veel regen", "");
-            GUIboard.writeUpperDigits(90);
+        	setCustom("Veel regen");
+            setCurrent(90);
         }
         else
-        if (getCurrent() >= 970 && getCurrent() <= 980)
+        if (barometer >= 970 && barometer <= 980)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "storm", "");
-            GUIboard.writeUpperDigits(90);
+        	setCustom("Storm");
+            setCurrent(90);
         }
         else
-        if (getCurrent() >= 870 && getCurrent() <= 970)
+        if (barometer >= 870 && barometer <= 970)
         {
-            GUIboard.writePageToMatrix("Weersvoorspelling:", "zware storm", "");
-            GUIboard.writeUpperDigits(90);
+        	setCustom("Zware storm");
+            setCurrent(90);
         }
+        super.display();
     }
 }

@@ -1,43 +1,26 @@
- 
+package weerstation1;
 import java.util.ArrayList;
 
 public class WindDirection extends Grootheid{
-    public ArrayList<Double> list;
-    
-    //constructor
-    public WindDirection(Measurement measurement1, ArrayList<Measurement> measurement2){
-        list = new ArrayList<Double>();
-        updateRecent(measurement1);
+   
+	public WindDirection(Measurement measurement1, ArrayList<Measurement> measurement2){
+    	setName("Windrichting");
+    	updateRecent(measurement1);
         updatePeriod(measurement2);
     }
 
-    
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getRawWindDir());
     }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        setMode(StatisticsCalculator.modus(list));
-    }
-    
-    public void display(){
-        super.display();
-		GUIboard.clearLeft();
-		GUIboard.clearRight();
-
-        GUIboard.writePageToMatrix("Windrichting", "Modus: " + getMode(), "");
+        maxMin();
+        //modus();
     }
     
     public void displayGraph()
     {
-        GUIboard.clearBottom();
-        char[] charray = "   West       East".toCharArray();
-        
-        IO.writeShort(0x40, '\n'); 
-        for(char ch : charray)
-        {
-            IO.writeShort(0x40, ch);
-        }
+        GUIboard.writePageToMatrix("", "West        East", "");
         
         int x,y;
         int radius = 15;

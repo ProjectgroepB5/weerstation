@@ -1,33 +1,21 @@
- 
+package weerstation1;
 import java.util.ArrayList;
 
 public class RainRate extends Grootheid{
-    public ArrayList<Double> list;
-    //constructor
+	//constructor
     public RainRate(Measurement measurement1, ArrayList<Measurement> measurement2){
-        list = new ArrayList<Double>();
-        updateRecent(measurement1);
+    	setName("Regenval in mm/h");
+    	updateRecent(measurement1);
         updatePeriod(measurement2);
     }
 
-    
     public void updateRecent(Measurement measurement1){
         setCurrent(measurement1.getRainRate());
     }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMin(list);
-        setAvg(StatisticsCalculator.avg(list));
-    }
-    
-    public void display(){
-        super.display();
-        GUIboard.writePageToMatrix("Regenval in mm/h", "Gemiddelde: " + getAvg(), "");
-    }
-    
-    public void displayGraph()
-    {
-        GUIboard.writeGraphToMatrix(list, getMin(), getMax());
+        maxMin();
+        avg();
     }
     
     private void createList(ArrayList<Measurement> measurement2)
@@ -39,7 +27,11 @@ public class RainRate extends Grootheid{
         
         for(Measurement ms : measurement2)
         {
-            list.add(ms.getRainRate());
+            list.add((double)ms.getRawRainRate());
         }
+    }
+    
+    public double calculate(double value){
+    	return Calculator.regenmeter((short)value);
     }
 }

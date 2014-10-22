@@ -1,3 +1,4 @@
+package weerstation1;
  
 import java.util.GregorianCalendar;
 import java.util.Calendar;
@@ -19,8 +20,8 @@ public class Periode
     {
         beginPeriode = new GregorianCalendar();
         eindePeriode = new GregorianCalendar();
-        setBeginPeriode(jaar, maand, dag);
-        setEindePeriode(eindjaar, eindmaand, einddag);
+        setBeginPeriode(jaar, maand-1, dag);
+        setEindePeriode(eindjaar, eindmaand-1, einddag);
         this.name = name;
     }
     

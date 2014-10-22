@@ -1,3 +1,4 @@
+package weerstation1;
  
 //
 // Port IO emulator class. All read/writes are send over TCP/IP to the host

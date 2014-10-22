@@ -1,17 +1,24 @@
- 
+package weerstation1;
 import java.util.ArrayList;
 
 public class Grootheid
 {
     // instance variables - replace the example below with your own
-    private double avg;
+    private double statics;
     private double max;
     private double min;
-    private double mode;
-    private double median;
-    private double deviation;
     private double current;
-
+    private Periode period;
+    ArrayList<Double> list = new ArrayList<Double>();
+    
+    //boolean to check if the variables are set
+    private boolean max_min_check = false;
+    private boolean current_check = false;
+    
+    private String statics_name = "";
+    private String name = "";
+    private String custom = "";
+    
     //constructor
     public Grootheid(){
     }
@@ -22,7 +29,8 @@ public class Grootheid
     }
 
     public void setCurrent(double current) {
-        this.current = current;
+    	current_check = true;
+    	this.current = current;
     }
 
     public double getMax() {
@@ -41,46 +49,68 @@ public class Grootheid
         this.min = Math.round(min * 100.0) / 100.0;;
     }
 
-    public double getAvg() {
-        return avg;
-    }
-
-    public void setAvg(double avg) {
-        this.avg = Math.round(avg * 100.0) / 100.0;
-    }
-    
-    public double getMode() {
-		return mode;
+	public double getStatics() {
+		return statics;
 	}
 
-	public void setMode(double mode) {
-		this.mode = Math.round(mode * 100.0) / 100.0;
+	public void setStatics(double statics) {
+		this.statics = Math.round(statics * 100.0) / 100.0;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
-	public double getMedian() {
-		return median;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setMedian(double median) {
-		this.median = Math.round(median * 100.0) / 100.0;
+    public Periode getPeriod() {
+		return period;
 	}
 
-	public double getDeviation() {
-		return deviation;
+	public void setPeriod(Periode period) {
+		this.period = period;
 	}
 
-	public void setDeviation(double deviation) {
-		this.deviation = Math.round(deviation * 100.0) / 100.0;
+	public void setStatics_name(String statics_name) {
+		this.statics_name = statics_name;
+	}
+	
+	public String getCustom() {
+		return custom;
+	}
+
+	public void setCustom(String custom) {
+		this.custom = custom;
 	}
 
 	//Methods
-    public void calculateMaxMin(ArrayList<Double> array){
-    	setMax(StatisticsCalculator.max(array));
-    	setMin(StatisticsCalculator.min(array));
+    public void maxMin(){
+    	max_min_check = true;
+    	setMax(calculate(StatisticsCalculator.max(list)));
+    	setMin(calculate(StatisticsCalculator.min(list)));
+    }
+    public void median(){
+    	setStatics_name("Mediaan: ");
+    	setStatics(calculate(StatisticsCalculator.median(list)));
+    }
+    public void modus(){
+    	setStatics_name("Modus: ");
+    	setStatics(calculate(StatisticsCalculator.modus(list)));
+    }
+    public void avg(){
+    	setStatics_name("Gemiddelde: ");
+    	setStatics(calculate(StatisticsCalculator.avg(list)));
+    }
+    public void afwijking(){
+    	setStatics_name("Afwijking: ");
+    	setStatics(calculate(StatisticsCalculator.afwijking(list)));
     }
 
-    public void updateRecent(Measurement measurement1){
 
+	public void updateRecent(Measurement measurement1){
+    	
     }
     
     public void updatePeriod(ArrayList<Measurement> measurement2){
@@ -88,13 +118,36 @@ public class Grootheid
     }
     
     public void display(){
-        GUIboard.writeUpperDigits(getCurrent());
-        GUIboard.writeLeftDigits(getMax());
-        GUIboard.writeRightDigits(getMin());
+    	GUIboard.clearLeft();
+    	GUIboard.clearRight();
+    	GUIboard.clearTop();
+    	GUIboard.clearBottom();
+    	
+    	if(current_check){
+        	GUIboard.writeUpperDigits(getCurrent());
+    	}
+    	if(max_min_check){
+    		GUIboard.writeLeftDigits(getMax());
+        	GUIboard.writeRightDigits(getMin());
+    	}
+    	if(!(statics_name == "")){
+
+    		GUIboard.writePageToMatrix(getName(), statics_name + getStatics(), "");
+    	}else if(!(custom == "")){
+
+    		GUIboard.writePageToMatrix(getName(), custom, "");
+    	}
+    	if(!(period == null)){
+    		GUIboard.writePageToMatrix(getName(), period.toString(), "");   		
+    	}
     }
     
     public void displayGraph()
     {
-    	
+        GUIboard.writeGraphToMatrix(list, getMin(), getMax());
+    }
+    
+    public double calculate(double value){
+    	return value;
     }
 }

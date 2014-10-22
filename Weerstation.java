@@ -1,3 +1,4 @@
+package weerstation1;
  
  
 
@@ -29,7 +30,7 @@ public class Weerstation {
     public Weerstation(){
         now = Calendar.getInstance();
         calPeriod = Calendar.getInstance();
-        ArrayList<Periode> periods = new ArrayList<Periode>();
+        final ArrayList<Periode> periods = new ArrayList<Periode>();
         
         GUIboard.init();
         startupState = true;
@@ -73,7 +74,7 @@ public class Weerstation {
         System.out.println("2 Years: " + periods.get(6));
         
         //Kies hier welke periode je wil laden, hij veranderd in een keer alles:
-        int periodeNr = 1;
+        final int periodeNr = 2;
         
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
@@ -90,25 +91,30 @@ public class Weerstation {
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
         
         lstScreens.add(new OutsideTemp(meting1, meting2));          //Buitentemperatuur
-        lstScreens.add(new WindDirection(meting1, meting2));        //Windrichting
-        lstScreens.add(new WindChill(meting1, meting2));            //Gevoelstemperatuur
         lstScreens.add(new OutsideHum(meting1, meting2));           //Luchtv. Buiten
-        lstScreens.add(new Barometer(meting1, meting2));            //Luchtdruk
-        lstScreens.add(new AvgWindSpeed(meting1, meting2));         //Gem. Windsnelheid
-        lstScreens.add(new RainRate(meting1, meting2));             //Regenval
         lstScreens.add(new InsideTemp(meting1, meting2));           //Binnentemperatuur
         lstScreens.add(new InsideHum(meting1, meting2));            //Luchtv. Binnen
+        lstScreens.add(new AvgWindSpeed(meting1, meting2));         //Gem. Windsnelheid
+        lstScreens.add(new WindDirection(meting1, meting2));        //Windrichting
+        lstScreens.add(new WindChill(meting1, meting2));            //Gevoelstemperatuur
+        lstScreens.add(new Barometer(meting1, meting2));            //Luchtdruk
+        lstScreens.add(new Voorspellingen(meting1));            	//Weervoorspelling
+        lstScreens.add(new RainRate(meting1, meting2));             //Regenval
         lstScreens.add(new CloudHeight(meting1, meting2));          //Wolkhoogte
         lstScreens.add(new UVLevel(meting1, meting2));              //UV Level
+        lstScreens.add(new HeatIndex(meting1, meting2));             //Dauwpunt
         lstScreens.add(new Zonsterkte(meting1, meting2));           //Zonkracht
         lstScreens.add(new DewPoint(meting1, meting2));             //Dauwpunt
         lstScreens.add(new Sun(meting1));                           //Sunrise en Sunset
-        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));//Langste Zomerse Periode
-        lstScreens.add(new LangsteTempStijgingPeriode(meting1, meting2)); //Langste temperatuurstijging
-        lstScreens.add(new LangsteRegenPeriode(meting1, meting2));  //Langste Regen Periode
-        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2)); //Totale regenval in een periode
-        lstScreens.add(new GraadDagen(meting1, meting2));           //Aantal graaddagen in een periode
         
+        lstScreens.add(new LangsteHittegolfPeriode(meting1, meting2));
+        lstScreens.add(new LangsteZomerPeriode(meting1, meting2));				//Langste Zomerse Periode
+        // lstScreens.add(new LangsteTempStijgingPeriode(meting1, meting2)); 	//Langste temperatuurstijging
+        lstScreens.add(new LangsteRegenPeriode(meting1, meting2)); 				//Langste Regen Periode
+        lstScreens.add(new MaximaleRegenPeriode(meting1, meting2)); 			//Totale regenval in een periode
+        lstScreens.add(new GraadDagen(meting1, meting2));           			//Aantal graaddagen in een periode
+        
+
         stopStartupAnimatie();
         while(startup)
         {

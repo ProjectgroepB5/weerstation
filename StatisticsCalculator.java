@@ -1,5 +1,7 @@
-import java.util.ArrayList; 
-import java.util.Collections; 
+package weerstation1;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 
 public class StatisticsCalculator {
     
@@ -217,7 +219,7 @@ public class StatisticsCalculator {
         return index;
     }
     
-    public static short maximaleRegenPeriode(ArrayList<Short> array)
+    public static short maximaleRegenPeriode(ArrayList<Double> array)
     {
         short regen = 0;
         ArrayList<Short> regenPerUur = new ArrayList<Short>();
@@ -245,15 +247,15 @@ public class StatisticsCalculator {
         return totaleRegen;
     }
     
-    public static int[] langsteZomersePeriode(ArrayList<Short> array)
+    public static int[] langsteZomersePeriode(ArrayList<Double> array)
     {
       
         ArrayList<Double> maxTempDag = new ArrayList<Double>();
         int i = 0;
-        short maxTemp = 0;
+        double maxTemp = 0;
         
         //Bereken de maximale temperatuur per dag.
-        for(short db : array)
+        for(double db : array)
         {
            i++;
            if(i%1440==0)
@@ -284,7 +286,7 @@ public class StatisticsCalculator {
         
         //Doorloop je maximale temperaturen en zoek de langste periode 
         for(int t=0; t<maxTempDag.size(); t++) {
-            if(maxTempDag.get(t) > 25) {
+            if(maxTempDag.get(t) > 770) {
                 p++;
                 if(!zomers)
                 {
@@ -312,18 +314,54 @@ public class StatisticsCalculator {
         return index;
     }
     
-    public static int[] langsteHitteGolfPeriode(ArrayList<Double> array)
-    {
-        int[] index = new int[2];
-        int index1 = 0;
-        int index2 = 0;
-        
-        //Code
-        
-        index[0] = index1;
-        index[1] = index2;
-        return index;
+
+    
+    public static Periode langsteHittegolfPeriode(ArrayList<Measurement> array){
+		double maxDay = 0;
+		ArrayList<Double> maxTempPerDay = new ArrayList<Double>();
+			
+		//calculate the max for every day
+		for(int i = 0; i < array.size(); i++){
+			if((i % 1440) == 0){
+				maxTempPerDay.add(maxDay);
+				maxDay = 0;
+			}
+			if(array.get(i).getRawOutsideTemp() > maxDay){
+				maxDay = array.get(i).getRawOutsideTemp();
+			}
+		}
+		
+		int periodLength = 0;
+		int maxPeriodLength = 5;
+		int numberOfTropicalDays = 0;
+	
+		Calendar begin = Calendar.getInstance();
+		Calendar eind = Calendar.getInstance();
+		Periode periode = new Periode(begin, eind, "Geen hittegolfperiode gevonden");
+		
+		for(int i = 0; i < maxTempPerDay.size(); i++){	
+			if( maxTempPerDay.get(i) >= 770){		// If the temperature is bigger then 25 degree Celcius (770 degree Fahrenheit) the summer period will start				
+				periodLength++;
+				if (maxTempPerDay.get(i) >= 860){	// If the temperature is bigger then 30 degree Celcius (860 degree Fahrenheit) it will add a tropical day					
+					numberOfTropicalDays++;
+				}
+			}else if(periodLength > maxPeriodLength && numberOfTropicalDays >= 3){					//period has ended. If it is bigger then 5 days AND there are 3 or more tropical days, the period is a heat wave	
+				maxPeriodLength = periodLength;
+				periodLength = 0;
+				numberOfTropicalDays = 0;
+				eind.setTimeInMillis(array.get((i-1)*1440).getDateStamp().getTime());
+				periode = new Periode(eind, begin, "Langste hittegolf periode");
+			}else{
+				numberOfTropicalDays = 0;
+				periodLength = 0;
+			}
+			if(periodLength == 5){
+				begin.setTimeInMillis(array.get((i-5)*1440).getDateStamp().getTime());
+			}
+		}
+		return periode;
     }
+    
     
     public static int[] langsteTempStijgingPeriode(ArrayList<Double> array)
     {
@@ -371,7 +409,7 @@ public class StatisticsCalculator {
                indexStart = indexEind;
             }
         } 
-    }
+    
     
         Integer tempMax = Collections.max(periodeLengteList); //onthoudt de grootste periode van een temp.stijging
         
@@ -390,4 +428,7 @@ public class StatisticsCalculator {
     }       
 }
     
-}
+
+
+    
+

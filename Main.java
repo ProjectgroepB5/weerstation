@@ -1,3 +1,4 @@
+package weerstation1;
  
 
 public class Main {

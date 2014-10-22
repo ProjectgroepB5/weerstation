@@ -1,13 +1,11 @@
- 
+package weerstation1;
 import java.util.ArrayList;
 
 public class WindChill extends Grootheid{
-    public ArrayList<Double> list;
-    
-    //constructor
+	//constructor
     public WindChill(Measurement measurement1, ArrayList<Measurement> measurement2){
-        list = new ArrayList<Double>();
-        updateRecent(measurement1);
+    	setName("WindChill");
+    	updateRecent(measurement1);
         updatePeriod(measurement2);
     }
 
@@ -16,18 +14,8 @@ public class WindChill extends Grootheid{
     }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        calculateMaxMin(list);
-        setAvg(StatisticsCalculator.avg(list));
-    }
-    
-    public void display(){
-        super.display();
-        GUIboard.writePageToMatrix("Gevoelstemp", "Gemiddelde: " + getAvg(), "");
-    }
-    
-    public void displayGraph()
-    {
-        GUIboard.writeGraphToMatrix(list, getMin(), getMax());
+        maxMin();
+        avg();
     }
     
     private void createList(ArrayList<Measurement> measurement2)
@@ -39,7 +27,7 @@ public class WindChill extends Grootheid{
         
         for(Measurement ms : measurement2)
         {
-            list.add(ms.getWindChill());
+            list.add((double)ms.getWindChill());
         }
     }
 }

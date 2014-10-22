@@ -1,8 +1,5 @@
+package weerstation1;
  
- 
-
-import java.util.ArrayList;
-
 public class Sun extends Grootheid{
 	
 	//fields
@@ -12,6 +9,8 @@ public class Sun extends Grootheid{
 	//constructor
 	public Sun(Measurement measurement1){
 		updateRecent(measurement1);
+		setName("Zons opkomst: " + sunRise);
+		setCustom("Zons ondergang: " + sunSet);		
 	}
 	
 	//Getters and setters
@@ -32,19 +31,12 @@ public class Sun extends Grootheid{
 		this.sunRise = sunRise;
 	}
 	
+    public void displayGraph()
+    {
+    }
+	
 	public void updateRecent(Measurement measurement1){
 		setSunSet(measurement1.getSunset());
 		setSunRise(measurement1.getSunrise());
 	}
-	
-	public void updatePeriod(ArrayList<Measurement> measurement2){
-	}
-	
-	public void display(){		
-		GUIboard.clearLeft();
-		GUIboard.clearRight();
-		GUIboard.clearTop();
-		GUIboard.writePageToMatrix("Sunset: " + sunSet, "Sunrise: " + sunRise, "");
-	}
-	
 }
