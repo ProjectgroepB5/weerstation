@@ -1,4 +1,4 @@
-package weerstation1;
+package weerstation;
 import java.util.ArrayList;
 
 public class WindDirection extends Grootheid{
@@ -14,16 +14,14 @@ public class WindDirection extends Grootheid{
     }
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
-        maxMin();
         modus();
     }
     
     public void displayGraph()
     {
         GUIboard.clearBottom();
-        char[] charray = "   West       East".toCharArray();
+        char[] charray = ("\n   West       East \n" + Calculator.windRichting((short)getCurrent())).toCharArray();
         
-        IO.writeShort(0x40, '\n'); 
         for(char ch : charray)
         {
             IO.writeShort(0x40, ch);
@@ -71,7 +69,11 @@ public class WindDirection extends Grootheid{
         int deltax = x2 - x1 ;
         int deltay = y2 - y1 ;
         for (x=x1; x<=x2; x++) {
-            y = y1 + deltay * (x - x1) / deltax;
+        	if(deltax == 0){
+        		y = y1 + deltay * (x - x1);
+        	}else{
+        		y = y1 + deltay * (x - x1) / deltax;
+        	}
             IO.writeShort(0x42, 1 << 12 | x << 5 | y);
         }
     }
