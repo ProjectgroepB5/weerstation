@@ -55,6 +55,309 @@ public class WeerstationConnector
     
     
     
+    //Get most recent value of all columns
+    public Measurement getMostRecentMeasurement()
+    {
+
+        Measurement m = new Measurement();
+
+        try
+        {
+            // query:
+            Statement s = myConn.createStatement();
+            s.executeQuery("SELECT stationId, timestamp, " +
+                    "barometer, " +
+                    "insideTemp, " +
+                    "insideHum, " +
+                    "outsideTemp, " +
+                    "windSpeed, " +
+                    "avgWindSpeed, " +
+                    "windDir, " +
+                    "outsideHum, " +
+                    "rainRate, " +
+                    "UVLevel, " +
+                    "solarRad, " +
+                    "xmitBatt, " +
+                    "battLevel, " +
+                    "sunrise, " +
+                    "sunset " +
+                    "FROM measurement order by measurementId desc limit 1");
+
+            ResultSet rs = s.getResultSet();
+            int count = 0;
+            while( rs.next() )
+            {
+                m.setStationId( rs.getString("stationId") );
+                m.setDateStamp( rs.getTimestamp(2));
+                m.setRawBarometer( Short.valueOf(rs.getString("barometer")) );
+                m.setRawInsideTemp( Short.valueOf(rs.getString("insideTemp")) );
+                m.setRawInsideHum( Short.valueOf(rs.getString("insideHum")) );
+                m.setRawOutsideTemp( Short.valueOf(rs.getString("outsideTemp")) );
+                m.setRawWindSpeed( Short.valueOf(rs.getString("windSpeed")) );
+                m.setRawAvgWindSpeed( Short.valueOf(rs.getString("avgWindSpeed")) );
+                m.setRawWindDir( Short.valueOf(rs.getString("windDir")) );
+                m.setRawOutsideHum( Short.valueOf(rs.getString("outsideHum")) );
+                m.setRawRainRate( Short.valueOf(rs.getString("rainRate")) );
+                m.setRawUVLevel( Short.valueOf(rs.getString("UVLevel")) );
+                m.setRawSolarRad( Short.valueOf(rs.getString("solarRad")) );
+                m.setRawXmitBatt( Short.valueOf(rs.getString("xmitBatt")) );
+                m.setRawBattLevel( Short.valueOf(rs.getString("battLevel")) );
+                m.setRawSunrise( Short.valueOf(rs.getString("sunrise")) );
+                m.setRawSunset( Short.valueOf(rs.getString("sunset")) );
+
+                count++;
+            }
+            rs.close();
+            s.close();
+        }
+        catch( SQLException ex)
+        {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        catch( Exception ex)
+        {
+                System.out.println("getMeasurement: " + ex.getMessage());
+        }
+
+        return m;
+    }
+
+    
+    
+    //Get specified values of all columns
+    public ArrayList<Measurement> getAllMeasurementsBetween(GregorianCalendar d1, GregorianCalendar d2)
+    {
+
+        String sd1 = d1.get(Calendar.YEAR) + "-" + (d1.get(Calendar.MONTH)+1) + "-" + d1.get(Calendar.DATE) + " 0:0:0";
+        String sd2 = d2.get(Calendar.YEAR) + "-" + (d2.get(Calendar.MONTH)+1) + "-" + d2.get(Calendar.DATE) + " 23:59:59";
+
+        ArrayList<Measurement> mArr = new ArrayList<Measurement>();
+
+        try
+        {
+            // query:
+            Statement s = myConn.createStatement();
+            s.executeQuery("SELECT stationId, timestamp, " +
+                    "barometer, " +
+                    "insideTemp, " +
+                    "insideHum, " +
+                    "outsideTemp, " +
+                    "windSpeed, " +
+                    "avgWindSpeed, " +
+                    "windDir, " +
+                    "outsideHum, " +
+                    "rainRate, " +
+                    "UVLevel, " +
+                    "solarRad, " +
+                    "xmitBatt, " +
+                    "battLevel, " +
+                    "sunrise, " +
+                    "sunset " +
+                    "FROM measurement where timestamp between " +
+                    "'" + sd1 + "' and '" + sd2 + "'");
+
+            ResultSet rs = s.getResultSet();
+            int count = 0;
+            
+            short prevBaro = 0;
+            short prevInsideTemp = 0;
+            short prevInsideHum = 0;
+            short prevOutsideTemp = 0;
+            short prevOutsideHum = 0;
+            short prevWindDir = 0;
+            short prevWindSpeed = 0;
+            short prevAvgWindSpeed = 0;
+            short prevRainRate = 0;
+            short prevUVLevel = 0;
+            short prevSolarRad = 0;
+            short prevSunrise = 0;
+            short prevSunset = 0;
+            
+            while( rs.next() )
+            {
+                Measurement m = new Measurement();
+
+                m.setStationId( rs.getString("stationId") );
+                m.setDateStamp( rs.getTimestamp(2));
+                m.setRawXmitBatt( Short.valueOf(rs.getString("xmitBatt")) );
+                m.setRawBattLevel( Short.valueOf(rs.getString("battLevel")) );
+                
+                //Check barometer
+                if(Short.valueOf(rs.getString("barometer"))==0)
+                {
+                    m.setRawBarometer( prevBaro );
+                }
+                else
+                {
+                    m.setRawBarometer( Short.valueOf(rs.getString("barometer")) );
+                }
+                prevBaro = m.getRawBarometer();
+                
+                //Check insideTemp
+                if(Short.valueOf(rs.getString("insideTemp"))==Short.MAX_VALUE)
+                {
+                    m.setRawInsideTemp( prevInsideTemp );
+                }
+                else
+                {
+                    m.setRawInsideTemp( Short.valueOf(rs.getString("insideTemp")) );
+                }
+                prevInsideTemp = m.getRawInsideTemp();
+                
+                //Check insideHum
+                if(Short.valueOf(rs.getString("insideHum"))==255)
+                {
+                    m.setRawInsideHum( prevInsideHum );
+                }
+                else
+                {
+                    m.setRawInsideHum( Short.valueOf(rs.getString("insideHum")) );
+                }
+                prevInsideHum = m.getRawInsideHum();
+                
+                //Check outsideTemp
+                if(Short.valueOf(rs.getString("outsideTemp"))==Short.MAX_VALUE)
+                {
+                    m.setRawOutsideTemp( prevOutsideTemp );
+                }
+                else
+                {
+                    m.setRawOutsideTemp( Short.valueOf(rs.getString("outsideTemp")) );
+                }
+                prevOutsideTemp = m.getRawOutsideTemp();
+                
+                //Check outsideHum
+                if(Short.valueOf(rs.getString("outsideHum"))==255)
+                {
+                    m.setRawOutsideHum( prevOutsideHum );
+                }
+                else
+                {
+                    m.setRawOutsideHum( Short.valueOf(rs.getString("outsideHum")) );
+                }
+                prevOutsideHum = m.getRawOutsideHum();
+                
+                //Check windDir
+                if(Short.valueOf(rs.getString("windDir"))==Short.MAX_VALUE)
+                {
+                    m.setRawWindDir( prevWindDir );
+                }
+                else
+                {
+                    m.setRawWindDir( Short.valueOf(rs.getString("windDir")) );
+                }
+                prevWindDir = m.getRawWindDir();
+                
+                //Check windSpeed
+                if(Short.valueOf(rs.getString("windSpeed"))==255)
+                {
+                    m.setRawWindSpeed( prevWindSpeed );
+                }
+                else
+                {
+                    m.setRawWindSpeed( Short.valueOf(rs.getString("windSpeed")) );
+                }
+                prevWindSpeed = m.getRawWindSpeed();
+                
+                //Check AvgWindSpeed
+                if(Short.valueOf(rs.getString("avgWindSpeed"))==255)
+                {
+                    m.setRawAvgWindSpeed( prevAvgWindSpeed );
+                }
+                else
+                {
+                    m.setRawAvgWindSpeed( Short.valueOf(rs.getString("avgWindSpeed")) );
+                }
+                prevAvgWindSpeed = m.getRawAvgWindSpeed();
+                
+                //Check RainRate
+                if(Short.valueOf(rs.getString("rainRate"))==Short.MAX_VALUE)
+                {
+                    m.setRawRainRate( prevRainRate );
+                }
+                else
+                {
+                    m.setRawRainRate( Short.valueOf(rs.getString("rainRate")) );
+                }
+                prevRainRate = m.getRawRainRate();
+                
+                //Check UVLevel
+                if(Short.valueOf(rs.getString("UVLevel"))==255)
+                {
+                    m.setRawUVLevel( prevUVLevel );
+                }
+                else
+                {
+                    m.setRawUVLevel( Short.valueOf(rs.getString("UVLevel")) );
+                }
+                prevUVLevel = m.getRawUVLevel();
+                
+                //Check solarRad
+                if(Short.valueOf(rs.getString("solarRad"))==Short.MAX_VALUE)
+                {
+                    m.setRawSolarRad( prevSolarRad );
+                }
+                else
+                {
+                    m.setRawSolarRad( Short.valueOf(rs.getString("solarRad")) );
+                }
+                prevSolarRad = m.getRawSolarRad();
+                
+                //Check sunrise
+                if(Short.valueOf(rs.getString("sunrise"))==Short.MAX_VALUE)
+                {
+                    m.setRawSunrise( prevSunrise );
+                }
+                else
+                {
+                    m.setRawSunrise( Short.valueOf(rs.getString("sunrise")) );
+                }
+                prevSunrise = m.getRawSunrise();
+                
+                //Check sunset
+                if(Short.valueOf(rs.getString("sunset"))==Short.MAX_VALUE)
+                {
+                    m.setRawSunset( prevSunset );
+                }
+                else
+                {
+                    m.setRawSunset( Short.valueOf(rs.getString("sunset")) );
+                }
+                prevSunset = m.getRawSunset();
+
+                mArr.add(m);
+
+                count++;
+            }
+            rs.close();
+            s.close();
+        }
+        catch( SQLException ex)
+        {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        catch( Exception ex)
+        {
+                System.out.println("getMeasurement: " + ex.getMessage());
+        }
+
+        return mArr;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //Get most recent values of one column
     public Timestamp getMostRecentTimeStamp()
@@ -169,9 +472,6 @@ public class WeerstationConnector
 
     }
 
-    
-    
-    
     //Get all values of one column
     public short[] getAllOutsideTemp()
     {
@@ -196,81 +496,6 @@ public class WeerstationConnector
         }
         return values;
     }
-
-
-    
-    
-    //Get most recent value of all columns
-    public Measurement getMostRecentMeasurement()
-    {
-
-        Measurement m = new Measurement();
-
-        try
-        {
-            // query:
-            Statement s = myConn.createStatement();
-            s.executeQuery("SELECT stationId, timestamp, " +
-                    "barometer, " +
-                    "insideTemp, " +
-                    "insideHum, " +
-                    "outsideTemp, " +
-                    "windSpeed, " +
-                    "avgWindSpeed, " +
-                    "windDir, " +
-                    "outsideHum, " +
-                    "rainRate, " +
-                    "UVLevel, " +
-                    "solarRad, " +
-                    "xmitBatt, " +
-                    "battLevel, " +
-                    "sunrise, " +
-                    "sunset " +
-                    "FROM measurement order by measurementId desc limit 1");
-
-            ResultSet rs = s.getResultSet();
-            int count = 0;
-            while( rs.next() )
-            {
-                m.setStationId( rs.getString("stationId") );
-                m.setDateStamp( rs.getTimestamp(2));
-                m.setRawBarometer( Short.valueOf(rs.getString("barometer")) );
-                m.setRawInsideTemp( Short.valueOf(rs.getString("insideTemp")) );
-                m.setRawInsideHum( Short.valueOf(rs.getString("insideHum")) );
-                m.setRawOutsideTemp( Short.valueOf(rs.getString("outsideTemp")) );
-                m.setRawWindSpeed( Short.valueOf(rs.getString("windSpeed")) );
-                m.setRawAvgWindSpeed( Short.valueOf(rs.getString("avgWindSpeed")) );
-                m.setRawWindDir( Short.valueOf(rs.getString("windDir")) );
-                m.setRawOutsideHum( Short.valueOf(rs.getString("outsideHum")) );
-                m.setRawRainRate( Short.valueOf(rs.getString("rainRate")) );
-                m.setRawUVLevel( Short.valueOf(rs.getString("UVLevel")) );
-                m.setRawSolarRad( Short.valueOf(rs.getString("solarRad")) );
-                m.setRawXmitBatt( Short.valueOf(rs.getString("xmitBatt")) );
-                m.setRawBattLevel( Short.valueOf(rs.getString("battLevel")) );
-                m.setRawSunrise( Short.valueOf(rs.getString("sunrise")) );
-                m.setRawSunset( Short.valueOf(rs.getString("sunset")) );
-
-                count++;
-            }
-            rs.close();
-            s.close();
-        }
-        catch( SQLException ex)
-        {
-                System.out.println("SQLException: " + ex.getMessage());
-                System.out.println("SQLState: " + ex.getSQLState());
-                System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        catch( Exception ex)
-        {
-                System.out.println("getMeasurement: " + ex.getMessage());
-        }
-
-        return m;
-    }
-
-
-    
     
     //Get all values of all columns
     public ArrayList<Measurement> getAllMeasurements()
@@ -345,98 +570,12 @@ public class WeerstationConnector
         return mArr;
     }
     
-    
-    
-    
-    //Get specified values of all columns
-    public ArrayList<Measurement> getAllMeasurementsBetween(GregorianCalendar d1, GregorianCalendar d2)
-    {
-
-        String sd1 = d1.get(Calendar.YEAR) + "-" + (d1.get(Calendar.MONTH)+1) + "-" + d1.get(Calendar.DATE) + " 0:0:0";
-        String sd2 = d2.get(Calendar.YEAR) + "-" + (d2.get(Calendar.MONTH)+1) + "-" + d2.get(Calendar.DATE) + " 23:59:59";
-
-        ArrayList<Measurement> mArr = new ArrayList<Measurement>();
-
-        try
-        {
-            // query:
-            Statement s = myConn.createStatement();
-            s.executeQuery("SELECT stationId, timestamp, " +
-                    "barometer, " +
-                    "insideTemp, " +
-                    "insideHum, " +
-                    "outsideTemp, " +
-                    "windSpeed, " +
-                    "avgWindSpeed, " +
-                    "windDir, " +
-                    "outsideHum, " +
-                    "rainRate, " +
-                    "UVLevel, " +
-                    "solarRad, " +
-                    "xmitBatt, " +
-                    "battLevel, " +
-                    "sunrise, " +
-                    "sunset " +
-                    "FROM measurement where timestamp between " +
-                    "'" + sd1 + "' and '" + sd2 + "'");
-
-            ResultSet rs = s.getResultSet();
-            int count = 0;
-            while( rs.next() )
-            {
-                Measurement m = new Measurement();
-
-                m.setStationId( rs.getString("stationId") );
-                m.setDateStamp( rs.getTimestamp(2));
-                m.setRawBarometer( Short.valueOf(rs.getString("barometer")) );
-                m.setRawInsideTemp( Short.valueOf(rs.getString("insideTemp")) );
-                m.setRawInsideHum( Short.valueOf(rs.getString("insideHum")) );
-                m.setRawOutsideTemp( Short.valueOf(rs.getString("outsideTemp")) );
-                m.setRawWindSpeed( Short.valueOf(rs.getString("windSpeed")) );
-                m.setRawAvgWindSpeed( Short.valueOf(rs.getString("avgWindSpeed")) );
-                m.setRawWindDir( Short.valueOf(rs.getString("windDir")) );
-                m.setRawOutsideHum( Short.valueOf(rs.getString("outsideHum")) );
-                m.setRawRainRate( Short.valueOf(rs.getString("rainRate")) );
-                m.setRawUVLevel( Short.valueOf(rs.getString("UVLevel")) );
-                m.setRawSolarRad( Short.valueOf(rs.getString("solarRad")) );
-                m.setRawXmitBatt( Short.valueOf(rs.getString("xmitBatt")) );
-                m.setRawBattLevel( Short.valueOf(rs.getString("battLevel")) );
-                m.setRawSunrise( Short.valueOf(rs.getString("sunrise")) );
-                m.setRawSunset( Short.valueOf(rs.getString("sunset")) );
-
-                mArr.add(m);
-
-                count++;
-            }
-            rs.close();
-            s.close();
-        }
-        catch( SQLException ex)
-        {
-                System.out.println("SQLException: " + ex.getMessage());
-                System.out.println("SQLState: " + ex.getSQLState());
-                System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        catch( Exception ex)
-        {
-                System.out.println("getMeasurement: " + ex.getMessage());
-        }
-
-        return mArr;
-    }
-
-    
-    
-    
     //Get last 86400 values of all columns
     public ArrayList<Measurement> getAllMeasurementsLast24h()
     {
         return getAllMeasurementsLastHours(24);
     }
 
-    
-    
-    
     //Get specified values of all columns
     public ArrayList<Measurement> getAllMeasurementsLastHours(int hour)
     {
@@ -511,10 +650,7 @@ public class WeerstationConnector
 
         return mArr;
     }
-    
-    
-    
-    
+
     //Exectute a custom query
     private ResultSet executeCustomQuery(String query)
     {
@@ -543,9 +679,6 @@ public class WeerstationConnector
         
         return returnSet;
     }
-    
-    
-    
     
     //Close connection with Database
     protected void finalize() throws Throwable
