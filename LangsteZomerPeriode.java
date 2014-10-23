@@ -1,4 +1,4 @@
-package weerstation1;
+ 
 import java.util.ArrayList;
 
 public class LangsteZomerPeriode extends Grootheid{
@@ -12,9 +12,6 @@ public class LangsteZomerPeriode extends Grootheid{
     public void updatePeriod(ArrayList<Measurement> measurement2){
         createList(measurement2);
         int[] index = StatisticsCalculator.langsteDroogstePeriode(list);
-        System.out.println(list.size());
-        System.out.println(index[0]);
-        System.out.println(index[1]);
         setPeriod(Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp()));
     }
     

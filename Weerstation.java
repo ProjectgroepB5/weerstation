@@ -69,13 +69,13 @@ public class Weerstation {
         periods.add(new Periode(now, calPeriod, "Jaar 2"));
         calPeriod = Calendar.getInstance(); 
         
-        System.out.println("Day: " + periods.get(0));
-        System.out.println("Week: " + periods.get(1));
-        System.out.println("Month: " + periods.get(2));
-        System.out.println("3 Months: " + periods.get(3));
-        System.out.println("6 Months: " + periods.get(4));
-        System.out.println("Year: " + periods.get(5));
-        System.out.println("2 Years: " + periods.get(6));
+        //Day       = 0
+        //Week      = 1
+        //Month     = 2
+        //3 Months  = 3
+        //6 Months  = 4
+        //Year      = 5
+        //2 years   = 6
         
         //Kies hier welke periode je wil laden, hij veranderd in een keer alles:
         final int periodeNr = 5;
