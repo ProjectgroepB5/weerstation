@@ -97,7 +97,7 @@ public class GUIboard {
      * @param lastSegment De digit waar geëindigd moet worden
      */
     private static void writeDigits(double number, int firstSegment, int lastSegment){
-
+        String numberString = "";
         //Segments
          int segA = 0x01;
          int segB = 0x02;
