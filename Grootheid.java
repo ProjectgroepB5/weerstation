@@ -1,3 +1,4 @@
+package weerstation1;
  
 import java.util.ArrayList;
 
@@ -123,7 +124,7 @@ public class Grootheid
         
     }
     
-    public void display(){
+    public void display(String periodname){
     	GUIboard.clearLeft();
     	GUIboard.clearRight();
     	GUIboard.clearTop();
@@ -138,13 +139,13 @@ public class Grootheid
     	}
     	if(!(statics_name == "")){
 
-    		GUIboard.writePageToMatrix(getName(), statics_name + getStatics(), "");
+    		GUIboard.writePageToMatrix(getName(), statics_name + getStatics(), periodname);
     	}else if(!(custom == "")){
 
-    		GUIboard.writePageToMatrix(getName(), custom, "");
+    		GUIboard.writePageToMatrix(getName(), custom, periodname);
     	}
     	if(!(period == null)){
-    		GUIboard.writePageToMatrix(getName(), period.toString(), "");   		
+    		GUIboard.writePageToMatrix(getName(), period.toString(), periodname);   		
     	}
     }
     
