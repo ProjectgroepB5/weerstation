@@ -97,7 +97,7 @@ public class GUIboard {
      * @param lastSegment De digit waar geëindigd moet worden
      */
     private static void writeDigits(double number, int firstSegment, int lastSegment){
-        number = Math.round(number * 100.0) / 100.0;
+
         //Segments
          int segA = 0x01;
          int segB = 0x02;
@@ -123,7 +123,14 @@ public class GUIboard {
         };
         
         int digit = firstSegment;
-        String numberString = String.valueOf(number);; 
+        
+        if( number == 0 || (number % (int)number == 0)){
+            numberString = String.valueOf((int)number);
+        }else{
+            numberString = String.valueOf(number);
+        }
+        
+        
         char numberSplit[] = numberString.toCharArray();
         
         for(int i = numberSplit.length-1; i >= 0; i--){ 
