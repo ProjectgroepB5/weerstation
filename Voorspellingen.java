@@ -1,8 +1,8 @@
  
 
 public class Voorspellingen extends Grootheid{
-	private double barometer;
-    
+private double barometer;
+
     //constructor
     public Voorspellingen(Measurement measurement1){
     	setName("Weersvoorspelling:");
@@ -11,10 +11,6 @@ public class Voorspellingen extends Grootheid{
 
     public void updateRecent(Measurement measurement1){
         barometer = measurement1.getBarometer();
-    }
-    
-    public void display()
-    {          
         if (barometer >= 1033 && barometer <= 1084)
         {
             setCustom("Mooi weer");
@@ -88,8 +84,8 @@ public class Voorspellingen extends Grootheid{
         }
     }
     
+    
     public void displayGraph()
     {
-        display();
     }
 }
