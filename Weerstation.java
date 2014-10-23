@@ -1,6 +1,3 @@
- 
- 
- 
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,7 +6,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ *  De main klasse die het hele programma aanstuurt
+ *  
+ *  @author Projectgroep B5
+ */
 public class Weerstation {
     WeerstationConnector weerstation1;
     
@@ -27,6 +28,9 @@ public class Weerstation {
     boolean startupState;
     boolean load;
     
+    /**
+     * Constructor voor weerstation
+     */
     public Weerstation(){
         now = Calendar.getInstance();
         calPeriod = Calendar.getInstance();
@@ -239,6 +243,11 @@ public class Weerstation {
         
     }
     
+    /**
+     * Start de animatie die speelt tijdens het opstarten en laden van het weerstation
+     * 
+     * @param starter De timer die de animatie laat lopen
+     */
     public void startStartupAnimatie()
     {
         starter.scheduleAtFixedRate(new TimerTask() {
@@ -299,12 +308,18 @@ public class Weerstation {
         }, 0, (128 + 1)*8);
     }
     
+    /**
+     * Stopt de animatie die speelt tijdens het opstarten en laden van het weerstation
+     */
     public void stopStartupAnimatie()
     {
         starter.cancel();
     }
     
-        public void startLoadAnimatie()
+    /**
+     * Start de animatie die speelt tijdens het laden op de achtergrond van het weerstation
+     */
+    public void startLoadAnimatie()
     {
         animator.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -325,11 +340,17 @@ public class Weerstation {
         }, 0, (128 + 1)*8);
     }
     
+    /**
+     * Stopt de animatie die speelt tijdens het laden op de achtergrond van het weerstation
+     */
     public void stopLoadAnimatie()
     {
         animator.cancel();
     }
     
+    /**
+     * Controleert de binnenkomende data op corrupte data en verwijderd deze
+     */
     public void checkData(){
         Iterator<Measurement> it = meting2.iterator();
         while( it.hasNext() )

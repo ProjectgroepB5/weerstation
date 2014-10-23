@@ -1,8 +1,14 @@
-package weerstation1;
+ 
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+
+/**
+ * Kan alle waarden uit de database omrekenen naar de Nederlands gangbare eenheden
+ * 
+ * @author Projectgroep B5
+ */
 public class Calculator {
     
     // Luchtdruk in hPa
@@ -146,6 +152,8 @@ public class Calculator {
     public static String sunSet(short mval){
         return sun(mval);
     }
+    
+    //Sunrise en Sunset tijden
     private static String sun(short sunRaw){
         String tijd = "";
         for(int i = 0; i <= 3; i++){
@@ -158,6 +166,7 @@ public class Calculator {
         return tijd;
     }
     
+    //Zonsterkte
     public static double solarRad(short mval){
         double zonSterkte = mval;
         return zonSterkte;
@@ -175,7 +184,7 @@ public class Calculator {
     }
     
     //Heatindex in celcius
-    //Tom met Malek
+    //Tom en Malek
     public static double heatIndex(double RH, double T)
     {
         double HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH;
@@ -192,6 +201,8 @@ public class Calculator {
        return dauwpunt;
     }
     
+    //Wolkhoogte in meters
+    //Malek
     public static double cloudHeight(double temp, short luchtVochtigheid ){
         double wolkhoogte = 125 * (temp-dewPoint(temp, luchtVochtigheid));
         return wolkhoogte; 

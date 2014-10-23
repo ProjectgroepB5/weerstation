@@ -1,20 +1,15 @@
-package weerstation1;
- 
-//
-// Port IO emulator class. All read/writes are send over TCP/IP to the host
-// using a dedicated protocol on port 81.
-// Use IO.init(host, port) to modify behaviour
-// by Wim Verhoef
-// Avans Hogeschool 's-Hertogenbosch
-//
-// @author  Wim Verhoef
-// @version 1.1, December 6 2004
-//
 
 import java.io.*;
 import java.net.*;
 
-public class IO {
+/**
+ * Een interface om te kunnen praten met het GUIboard
+ * 
+ * @author Wim Verhoef
+ * @version 1.1
+ */
+public class IO 
+{
   public static String host = "localhost";
   public static int port = 81;
 
@@ -84,7 +79,7 @@ public class IO {
     }
   }
 
-//============================= below are the support routines =====================
+  //============================= below are the support routines =====================
 
   private static Socket client = null;
   private static DataOutputStream output = null;

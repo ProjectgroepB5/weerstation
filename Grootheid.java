@@ -1,6 +1,12 @@
-package weerstation1;
+ 
 import java.util.ArrayList;
 
+/**
+ * Dient als Parent voor alle grootheden en zorgt voor een constante interface
+ * 
+ * @author Kenneth van Ewijk
+ * @author Janco Kock
+ */
 public class Grootheid
 {
     // instance variables - replace the example below with your own

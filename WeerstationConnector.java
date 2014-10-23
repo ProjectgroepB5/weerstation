@@ -1,4 +1,4 @@
-package weerstation1;
+ 
  
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * Connect met de database
+ * 
+ * @author Diederich Kroeske
+ * @version 2
+ */
 public class WeerstationConnector
 {
 

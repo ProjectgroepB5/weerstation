@@ -1,15 +1,27 @@
-package weerstation1;
- 
 
 import java.util.ArrayList;
 
+/**
+ * Biedt een makkelijke interface om data weer te geven op het GUIBoard
+ * 
+ * @author Kenneth van Ewijk
+ * @author Janco Kock
+ */
 public class GUIboard {
     
+    /**
+     * Initaliseert de verbinding met het GUIBoard
+     */
     public static void init()
     {
         IO.init();
     }
 
+    /**
+     * Schrijft een getal naar de bovenste digits van het GUIBoard
+     * 
+     * @param number Het getal dat je wilt weergeven
+     */
     public static void writeUpperDigits(double number){
         clearTop();
         
@@ -29,6 +41,11 @@ public class GUIboard {
         writeDigits(number, 0x10, 0x18);
     }
     
+    /**
+     * Schrijft een getal naar de linker digits van het GUIBoard
+     * 
+     * @param number Het getal dat je wilt weergeven
+     */
     public static void writeLeftDigits(double number){
         clearLeft();
         
@@ -48,6 +65,11 @@ public class GUIboard {
         writeDigits(number, 0x20, 0x24);
     }
     
+    /**
+     * Schrijft een getal naar de rechter digits van het GUIBoard
+     * 
+     * @param number Het getal dat je wilt weergeven
+     */
     public static void writeRightDigits(double number){
         clearRight();
         
@@ -67,6 +89,13 @@ public class GUIboard {
         writeDigits(number, 0x30, 0x34);
     }
     
+    /**
+     * Private methode die het schrijven van een getal naar een digit uitvoert
+     * 
+     * @param number Het getal dat je wilt weergeven
+     * @param firstSegment De digit waar begonnen moet worden
+     * @param lastSegment De digit waar geëindigd moet worden
+     */
     private static void writeDigits(double number, int firstSegment, int lastSegment){
         number = Math.round(number * 100.0) / 100.0;
         //Segments
@@ -113,7 +142,13 @@ public class GUIboard {
         }
     }
 
-    
+    /**
+     * Schrijft een standaard pagina naar het matrix scherm van het GUIBoard
+     * 
+     * @param regel1 De tekst die je op de eerste regel wilt weergeven. Normaliter de naam
+     * @param regel2 De tekst die je op de tweede regel wilt weergeven.
+     * @param regel3 De tekst die je op de derde regel wilt weergeven. Wordt standaard gevolgd door de navigatie.
+     */
     public static boolean writePageToMatrix(String regel1, String regel2, String regel3)
     {
         clearBottom();
@@ -168,6 +203,13 @@ public class GUIboard {
         return true;
     }
     
+    /**
+     * Schrijft een grafiek naar het matrix display van het GUIBoard
+     * 
+     * @param msList ArrayList met alle meetwaarden die je wilt weergeven in grafiekvorm
+     * @param min De minimale waarden die bij msList hoort
+     * @param max De maximale waarden die bij msList hoort
+     */
     public static void writeGraphToMatrix(ArrayList<Double> msList, double min, double max)
     {
         clearBottom();
@@ -191,7 +233,12 @@ public class GUIboard {
         }
     }
     
-    //Private functions
+    /**
+     * Berekent of er assen moeten worden getekend. Zo ja, berekent ook waar en tekent ze vervolgens.
+     * 
+     * @param min De minimale waarden die zal worden weergegeven
+     * @param max De maximale waarden die zal worden weergegeven
+     */
     public static void createAxis(double min, double max)
     {        
         int x,y;
@@ -215,6 +262,14 @@ public class GUIboard {
         }
     }
     
+    /**
+     * Probeert de data te controleren en aan te passen om een vloeierende grafiek te kunnen tekenen
+     * 
+     * @param data2 ArrayList met alle meetwaarden die je wilt weergeven in grafiekvorm
+     * @param margin Waarde die aangeeft wanneer een waarde teveel afwijkt van het berekende gemiddelde
+     * 
+     * @return ArrayList met genormaliseerde data
+     */
     private static ArrayList<Double> normalizeData(ArrayList<Double> data2 , double margin){
         
         ArrayList<Double> data = new ArrayList<Double>();
@@ -265,7 +320,9 @@ public class GUIboard {
         return data;
     }
     
-    
+    /**
+     * Wis de bovenste digits
+     */
     public  static void clearTop()
     {
          IO.writeShort(0x10, 0x100 | 0x0);
@@ -275,6 +332,9 @@ public class GUIboard {
          IO.writeShort(0x18, 0x100 | 0x0);
     }
     
+    /**
+     * Wis de linker digits
+     */
     public  static void clearLeft()
     {
         IO.writeShort(0x24, 0x100 | 0x0);
@@ -282,6 +342,9 @@ public class GUIboard {
         IO.writeShort(0x20, 0x100 | 0x0);
     }
     
+    /**
+     * Wis de rechter digits
+     */
     public  static void clearRight()
     {
         IO.writeShort(0x34, 0x100 | 0x0);
@@ -289,6 +352,9 @@ public class GUIboard {
         IO.writeShort(0x30, 0x100 | 0x0);
     }
     
+    /**
+     * Wis het matrix display
+     */
     public static void clearBottom()
     {
         IO.writeShort(0x40, 0xFE);

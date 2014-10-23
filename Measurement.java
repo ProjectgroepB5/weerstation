@@ -1,8 +1,13 @@
-package weerstation1;
+ 
  
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 
+/**
+ * Klasse die per instantie alle meetgegevens van één meetpunt opslaat.
+ * 
+ * @author Kenneth van Ewijk
+ */
 public class Measurement
 {
 
@@ -123,6 +128,11 @@ public class Measurement
     //wolkHoogte
     public double getCloudHeight () { return round(Calculator.cloudHeight(outsideTemp, outsideHum),1); };
 
+    /**
+     * Zet alle data in een Measurement om naar een string
+     * 
+     * @return Alle waarden in een string
+     */
     public String toString()
     {
         String s = "stationId = " + stationId
@@ -145,12 +155,19 @@ public class Measurement
         return s; 
     } 
     
-    //afronder
- public double round(double unrounded, int precision)
- {
-     BigDecimal bd = new BigDecimal(unrounded);
-     BigDecimal rounded = bd.setScale(precision, BigDecimal.ROUND_HALF_UP);
-     return rounded.doubleValue();
- }  
+    /**
+     * Rond een waarde af op een aangegeven aantal getallen achter de komma
+     * 
+     * @param unrounded Het getal dat afgerond moet worden
+     * @param precision Het aantal getallen dat achter de komma moet blijven staan
+     * 
+     * @return Het afgeronde getal
+     */
+    private double round(double unrounded, int precision)
+    {
+        BigDecimal bd = new BigDecimal(unrounded);
+        BigDecimal rounded = bd.setScale(precision, BigDecimal.ROUND_HALF_UP);
+        return rounded.doubleValue();
+    }  
     
 }

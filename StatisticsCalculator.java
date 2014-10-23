@@ -5,8 +5,20 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * Berekent allerlei statistische waarden voor de gegeven data
+ * 
+ * @author Projectgroep B5
+ */
 public class StatisticsCalculator {
     
+    /**
+     * Berekent de maximale waarde
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden maximale waarde
+     */
     public static double max(ArrayList<Double> array)
     {
         double max = 0;
@@ -20,6 +32,13 @@ public class StatisticsCalculator {
         return max;
     }
     
+    /**
+     * Berekent de minimale waarde
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden minimale waarde
+     */
     public static double min(ArrayList<Double> array)
     {
         double min = array.get(0);
@@ -33,6 +52,13 @@ public class StatisticsCalculator {
         return min;
     }
     
+    /**
+     * Berekent de gemiddelde waarde
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden gemiddelde waarde
+     */
     public static double avg(ArrayList<Double> array)
     {
         double avg = 0;
@@ -44,6 +70,13 @@ public class StatisticsCalculator {
         return avg;
     }
     
+    /**
+     * Berekent de mediaan
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden mediaan
+     */
       public static double median(ArrayList<Double> array2){
         ArrayList<Double> array = new ArrayList<Double>();
         
@@ -65,6 +98,13 @@ public class StatisticsCalculator {
         return median;
     }
     
+    /**
+     * Berekent de modus
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden modus
+     */
     public static double modus(ArrayList<Double> array){
         Map<Double,Integer> map = new HashMap<Double,Integer>();
         for(double number : array)
@@ -89,6 +129,13 @@ public class StatisticsCalculator {
         return maxKey;
     }   
         
+    /**
+     * Berekent de afwijking
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden afwijking
+     */
     public static double afwijking(ArrayList<Double> array){
         double mediaan = StatisticsCalculator.median(array);
         double afwijking = 0; 
@@ -226,6 +273,13 @@ public class StatisticsCalculator {
         return index;
     }
     
+    /**
+     * Berekent de totale regenval
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De gevonden totale regenval
+     */
     public static short maximaleRegenPeriode(ArrayList<Double> array)
     {
         short regen = 0;
@@ -254,6 +308,13 @@ public class StatisticsCalculator {
         return totaleRegen;
     }
     
+    /**
+     * Berekent de langste periode waarin het boven 25 graden celcius is geweest
+     * 
+     * @param array Een ArrayList met alle waarden
+     * 
+     * @return De posities van de begin en eindtijd in de array van de periode
+     */
     public static int[] langsteZomersePeriode(ArrayList<Double> array)
     {
       
