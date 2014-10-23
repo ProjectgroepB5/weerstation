@@ -78,7 +78,7 @@ public class Weerstation {
         //2 years   = 6
         
         //Kies hier welke periode je wil laden, hij veranderd in een keer alles:
-        final int periodeNr = 5;
+        final int periodeNr = 2;
         
         weerstation1 = new WeerstationConnector();
         meting1 = weerstation1.getMostRecentMeasurement();
@@ -89,9 +89,9 @@ public class Weerstation {
         wait = true;
         graph = false;
         Timer timer = new Timer();
-        checkData();
+        
+        
         //All the different screen classes
-    
         final List<Grootheid> lstScreens = new ArrayList<Grootheid>();
         
         lstScreens.add(new OutsideTemp(meting1, meting2));          //Buitentemperatuur
@@ -346,20 +346,5 @@ public class Weerstation {
     public void stopLoadAnimatie()
     {
         animator.cancel();
-    }
-    
-    /**
-     * Controleert de binnenkomende data op corrupte data en verwijderd deze
-     */
-    public void checkData(){
-        Iterator<Measurement> it = meting2.iterator();
-        while( it.hasNext() )
-        {
-            Measurement m = it.next();
-            if(m.getRawOutsideTemp() >= Short.MAX_VALUE)
-            {
-                it.remove();
-            }
-        }
     }
 }
