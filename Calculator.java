@@ -185,11 +185,28 @@ public class Calculator {
     
     //Heatindex in celcius
     //Tom en Malek
-    public static double heatIndex(double RH, double T)
-    {
-        double HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH;
-        double heatindex = Calculator.temperatuur( (short) (HI*10) );
-        return heatindex;
+    public static double heatIndex(short RH, short T2)
+    {        
+            double T = T2/10;
+            double HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH;
+                
+            if (RH < 13 && T < 112 && T > 80)
+            {
+                HI =- ((13-RH)/4)*Math.sqrt((17-Math.abs(T-95.))/17);
+            }
+            
+            if (RH > 85 && T < 87 && T > 80)
+            {
+                HI =+ ((RH-85)/10) * ((87-T)/5);
+            }
+            
+            if (T > 80)
+            {
+                HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094));
+            }
+            
+            double heatindex = Calculator.temperatuur( (short) (HI*10) );   
+            return heatindex;     
     }
     
     //Dauwpunt in Celcius
