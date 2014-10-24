@@ -1,4 +1,3 @@
-package weerstation1;
 import java.util.ArrayList;
 
 public class LangsteHittegolfPeriode extends Grootheid{
