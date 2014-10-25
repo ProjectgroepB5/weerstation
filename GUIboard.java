@@ -1,3 +1,4 @@
+package weerstation;
 
 import java.util.ArrayList;
 
@@ -156,15 +157,25 @@ public class GUIboard {
      * @param regel2 De tekst die je op de tweede regel wilt weergeven.
      * @param regel3 De tekst die je op de derde regel wilt weergeven. Wordt standaard gevolgd door de navigatie.
      */
-    public static boolean writePageToMatrix(String regel1, String regel2, String regel3)
+    public static boolean writePageToMatrix(String regel1, String regel2, String regel3, Boolean pPeriod, Boolean pScreen)
     {
+        String p = "||";
+        String s = "||";
+        
+    	if(pPeriod){
+    		p = "|>";
+    	}
+    	if(pScreen){
+    		s = "|>";
+    	}
+    	
         clearBottom();
         if(regel1.length() > 20 && regel2.length() > 20 && regel3.length() > 11) //check if the length is not to long
         {
             return false;
         }
         
-        String nav = "<   >  S";                            //creates the navigation and will center it out to the right
+        String nav = p + " " + s + "  G";                            //creates the navigation and will center it out to the right
         
         for(int i=0; i < (12-regel3.length()); i++){
             nav = " " + nav;

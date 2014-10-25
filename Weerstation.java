@@ -1,3 +1,4 @@
+package weerstation;
  
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,51 +90,20 @@ public class Weerstation{
             {
                 if(button2)
                 {
-                    currentScreen++;
-                    if (currentScreen+1 > periodsScreens.get(periodeNr).size())
-                    {
-                        currentScreen = 0;
-                        if(button1)
-                        {
-                            periodeNr++;
-                            if (currentScreen+1 > periodsScreens.get(periodeNr).size())
-                            {
-                                currentScreen = 0;
-                            }
-                        }
-                    }
+                	nextScreen();
                 }
                 else if(button1)
                 {
-                    periodeNr++;
-                    if (currentScreen+1 > periodsScreens.get(periodeNr).size())
-                    {
-                        currentScreen = 0;
-                    }
+                	nextPeriod();
                 }
-                
-                if(periodeNr+1 > periodsScreens.size())
-                {
-                    periodeNr = 0;
-                    if (currentScreen+1 > periodsScreens.get(periodeNr).size())
-                    {
-                        currentScreen = 0;
-                    }
-                }
-                Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-                
+
                 if(button3)
                 {
-                    if(!graphIsDisplayed)
-                    {
-                        obj.displayGraph();
-                        graphIsDisplayed = true;
-                    }
+                	displayGraph();
                 }
                 else
                 {
-                    obj.display(periods.get(periodeNr).getName());
-                    graphIsDisplayed = false;
+                	displayMain();
                 }
             }
         }, 0, 5*1000);
@@ -157,36 +127,37 @@ public class Weerstation{
         //Button checker
         timer.scheduleAtFixedRate( new TimerTask() 
         {
-            public void run() 
-            {
+        	boolean oldButton1, oldButton2;
+            public void run() {
                 if(IO.readShort(0x0090) == 1){  //Blauw 1 aan
-                    button1 = true;
+                	button1 = true;
                 }else{
-                    button1 = false;
+                	button1 = false;
                 }
                 if(IO.readShort(0x00100) == 1){  //Blauw 2 aan
                     button2 = true;
                 }else{
-                    button2 = false;
+                	button2 = false;
                 }
-               
-                Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-               
                 if(IO.readShort(0x0080) == 1){  //Rood aan
                     button3 = true;
-                    if(!graphIsDisplayed){
-                        obj.displayGraph();
-                        graphIsDisplayed = true;
-                    }
+                    displayGraph();
                 }else{
-                    if(graphIsDisplayed){
-                        obj.display(periods.get(periodeNr).getName());
-                        graphIsDisplayed = false;
-                    }
-                    button3 = false;    
+                	button3 = false;	
+                	if(graphIsDisplayed){
+                		displayMain();
+                	}
+                }
+                if(button2 == !oldButton2){ // If the button is changed, the play/pauze icon wil be updated
+            		displayMain();
+            		oldButton2 = button2;
+                }
+                if(button1 == !oldButton1){ // If the button is changed, the play/pauze icon wil be updated
+            		displayMain();
+            		oldButton1 = button1;
                 }
             }
-        }, 0, 100);
+        }, 0, 200);
     }
     
     public void createPeriods()
@@ -570,6 +541,41 @@ public class Weerstation{
     public void stopLoadAnimatie()
     {
         animator.cancel();
+    }
+    
+    public void nextScreen(){	//Set the next screen one screen higher
+    	currentScreen++;
+		if (currentScreen >= periodsScreens.get(periodeNr).size()){
+			currentScreen = 0;
+			if(button1){
+				nextPeriod();
+			}
+		}
+    }
+    
+    public void nextPeriod(){ //Set the next period one period higher
+		periodeNr++;
+		if(periodeNr >= periodsScreens.size()){
+			periodeNr = 0;
+            if (currentScreen+1 > periodsScreens.get(periodeNr).size())	
+            {
+                currentScreen = 0;
+            }
+		}
+    }
+
+    public void displayGraph(){
+    	if(!graphIsDisplayed){
+            Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
+			obj.displayGraph();
+			graphIsDisplayed = true;
+		}
+    }
+    
+    public void displayMain(){
+        Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
+   		obj.display(periods.get(periodeNr).getName(), button1, button2);
+    	graphIsDisplayed = false;
     }
 }
 

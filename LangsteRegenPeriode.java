@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class LangsteRegenPeriode extends Grootheid{
@@ -25,7 +26,7 @@ public class LangsteRegenPeriode extends Grootheid{
     
     public void display()
     {
-        GUIboard.writePageToMatrix("Langste Regen Periode", regenPeriode.toString(), "");
+        GUIboard.writePageToMatrix("Langste Regen Periode", regenPeriode.toString(), "", true, true);
     }
     
     public void displayGraph()

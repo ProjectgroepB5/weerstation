@@ -1,4 +1,4 @@
-package weerstation1;
+package weerstation;
 
     
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class GraadDagen extends Grootheid{
     }
     
     public void display(){
-        GUIboard.writePageToMatrix("Aantal Graaddagen", graadDagen + "", "");
+        GUIboard.writePageToMatrix("Aantal Graaddagen", graadDagen + "", "", true, true);
     }
     
     public void displayGraph()

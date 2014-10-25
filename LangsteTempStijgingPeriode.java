@@ -1,3 +1,4 @@
+package weerstation;
 import java.util.ArrayList;
 
 public class LangsteTempStijgingPeriode extends Grootheid
@@ -31,7 +32,7 @@ public class LangsteTempStijgingPeriode extends Grootheid
     
     public void display()
     {
-        GUIboard.writePageToMatrix("Langste temp.stijging", StijgingPeriode.toString(), "");
+        GUIboard.writePageToMatrix("Langste temp.stijging", StijgingPeriode.toString(), "", true, true);
     }
     
     public void displayGraph()
