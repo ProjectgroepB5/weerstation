@@ -1,4 +1,4 @@
-package weerstation;
+ 
 import java.util.ArrayList;
 
 public class LangsteTempStijgingPeriode extends Grootheid
@@ -11,20 +11,12 @@ public class LangsteTempStijgingPeriode extends Grootheid
     {
         list = new ArrayList<Double>();
         StijgingPeriode = new Periode("TempStijgingsperiode");
-        updateRecent(measurement1);
         updatePeriod(measurement2);
-    }
-
-    
-    public void updateRecent(Measurement measurement1)
-    {
-        setCurrent(measurement1.getOutsideTemp());
     }
     
     public void updatePeriod(ArrayList<Measurement> measurement2)
     {
         createList(measurement2);
-        
         
         int[] index = StatisticsCalculator.langsteTempStijgingPeriode(list);
         StijgingPeriode= Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());
@@ -35,10 +27,7 @@ public class LangsteTempStijgingPeriode extends Grootheid
         GUIboard.writePageToMatrix("Langste temp.stijging", StijgingPeriode.toString(), "", true, true);
     }
     
-    public void displayGraph()
-    {
-        display();
-    }
+    public void displayGraph(){}
     
     private void createList(ArrayList<Measurement> measurement2)
     {

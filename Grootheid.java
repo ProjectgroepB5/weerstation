@@ -1,4 +1,4 @@
-package weerstation;
+ 
  
 import java.util.ArrayList;
 
@@ -124,7 +124,7 @@ public class Grootheid
         
     }
     
-    public void display(String periodname, Boolean p, Boolean s){
+    public void display(String periodname, boolean p, boolean s){
     	GUIboard.clearLeft();
     	GUIboard.clearRight();
     	GUIboard.clearTop();
@@ -148,7 +148,7 @@ public class Grootheid
     		GUIboard.writePageToMatrix(getName(), period.toString(), periodname, p, s);   		
     	}
     }
-    
+        
     public void displayGraph()
     {
         GUIboard.writeGraphToMatrix(list, getMin(), getMax());

@@ -12,8 +12,5 @@ public class LangsteHittegolfPeriode extends Grootheid{
         setPeriod(StatisticsCalculator.langsteHittegolfPeriode(list));
     }
     
-    public void displayGraph()
-    {
-    }
-    
+    public void displayGraph(){}
 }

@@ -1,4 +1,4 @@
-package weerstation;
+ 
 
     
 import java.util.ArrayList;
@@ -11,28 +11,19 @@ public class GraadDagen extends Grootheid{
     public GraadDagen(Measurement measurement1, ArrayList<Measurement> measurement2){
         list = new ArrayList<Double>();
         graadDagen = 0;
-        updateRecent(measurement1);
         updatePeriod(measurement2);
     }
 
-    
-    public void updateRecent(Measurement measurement1){
-        setCurrent(measurement1.getOutsideTemp());
-    }
     public void updatePeriod(ArrayList<Measurement> measurement2){
-        createList(measurement2);
-                
+        createList(measurement2); 
         graadDagen = StatisticsCalculator.graadDagen(list);
     }
     
-    public void display(){
-        GUIboard.writePageToMatrix("Aantal Graaddagen", graadDagen + "", "", true, true);
+    public void display(String periode, boolean knop1, boolean knop2){
+        GUIboard.writePageToMatrix("Aantal Graaddagen", graadDagen + "", periode, knop1, knop2);
     }
     
-    public void displayGraph()
-    {
-        display();
-    }
+    public void displayGraph(){}
     
     private void createList(ArrayList<Measurement> measurement2)
     {

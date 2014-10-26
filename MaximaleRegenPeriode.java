@@ -1,4 +1,4 @@
-package weerstation1;
+ 
 import java.util.ArrayList;
 
 public class MaximaleRegenPeriode extends Grootheid{
@@ -14,11 +14,7 @@ public class MaximaleRegenPeriode extends Grootheid{
         setCustom(StatisticsCalculator.maximaleRegenPeriode(list) + " ");
     }
     
-
-    public void displayGraph()
-    {
-    }
-    
+    public void displayGraph(){}
     
     private void createList(ArrayList<Measurement> measurement2)
     {
