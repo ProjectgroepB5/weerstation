@@ -188,14 +188,14 @@ public class StatisticsCalculator {
         return graaddagen;
     }
     
-    public static int[] langsteDroogstePeriode(ArrayList<Double> array)
+    public static int langsteDroogstePeriode(ArrayList<Double> array)
     {
         return langsteDroogstePeriodeMetMax(array, 0);
     }
     
-    public static int[] langsteDroogstePeriodeMetMax(ArrayList<Double> array, int maxNeerslag)
-    {
-	int i = 0;
+    public static int langsteDroogstePeriodeMetMax(ArrayList<Double> array, int maxNeerslag)
+    {    
+        int i = 0;
         double maximaleRegenval = 0;
         ArrayList<Double> maxRegenval = new ArrayList<Double>();
         for(double rainAmount : array)
@@ -212,15 +212,11 @@ public class StatisticsCalculator {
             }
         }
         int periode = 0;
-        int aantalDagen = 0;
         int langstePeriode = 0;
-        ArrayList<Integer> periodes = new ArrayList<Integer>();
         for(int r=0; r<maxRegenval.size(); r++)
         {
             if(maxRegenval.get(r) > maxNeerslag)
             {
-                r++;
-                periodes.add(periode);
                 periode = 0;
             }
             else
