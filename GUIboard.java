@@ -1,4 +1,4 @@
-package weerstation;
+ 
 
 import java.util.ArrayList;
 
@@ -159,25 +159,16 @@ public class GUIboard {
      */
     public static boolean writePageToMatrix(String regel1, String regel2, String regel3, Boolean pPeriod, Boolean pScreen)
     {
-        String p = "||";
-        String s = "||";
-        
-    	if(pPeriod){
-    		p = "|>";
-    	}
-    	if(pScreen){
-    		s = "|>";
-    	}
-    	
         clearBottom();
         if(regel1.length() > 20 && regel2.length() > 20 && regel3.length() > 11) //check if the length is not to long
         {
             return false;
         }
         
-        String nav = p + " " + s + "  G";                            //creates the navigation and will center it out to the right
+        String nav = "G";                            //creates the navigation and will center it out to the right
         
-        for(int i=0; i < (12-regel3.length()); i++){
+        for(int i=0; i < (19-regel3.length()); i++)
+        {
             nav = " " + nav;
         }
         char[] regel1CharArray = regel1.toCharArray();
@@ -216,6 +207,90 @@ public class GUIboard {
         for(char ch : regel3CharArray)
         {
             IO.writeShort(0x40, ch);
+        }
+        
+        
+        //Draw the play/pause
+        if(pPeriod)
+        {
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 28);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 22);
+            
+            IO.writeShort(0x42, 1 << 12 | 77 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 77 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 77 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 77 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 77 << 5 | 23);
+            
+            IO.writeShort(0x42, 1 << 12 | 78 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 78 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 78 << 5 | 24);
+            
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 25);
+        }
+        else
+        {
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 28);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 76 << 5 | 22);
+            
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 28);
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 79 << 5 | 22);
+        }
+        
+        if(pScreen)
+        {
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 28);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 22);
+            
+            IO.writeShort(0x42, 1 << 12 | 97 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 97 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 97 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 97 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 97 << 5 | 23);
+            
+            IO.writeShort(0x42, 1 << 12 | 98 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 98 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 98 << 5 | 24);
+            
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 25);
+        }
+        else
+        {
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 28);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 96 << 5 | 22);
+            
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 28);
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 99 << 5 | 22);
         }
         
         return true;
