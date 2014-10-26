@@ -373,6 +373,7 @@ public class Weerstation{
                 month6.add(new LangsteHittegolfPeriode(meting1, meting2));          //Langste Hittegolf Periode
                 month6.add(new LangsteZomerPeriode(meting1, meting2));              //Langste Zomerse Periode
                 month6.add(new LangsteRegenPeriode(meting1, meting2));              //Langste Regen Periode
+                month6.add(new LangsteDroogstePeriode(meting1, meting2));           //Langste Droogste Periode
                 //month6.add(new LangsteTempStijgingPeriode(meting1, meting2));     //Langste temperatuurstijging
                 
                 periodsScreens.add(month6);
@@ -406,6 +407,7 @@ public class Weerstation{
                 year.add(new LangsteHittegolfPeriode(meting1, meting2));          //Langste Hittegolf Periode
                 year.add(new LangsteZomerPeriode(meting1, meting2));              //Langste Zomerse Periode
                 year.add(new LangsteRegenPeriode(meting1, meting2));              //Langste Regen Periode
+                year.add(new LangsteDroogstePeriode(meting1, meting2));           //Langste Droogste Periode
                 //year.add(new LangsteTempStijgingPeriode(meting1, meting2));     //Langste temperatuurstijging
                 
                 periodsScreens.add(year);
@@ -438,7 +440,9 @@ public class Weerstation{
                 year2.add(new GraadDagen(meting1, meting2));                       //Aantal graaddagen in een periode
                 year2.add(new LangsteHittegolfPeriode(meting1, meting2));          //Langste Hittegolf Periode
                 year2.add(new LangsteZomerPeriode(meting1, meting2));              //Langste Zomerse Periode
-                year2.add(new LangsteRegenPeriode(meting1, meting2));              //Langste Regen Periode
+                year2.add(new LangsteRegenPeriode(meting1, meting2)); 
+                year2.add(new LangsteDroogstePeriode(meting1, meting2));           //Langste Droogste Periode
+                //Langste Regen Periode
                 //year2.add(new LangsteTempStijgingPeriode(meting1, meting2));     //Langste temperatuurstijging
                 
                 periodsScreens.add(year2);
