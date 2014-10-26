@@ -435,7 +435,6 @@ public class StatisticsCalculator {
 		Periode periode = new Periode(begin, eind, "Geen hittegolfperiode gevonden");
 		
 		for(int i = 0; i < maxTempPerDay.size(); i++){	
-			System.out.println(maxTempPerDay.get(i));
 			if( maxTempPerDay.get(i).getRawOutsideTemp() >= 770){		// If the temperature is bigger then 25 degree Celcius (770 degree Fahrenheit) the summer period will start				
 				periodLength++;
 				if (maxTempPerDay.get(i).getRawOutsideTemp() >= 860){	// If the temperature is bigger then 30 degree Celcius (860 degree Fahrenheit) it will add a tropical day					
