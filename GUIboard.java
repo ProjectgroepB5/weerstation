@@ -165,15 +165,9 @@ public class GUIboard {
             return false;
         }
         
-        String nav = "G";                            //creates the navigation and will center it out to the right
-        
-        for(int i=0; i < (19-regel3.length()); i++)
-        {
-            nav = " " + nav;
-        }
         char[] regel1CharArray = regel1.toCharArray();
         char[] regel2CharArray = regel2.toCharArray();
-        char[] regel3CharArray  = (regel3 + nav).toCharArray();
+        char[] regel3CharArray = regel3.toCharArray();
         
         double centerMargins = 20-regel1CharArray.length;
         int centerLeft = (int) Math.floor(centerMargins/2.0);
@@ -292,6 +286,42 @@ public class GUIboard {
             IO.writeShort(0x42, 1 << 12 | 99 << 5 | 23);
             IO.writeShort(0x42, 1 << 12 | 99 << 5 | 22);
         }
+        
+        //Grafiek knop
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 27);
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 26);
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 25);
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 24);
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 23);
+        IO.writeShort(0x42, 1 << 12 | 113 << 5 | 22);
+        
+        IO.writeShort(0x42, 1 << 12 | 114 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 114 << 5 | 27);
+        
+        IO.writeShort(0x42, 1 << 12 | 115 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 115 << 5 | 26);
+        
+        IO.writeShort(0x42, 1 << 12 | 116 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 116 << 5 | 25);
+        
+        IO.writeShort(0x42, 1 << 12 | 117 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 117 << 5 | 24);
+        
+        IO.writeShort(0x42, 1 << 12 | 118 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 118 << 5 | 24);
+        
+        IO.writeShort(0x42, 1 << 12 | 119 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 119 << 5 | 23);
+        
+        IO.writeShort(0x42, 1 << 12 | 120 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 120 << 5 | 23);
+        
+        IO.writeShort(0x42, 1 << 12 | 121 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 121 << 5 | 23);
+        
+        IO.writeShort(0x42, 1 << 12 | 122 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 122 << 5 | 24);
         
         return true;
     }
