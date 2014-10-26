@@ -410,20 +410,22 @@ public class StatisticsCalculator {
 
     
     public static Periode langsteHittegolfPeriode(ArrayList<Measurement> array){
-		double maxDay = 0;
-		ArrayList<Double> maxTempPerDay = new ArrayList<Double>();
-			
+		int maxDay = 0;
+		ArrayList<Measurement> maxTempPerDay = new ArrayList<Measurement>();
+		int vorigeMeting = array.get(0).getDateStamp().getDay();
+        	
 		//calculate the max for every day
 		for(int i = 0; i < array.size(); i++){
-			if((i % 1440) == 0){
-				maxTempPerDay.add(maxDay);
-				maxDay = 0;
+			if(array.get(i).getDateStamp().getDay() != vorigeMeting){
+				maxTempPerDay.add(array.get(maxDay));
+				maxDay = i;
+				vorigeMeting = array.get(i).getDateStamp().getDay();
 			}
-			if(array.get(i).getRawOutsideTemp() > maxDay){
-				maxDay = array.get(i).getRawOutsideTemp();
+			if(array.get(i).getRawOutsideTemp() > array.get(maxDay).getRawOutsideTemp()){
+				maxDay = i;
 			}
 		}
-		
+				
 		int periodLength = 0;
 		int maxPeriodLength = 5;
 		int numberOfTropicalDays = 0;
@@ -433,23 +435,22 @@ public class StatisticsCalculator {
 		Periode periode = new Periode(begin, eind, "Geen hittegolfperiode gevonden");
 		
 		for(int i = 0; i < maxTempPerDay.size(); i++){	
-			if( maxTempPerDay.get(i) >= 770){		// If the temperature is bigger then 25 degree Celcius (770 degree Fahrenheit) the summer period will start				
+			System.out.println(maxTempPerDay.get(i));
+			if( maxTempPerDay.get(i).getRawOutsideTemp() >= 770){		// If the temperature is bigger then 25 degree Celcius (770 degree Fahrenheit) the summer period will start				
 				periodLength++;
-				if (maxTempPerDay.get(i) >= 860){	// If the temperature is bigger then 30 degree Celcius (860 degree Fahrenheit) it will add a tropical day					
+				if (maxTempPerDay.get(i).getRawOutsideTemp() >= 860){	// If the temperature is bigger then 30 degree Celcius (860 degree Fahrenheit) it will add a tropical day					
 					numberOfTropicalDays++;
 				}
 			}else if(periodLength > maxPeriodLength && numberOfTropicalDays >= 3){					//period has ended. If it is bigger then 5 days AND there are 3 or more tropical days, the period is a heat wave	
+				begin.setTimeInMillis(maxTempPerDay.get(i-periodLength).getDateStamp().getTime());		
+				eind.setTimeInMillis(maxTempPerDay.get(i).getDateStamp().getTime());
 				maxPeriodLength = periodLength;
 				periodLength = 0;
 				numberOfTropicalDays = 0;
-				eind.setTimeInMillis(array.get((i-1)*1440).getDateStamp().getTime());
 				periode = new Periode(eind, begin, "Langste hittegolf periode");
 			}else{
 				numberOfTropicalDays = 0;
 				periodLength = 0;
-			}
-			if(periodLength == 5){
-				begin.setTimeInMillis(array.get((i-5)*1440).getDateStamp().getTime());
 			}
 		}
 		return periode;
