@@ -297,16 +297,16 @@ public class GUIboard {
         IO.writeShort(0x42, 1 << 12 | 113 << 5 | 22);
         
         IO.writeShort(0x42, 1 << 12 | 114 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 114 << 5 | 27);
+        IO.writeShort(0x42, 1 << 12 | 114 << 5 | 24);
         
         IO.writeShort(0x42, 1 << 12 | 115 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 115 << 5 | 26);
+        IO.writeShort(0x42, 1 << 12 | 115 << 5 | 25);
         
         IO.writeShort(0x42, 1 << 12 | 116 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 116 << 5 | 25);
+        IO.writeShort(0x42, 1 << 12 | 116 << 5 | 26);
         
         IO.writeShort(0x42, 1 << 12 | 117 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 117 << 5 | 24);
+        IO.writeShort(0x42, 1 << 12 | 117 << 5 | 25);
         
         IO.writeShort(0x42, 1 << 12 | 118 << 5 | 28);
         IO.writeShort(0x42, 1 << 12 | 118 << 5 | 24);
@@ -315,13 +315,13 @@ public class GUIboard {
         IO.writeShort(0x42, 1 << 12 | 119 << 5 | 23);
         
         IO.writeShort(0x42, 1 << 12 | 120 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 120 << 5 | 23);
+        IO.writeShort(0x42, 1 << 12 | 120 << 5 | 24);
         
         IO.writeShort(0x42, 1 << 12 | 121 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 121 << 5 | 23);
+        IO.writeShort(0x42, 1 << 12 | 121 << 5 | 25);
         
         IO.writeShort(0x42, 1 << 12 | 122 << 5 | 28);
-        IO.writeShort(0x42, 1 << 12 | 122 << 5 | 24);
+        IO.writeShort(0x42, 1 << 12 | 122 << 5 | 26);
         
         return true;
     }
