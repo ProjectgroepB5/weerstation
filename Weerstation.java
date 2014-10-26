@@ -1,4 +1,4 @@
-package weerstation;
+ 
  
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,20 +90,26 @@ public class Weerstation{
             {
                 if(button2)
                 {
-                	nextScreen();
+                    if(!graphIsDisplayed)
+                    {
+                        nextScreen();
+                    }
                 }
                 else if(button1)
                 {
-                	nextPeriod();
+                    if(!graphIsDisplayed)
+                    {
+                        nextPeriod();
+                    }
                 }
 
                 if(button3)
                 {
-                	displayGraph();
+                    displayGraph();
                 }
                 else
                 {
-                	displayMain();
+                    displayMain();
                 }
             }
         }, 0, 5*1000);
@@ -127,34 +133,47 @@ public class Weerstation{
         //Button checker
         timer.scheduleAtFixedRate( new TimerTask() 
         {
-        	boolean oldButton1, oldButton2;
-            public void run() {
-                if(IO.readShort(0x0090) == 1){  //Blauw 1 aan
-                	button1 = true;
-                }else{
-                	button1 = false;
+            boolean oldButton1, oldButton2;
+            public void run() 
+            {
+                if(IO.readShort(0x0090) == 1)
+                {  //Blauw 1 aan
+                    button1 = true;
                 }
-                if(IO.readShort(0x00100) == 1){  //Blauw 2 aan
+                else
+                {
+                    button1 = false;
+                }
+                if(IO.readShort(0x00100) == 1)
+                {  //Blauw 2 aan
                     button2 = true;
-                }else{
-                	button2 = false;
                 }
-                if(IO.readShort(0x0080) == 1){  //Rood aan
+                else
+                {
+                    button2 = false;
+                }
+                if(IO.readShort(0x0080) == 1)
+                {  //Rood aan
                     button3 = true;
                     displayGraph();
-                }else{
-                	button3 = false;	
-                	if(graphIsDisplayed){
-                		displayMain();
-                	}
                 }
-                if(button2 == !oldButton2){ // If the button is changed, the play/pauze icon wil be updated
-            		displayMain();
-            		oldButton2 = button2;
+                else
+                {
+                    button3 = false;    
+                    if(graphIsDisplayed)
+                    {
+                        displayMain();
+                    }
                 }
-                if(button1 == !oldButton1){ // If the button is changed, the play/pauze icon wil be updated
-            		displayMain();
-            		oldButton1 = button1;
+                if(button2 == !oldButton2)
+                { // If the button is changed, the play/pauze icon wil be updated
+                    displayMain();
+                    oldButton2 = button2;
+                }
+                if(button1 == !oldButton1)
+                { // If the button is changed, the play/pauze icon wil be updated
+                    displayMain();
+                    oldButton1 = button1;
                 }
             }
         }, 0, 200);
@@ -543,39 +562,47 @@ public class Weerstation{
         animator.cancel();
     }
     
-    public void nextScreen(){	//Set the next screen one screen higher
-    	currentScreen++;
-		if (currentScreen >= periodsScreens.get(periodeNr).size()){
-			currentScreen = 0;
-			if(button1){
-				nextPeriod();
-			}
-		}
+    public void nextScreen()
+    {   //Set the next screen one screen higher
+        currentScreen++;
+        if (currentScreen >= periodsScreens.get(periodeNr).size())
+        {
+            currentScreen = 0;
+            if(button1)
+            {
+                nextPeriod();
+            }
+        }
     }
     
-    public void nextPeriod(){ //Set the next period one period higher
-		periodeNr++;
-		if(periodeNr >= periodsScreens.size()){
-			periodeNr = 0;
-            if (currentScreen+1 > periodsScreens.get(periodeNr).size())	
+    public void nextPeriod()
+    { //Set the next period one period higher
+        periodeNr++;
+        if(periodeNr >= periodsScreens.size())
+        {
+            periodeNr = 0;
+            if (currentScreen+1 > periodsScreens.get(periodeNr).size()) 
             {
                 currentScreen = 0;
             }
-		}
+        }
     }
 
-    public void displayGraph(){
-    	if(!graphIsDisplayed){
+    public void displayGraph()
+    {
+        if(!graphIsDisplayed)
+        {
             Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-			obj.displayGraph();
-			graphIsDisplayed = true;
-		}
+            obj.displayGraph();
+            graphIsDisplayed = true;
+        }
     }
     
-    public void displayMain(){
+    public void displayMain()
+    {
         Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-   		obj.display(periods.get(periodeNr).getName(), button1, button2);
-    	graphIsDisplayed = false;
+        obj.display(periods.get(periodeNr).getName(), button1, button2);
+        graphIsDisplayed = false;
     }
 }
 
