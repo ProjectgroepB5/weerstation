@@ -1,9 +1,11 @@
+package weerstation;
  
  
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -81,7 +83,7 @@ public class Weerstation{
         GUIboard.clearTop();
         GUIboard.clearLeft();
         GUIboard.clearRight();
-        
+        console();
         
         //Screen switcher
         timer.scheduleAtFixedRate(new TimerTask() 
@@ -92,14 +94,18 @@ public class Weerstation{
                 {
                     if(!graphIsDisplayed)
                     {
-                        nextScreen();
+                    	setScreen(currentScreen + 1);
+                        if(currentScreen == 0 && button1)
+                        {
+                            setPeriod(periodeNr + 1);
+                        }
                     }
                 }
                 else if(button1)
                 {
                     if(!graphIsDisplayed)
                     {
-                        nextPeriod();
+                        setPeriod(periodeNr + 1);
                     }
                 }
 
@@ -560,30 +566,25 @@ public class Weerstation{
         animator.cancel();
     }
     
-    public void nextScreen()
-    {   //Set the next screen one screen higher
-        currentScreen++;
-        if (currentScreen >= periodsScreens.get(periodeNr).size())
+    public void setScreen(int screen)
+    {   //Set the next screen
+        if (screen >= periodsScreens.get(periodeNr).size() || screen < 0)
         {
             currentScreen = 0;
-            if(button1)
-            {
-                nextPeriod();
-            }
+        }else{
+        	currentScreen = screen;
         }
     }
     
-    public void nextPeriod()
-    { //Set the next period one period higher
-        periodeNr++;
-        if(periodeNr >= periodsScreens.size())
+    public void setPeriod(int period)
+    { //Set the period
+        if(period >= periodsScreens.size() || period < 0)
         {
             periodeNr = 0;
-            if (currentScreen+1 > periodsScreens.get(periodeNr).size()) 
-            {
-                currentScreen = 0;
-            }
+        }else{
+        	periodeNr = period;
         }
+        setScreen(currentScreen);
     }
 
     public void displayGraph()
@@ -601,6 +602,51 @@ public class Weerstation{
         Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
         obj.display(periods.get(periodeNr).getName(), button1, button2, meting1.getBattLevel());
         graphIsDisplayed = false;
+    }
+    
+    public void console(){
+    	
+  	  new Thread("Console")
+        {
+           public void run()
+           {
+		    	Scanner scanner = new Scanner(System.in);
+		    	String voorvoegsel = "weerstation ~ $ ";
+		    	String input;
+		    	System.out.println("Welkom op de server sided application van weerstation Breda.");
+		    	while(true){			    	
+			    	System.out.print(voorvoegsel);
+			    	input = scanner.nextLine();
+			    	System.out.println(parseCommand(input));
+		    	}
+           }
+           public String parseCommand(String command){            	 
+           	if(command.startsWith("/")){
+           		String split[] = command.split(" ");
+           		switch (split[0]){ 			//A command without parameters
+           		case "/help":
+           			return "/help: Laat dit scherm zien. \n/periode x: Zet de huidige periode op getal x \n/screen x: zet het huidige scherm op getal x\n ";  			
+           		}
+           		if(split.length == 2){		//A command with 1 parameter
+       	    		int param1;
+           			try{param1 = Integer.valueOf(command.split(" ")[1]);}catch (NumberFormatException e){ 
+       	    		return "Dit is geen geldig commando. Typ /help voor alle commando's";}
+           			
+       	    		switch(split[0]){
+       	    		case "/periode":
+       	    			setPeriod(param1);
+       	    			displayMain();
+       	    			return "Periode gezet";
+       	    		case "/screen":
+       	    			setScreen(param1);
+       	    			displayMain();
+       	    			return "Screen gezet";
+       	    		}
+           		}
+           	}
+          	 return "Dit is geen geldig commando. Typ /help voor alle commando's";
+           }
+        }.start();
     }
 }
 
