@@ -128,7 +128,7 @@ public class Weerstation{
                     }
                 }
             }
-        }, 60*1000, 60*1000);
+        }, 120*1000, 60*1000);
         
         //Button checker
         timer.scheduleAtFixedRate( new TimerTask() 
@@ -198,11 +198,11 @@ public class Weerstation{
         calPeriod = Calendar.getInstance(); 
                 
         calPeriod.add(Calendar.MONTH, -3);
-        periods.add(new Periode(now, calPeriod, "Maand 3"));
+        periods.add(new Periode(now, calPeriod, "3 Maanden"));
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.MONTH, -6);
-        periods.add(new Periode(now, calPeriod, "Maand 6"));
+        periods.add(new Periode(now, calPeriod, "6 Maanden"));
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.YEAR, -1);
@@ -210,7 +210,7 @@ public class Weerstation{
         calPeriod = Calendar.getInstance(); 
         
         calPeriod.add(Calendar.YEAR, -2);
-        periods.add(new Periode(now, calPeriod, "Jaar 2"));
+        periods.add(new Periode(now, calPeriod, "2 Jaar"));
         calPeriod = Calendar.getInstance(); 
         
         weerstation1 = new WeerstationConnector();
@@ -264,7 +264,6 @@ public class Weerstation{
                 animator = new Timer();
                 startLoadAnimatie();
                 
-                meting1 = weerstation1.getMostRecentMeasurement();
                 meting2 = weerstation1.getAllMeasurementsBetween(periods.get(1).getBeginPeriode(), periods.get(1).getEindePeriode());
                 
                 //Week
@@ -289,7 +288,6 @@ public class Weerstation{
                     
                 periodsScreens.add(week);
                 
-                meting1 = weerstation1.getMostRecentMeasurement();
                 meting2 = weerstation1.getAllMeasurementsBetween(periods.get(2).getBeginPeriode(), periods.get(2).getEindePeriode());
                     
                 //Month
@@ -317,7 +315,6 @@ public class Weerstation{
                     
                 periodsScreens.add(month);
                 
-                meting1 = weerstation1.getMostRecentMeasurement();
                 meting2 = weerstation1.getAllMeasurementsBetween(periods.get(3).getBeginPeriode(), periods.get(3).getEindePeriode());
                     
                 //3 Months
@@ -345,7 +342,6 @@ public class Weerstation{
                     
                 periodsScreens.add(month3);
                 
-                meting1 = weerstation1.getMostRecentMeasurement();
                 meting2 = weerstation1.getAllMeasurementsBetween(periods.get(4).getBeginPeriode(), periods.get(4).getEindePeriode());
                     
                 //6 Months
@@ -378,7 +374,6 @@ public class Weerstation{
                 
                 periodsScreens.add(month6);
                 
-                meting1 = weerstation1.getMostRecentMeasurement();
                 meting2 = weerstation1.getAllMeasurementsBetween(periods.get(5).getBeginPeriode(), periods.get(5).getEindePeriode());
                 
                 //Year
@@ -412,7 +407,6 @@ public class Weerstation{
                 
                 periodsScreens.add(year);
                     
-                meting1 = weerstation1.getMostRecentMeasurement();
                 meting2 = weerstation1.getAllMeasurementsBetween(periods.get(6).getBeginPeriode(), periods.get(6).getEindePeriode());
                 
                 //2 Years
@@ -605,7 +599,7 @@ public class Weerstation{
     public void displayMain()
     {
         Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-        obj.display(periods.get(periodeNr).getName(), button1, button2);
+        obj.display(periods.get(periodeNr).getName(), button1, button2, meting1.getBattLevel());
         graphIsDisplayed = false;
     }
 }
