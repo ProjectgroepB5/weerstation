@@ -19,8 +19,8 @@ public class GraadDagen extends Grootheid{
         graadDagen = StatisticsCalculator.graadDagen(list);
     }
     
-    public void display(String periode, boolean knop1, boolean knop2){
-        GUIboard.writePageToMatrix("Aantal Graaddagen", graadDagen + "", periode, knop1, knop2);
+    public void display(String periode, boolean knop1, boolean knop2, short batt){
+        GUIboard.writePageToMatrix("Aantal Graaddagen", graadDagen + "", periode, knop1, knop2, batt);
     }
     
     public void displayGraph(){}

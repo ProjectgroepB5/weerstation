@@ -157,10 +157,11 @@ public class GUIboard {
      * @param regel2 De tekst die je op de tweede regel wilt weergeven.
      * @param regel3 De tekst die je op de derde regel wilt weergeven. Wordt standaard gevolgd door de navigatie.
      */
-    public static boolean writePageToMatrix(String regel1, String regel2, String regel3, Boolean pPeriod, Boolean pScreen)
+    public static boolean writePageToMatrix(String regel1, String regel2, String regel3, boolean pPeriod, boolean pScreen, double batt)
     {
         clearBottom();
-        if(regel1.length() > 20 && regel2.length() > 20 && regel3.length() > 11) //check if the length is not to long
+        regel3 = "  " + regel3;
+        if(regel1.length() > 20 && regel2.length() > 20 && regel3.length() > 12) //check if the length is not to long
         {
             return false;
         }
@@ -203,7 +204,80 @@ public class GUIboard {
             IO.writeShort(0x40, ch);
         }
         
+        createNav(pPeriod, pScreen);
+        createBattery(batt);
         
+        return true;
+    }
+    
+    private static void createBattery(double batt)
+    {
+        //Left
+        IO.writeShort(0x42, 1 << 12 | 3 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 3 << 5 | 27);
+        IO.writeShort(0x42, 1 << 12 | 3 << 5 | 26);
+        IO.writeShort(0x42, 1 << 12 | 3 << 5 | 25);
+        IO.writeShort(0x42, 1 << 12 | 3 << 5 | 24);
+        IO.writeShort(0x42, 1 << 12 | 3 << 5 | 23);
+        
+        //Right
+        IO.writeShort(0x42, 1 << 12 | 7 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 7 << 5 | 27);
+        IO.writeShort(0x42, 1 << 12 | 7 << 5 | 26);
+        IO.writeShort(0x42, 1 << 12 | 7 << 5 | 25);
+        IO.writeShort(0x42, 1 << 12 | 7 << 5 | 24);
+        IO.writeShort(0x42, 1 << 12 | 7 << 5 | 23);
+        
+        //Bottom
+        IO.writeShort(0x42, 1 << 12 | 4 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 5 << 5 | 28);
+        IO.writeShort(0x42, 1 << 12 | 6 << 5 | 28);
+        
+        //Top
+        IO.writeShort(0x42, 1 << 12 | 4 << 5 | 22);
+        IO.writeShort(0x42, 1 << 12 | 6 << 5 | 22);
+        IO.writeShort(0x42, 1 << 12 | 4 << 5 | 21);
+        IO.writeShort(0x42, 1 << 12 | 5 << 5 | 21);
+        IO.writeShort(0x42, 1 << 12 | 6 << 5 | 21);
+        
+        if(batt > 1.0)
+        {
+            IO.writeShort(0x42, 1 << 12 | 4 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 5 << 5 | 27);
+            IO.writeShort(0x42, 1 << 12 | 6 << 5 | 27);
+        }
+        if(batt > 2.0)
+        {
+            IO.writeShort(0x42, 1 << 12 | 4 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 5 << 5 | 26);
+            IO.writeShort(0x42, 1 << 12 | 6 << 5 | 26);
+        }
+        if(batt > 3.0)
+        {
+            IO.writeShort(0x42, 1 << 12 | 4 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 5 << 5 | 25);
+            IO.writeShort(0x42, 1 << 12 | 6 << 5 | 25);
+        }
+        if(batt > 4.0)
+        {
+            IO.writeShort(0x42, 1 << 12 | 4 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 5 << 5 | 24);
+            IO.writeShort(0x42, 1 << 12 | 6 << 5 | 24);
+        }
+        if(batt > 4.8)
+        {
+            IO.writeShort(0x42, 1 << 12 | 4 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 5 << 5 | 23);
+            IO.writeShort(0x42, 1 << 12 | 6 << 5 | 23);
+        }
+        if(batt > 5.0)
+        {
+            IO.writeShort(0x42, 1 << 12 | 5 << 5 | 22);
+        }
+    }
+    
+    private static void createNav(boolean pPeriod, boolean pScreen)
+    {
         //Draw the play/pause
         if(pPeriod)
         {
@@ -322,9 +396,8 @@ public class GUIboard {
         
         IO.writeShort(0x42, 1 << 12 | 122 << 5 | 28);
         IO.writeShort(0x42, 1 << 12 | 122 << 5 | 26);
-        
-        return true;
     }
+    
     
     /**
      * Schrijft een grafiek naar het matrix display van het GUIBoard

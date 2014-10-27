@@ -124,7 +124,7 @@ public class Grootheid
         
     }
     
-    public void display(String periodname, boolean p, boolean s){
+    public void display(String periodname, boolean p, boolean s, double batt){
     	GUIboard.clearLeft();
     	GUIboard.clearRight();
     	GUIboard.clearTop();
@@ -139,13 +139,13 @@ public class Grootheid
     	}
     	if(!(statics_name == "")){
 
-    		GUIboard.writePageToMatrix(getName(), statics_name + getStatics(), periodname, p, s);
+    		GUIboard.writePageToMatrix(getName(), statics_name + getStatics(), periodname, p, s, batt);
     	}else if(!(custom == "")){
 
-    		GUIboard.writePageToMatrix(getName(), custom, periodname, p, s);
+    		GUIboard.writePageToMatrix(getName(), custom, periodname, p, s, batt);
     	}
     	if(!(period == null)){
-    		GUIboard.writePageToMatrix(getName(), period.toString(), periodname, p, s);   		
+    		GUIboard.writePageToMatrix(getName(), period.toString(), periodname, p, s, batt);   		
     	}
     }
         

@@ -22,9 +22,9 @@ public class LangsteTempStijgingPeriode extends Grootheid
         StijgingPeriode= Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());
     }
     
-    public void display()
+    public void display(String periode, boolean button1, boolean button2, double batt)
     {
-        GUIboard.writePageToMatrix("Langste temp.stijging", StijgingPeriode.toString(), "", true, true);
+        GUIboard.writePageToMatrix("Langste temp.stijging", StijgingPeriode.toString(), periode, button1, button2, batt);
     }
     
     public void displayGraph(){}
