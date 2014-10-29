@@ -1,6 +1,3 @@
-package weerstation;
- 
- 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -35,6 +32,8 @@ public class Weerstation{
     
     boolean button1, button2, button3, graphIsDisplayed;
     
+    boolean console;
+    
     /**
      * Constructor voor weerstation
      */
@@ -51,6 +50,8 @@ public class Weerstation{
         currentScreen = 0;
         periodeNr = 0;
         graphIsDisplayed = false;
+        
+        console = true;
 
  
         //De thread die op de achtergrond alles laad
@@ -94,7 +95,7 @@ public class Weerstation{
                 {
                     if(!graphIsDisplayed)
                     {
-                    	setScreen(currentScreen + 1);
+                        setScreen(currentScreen + 1);
                         if(currentScreen == 0 && button1)
                         {
                             setPeriod(periodeNr + 1);
@@ -183,6 +184,458 @@ public class Weerstation{
                 }
             }
         }, 0, 200);
+    }
+    
+    public void setScreen(int screen)
+    {   //Set the next screen
+        if (screen >= periodsScreens.get(periodeNr).size() || screen < 0)
+        {
+            currentScreen = 0;
+        }else{
+            currentScreen = screen;
+        }
+    }
+    
+    public void setPeriod(int period)
+    { //Set the period
+        if(period >= periodsScreens.size() || period < 0)
+        {
+            periodeNr = 0;
+        }else{
+            periodeNr = period;
+        }
+        setScreen(currentScreen);
+    }
+
+    public void displayGraph()
+    {
+        if(!graphIsDisplayed)
+        {
+            Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
+            obj.displayGraph();
+            graphIsDisplayed = true;
+        }
+    }
+    
+    public void displayMain()
+    {
+        Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
+        obj.display(periods.get(periodeNr).getName(), button1, button2, meting1.getBattLevel());
+        graphIsDisplayed = false;
+    }
+    
+    public void console(){
+        
+      new Thread("Console")
+        {
+           public void run()
+           {
+                Scanner scanner = new Scanner(System.in);
+                String voorvoegsel = "weerstation ~ $ ";
+                String input;
+                System.out.println("Applicatie geladen. Console is klaar voor gebruik.");
+                
+                while(console)
+                {                    
+                    System.out.print(voorvoegsel);
+                    input = scanner.nextLine();
+                    System.out.println(parseCommand(input));
+                }
+                
+           }
+           public String parseCommand(String command){               
+                if(command.startsWith("/")){
+                    command = command.substring(1);
+                    String[] parts = command.split(" ");
+                    int length = parts.length;
+                    
+                    if(length==0)
+                    {
+                        
+                        return help();
+                        
+                    }
+                    else if(length==1)
+                    {
+                        
+                        switch (parts[0]){    //A command without parameters
+                            case "help":
+                            case "?":
+                                return help();
+                            case "exit":
+                            case "close":
+                                return exit();
+                        }
+                        
+                    }
+                    if(length==2){      //A command with 1 parameter
+                      
+                        switch(parts[0]){
+                            case "periode":
+                            case "p":
+                                return periode(parts[1]);
+                            case "scherm":
+                            case "s":
+                                return scherm(parts[1]);
+                        }
+                        
+                    }
+                }
+                return notFound();
+           }
+           
+           //Commands
+           public String notFound()
+           {
+               return notFound(false);
+           }
+           public String notFound(boolean param)
+           {
+               if(param)
+               {
+                   return "Dit is geen geldige paramater. Type /help voor alle commando's";
+               }
+               else
+               {
+                   return "Dit is geen geldig commando. Type /help voor alle commando's"; 
+               }
+           }
+           
+           public String help()
+           {
+               String tab = "\n    ";
+               String comS = "\n"; String comE = ":" + tab;
+               String desc = tab + "> ";
+               
+               String help = "";
+               
+               //start
+               help += "HELP\n------------";
+               //help
+               help += comS + "Help" + comE 
+                            + "/help" + tab + "/?"
+                    +  desc + "Laat dit scherm zien";
+               //exit
+               help += comS + "Exit" + comE 
+                            + "/exit" + tab + "/close"
+                    + desc + "Sluit de console permanent af"; 
+               //periode
+               help += comS + "Periode" + comE 
+                            + "/periode <num|name>" + tab + "/p <num|name>"
+                    + desc + "Zet de huidige periode op getal <num>" + desc + "Zet de huidige periode op naam <name>";
+               //scherm
+               help += comS + "Scherm" + comE
+                            + "/scherm <num|name>" + tab + "/s <num|name>"
+                    + desc + "Zet het huidige scherm op getal <num>" + desc + "Zet het huidige scherm op naam <name>";
+               
+               return help; 
+           }
+           
+           public String exit()
+           {
+               console = false;
+               return "Console is afgesloten.\nDe console kan alleen herstart worden door de applicatie opnieuw te starten.";
+           }
+           
+           public String periode(String param)
+           {
+               int param1 = -1;
+               try
+               {
+                   param1 = Integer.valueOf(param) - 1;
+               }
+               catch(NumberFormatException e)
+               { 
+                   param = param.toLowerCase();
+                   if(param.contains("dag") || param.contains("day"))
+                   {
+                       param1 = 0;
+                   }
+                   else if(param.contains("week"))
+                   {
+                       param1 = 1;
+                   }
+                   else if(param.contains("month") || param.contains("maand"))
+                   {
+                       if(param.contains("6"))
+                       {
+                           param1 = 4;
+                       }
+                       if(param.contains("3"))
+                       {
+                           param1 = 3;  
+                       }
+                       else
+                       {
+                           param1 = 2;
+                       }
+                   }
+                   else if(param.contains("year") || param.contains("jaar"))
+                   {
+                       if(param.contains("2"))
+                       {
+                          param1 = 6; 
+                       }
+                       else
+                       {
+                           param1 = 5;
+                       }
+                   }
+                   else if(param.contains("next") || param.contains("volgend"))
+                   {
+                       param1 = periodeNr+1;
+                   }
+                   else if(param.contains("prev") || param.contains("vorig"))
+                   {
+                       param1 = periodeNr-1 < 0 ? periodsScreens.size()-1 : periodeNr - 1;
+                   }
+                   
+                   if(param1==-1)
+                   {
+                       return notFound(true);
+                   }
+               }
+                    
+               setPeriod(param1);
+               displayMain();
+               return "Periode gezet";
+           }
+           
+           public String scherm(String param)
+           {
+               int param1 = 0;
+               try
+               {
+                   param1 = Integer.valueOf(param) - 1;
+               }
+               catch(NumberFormatException e)
+               { 
+                   param = param.toLowerCase();
+                   if(param.contains("period"))
+                   {
+                       if(periodeNr < 4)
+                       {
+                           setPeriod(4);
+                       }
+                       if(param.contains("regen") || param.contains("rain"))
+                       {
+                           if(param.contains("max"))
+                           {
+                               param1=15;
+                           }
+                           else if(param.contains("lang") || param.contains("long"))
+                           {
+                               param1=19;
+                           }
+                       }
+                       else if(param.contains("hitte") || param.contains("golf") || param.contains("heat") || param.contains("wave"))
+                       {
+                           param1=17;
+                       }
+                       else if(param.contains("zomer") || param.contains("summer"))
+                       {
+                           param1=18;
+                       }
+                       else if(param.contains("droog") || param.contains("droge") || param.contains("dry"))
+                       {
+                           param1=20;
+                       }
+                       else
+                       {
+                           param1=15;
+                       }
+                   }
+                   else if(param.contains("graad"))
+                   {
+                       if(periodeNr < 4)
+                       {
+                           setPeriod(4);
+                       }
+                       param1=16;
+                   }
+                   else if(param.contains("temp"))
+                   {
+                       if(param.contains("binnen") || param.contains("inside"))
+                       {
+                           param1=7;
+                       }
+                       else if(param.contains("gevoel"))
+                       {
+                           param1=4;
+                       }
+                       else
+                       {
+                           param1=0;
+                       }
+                   }
+                   else if(param.contains("hum") || param.contains("vocht"))
+                   {
+                       if(param.contains("binnen") || param.contains("inside"))
+                       {
+                           param1=8;
+                       }
+                       else
+                       {
+                           param1=1;
+                       }
+                   }
+                   else if(param.contains("wind"))
+                   {
+                       if(param.contains("direction") || param.contains("richting"))
+                       {
+                           param1=3;
+                       }
+                       else if(param.contains("chill"))
+                       {
+                           param1=4;
+                       }
+                       else
+                       {
+                           param1=2;
+                       }
+                   }
+                   else if(param.contains("rain") || param.contains("regen"))
+                   {
+                       param1=2;
+                   }
+                   else if(param.contains("druk") || param.contains("baro"))
+                   {
+                       param1=6;
+                   }
+                   else if(param.contains("next") || param.contains("volgend"))
+                   {
+                       param1 = currentScreen+1;
+                   }
+                   else if(param.contains("prev") || param.contains("vorig"))
+                   {
+                       param1 = currentScreen-1 < 0 ? periodsScreens.get(periodeNr).size()-1 : currentScreen - 1;
+                   }
+                   
+                   if(param1==-1)
+                   {
+                       return notFound(true);
+                   }
+               }
+               setScreen(param1);
+               displayMain();
+               return "Scherm gezet";
+           }
+        }.start();
+    }
+    
+    /**
+     * Start de animatie die speelt tijdens het opstarten en laden van het weerstation
+     * 
+     * @param starter De timer die de animatie laat lopen
+     */
+    public void startStartupAnimatie()
+    {
+        starter.scheduleAtFixedRate(new TimerTask() 
+        {
+            public void run() 
+            {
+                startup = true;
+                
+                GUIboard.clearBottom();
+                GUIboard.clearTop();
+                GUIboard.clearLeft();
+                GUIboard.clearRight();
+                
+                char[] charray;
+                
+                if(startupState)
+                {
+                    charray = " Weerstation Breda\n     Connecting".toCharArray();
+                }
+                else
+                {
+                    charray = " Weerstation Breda\n     Calculating".toCharArray();
+                }
+                
+                for(char ch : charray)
+                {
+                    IO.writeShort(0x40, ch);
+                }
+                
+                int p = 1;
+                for(int i=0; i<256;i++)
+                {
+                        if(i<128)
+                        {
+                            IO.writeShort(0x42, 1 << 12 | i << 5 | 26);
+                        }
+                        else
+                        {
+                            IO.writeShort(0x42, 0 << 12 | i-128 << 5 | 26);
+                        }
+                        
+                        if(i%42==0)
+                        {
+                            p = p << 1;
+                            if(p>32)
+                            {
+                                p=1;
+                            }
+                            for(int q=0x10; q<0x40; q+=0x02)
+                            {
+                                IO.writeShort(q, 0x100 | p);
+                            }
+                        }
+                        
+                        IO.delay(4);
+                }
+                
+                startup = false;
+            }
+        }, 0, (128 + 1)*8);
+    }
+    
+    /**
+     * Stopt de animatie die speelt tijdens het opstarten en laden van het weerstation
+     */
+    public void stopStartupAnimatie()
+    {
+        starter.cancel();
+    }
+    
+    /**
+     * Start de animatie die speelt tijdens het laden op de achtergrond van het weerstation
+     */
+    public void startLoadAnimatie()
+    {
+        animator.scheduleAtFixedRate(new TimerTask() 
+        {
+            public void run() 
+            {
+                load = true;
+                for(int i=0; i<128;i++)
+                {
+                        if(!graphIsDisplayed)
+                        {
+                            IO.writeShort(0x42, 1 << 12 | i << 5 | 31);
+                        }
+                        IO.delay(4);
+                }
+                
+                for(int i=0; i<128;i++)
+                {
+                        if(!graphIsDisplayed)
+                        {
+                            IO.writeShort(0x42, 0 << 12 | i << 5 | 31);
+                        }
+                        IO.delay(4);
+                }
+                load = false;
+            }
+        }, 0, (128 + 1)*8);
+    }
+    
+    /**
+     * Stopt de animatie die speelt tijdens het laden op de achtergrond van het weerstation
+     */
+    public void stopLoadAnimatie()
+    {
+        animator.cancel();
     }
     
     public void createPeriods()
@@ -450,203 +903,6 @@ public class Weerstation{
                 stopLoadAnimatie();
             }
         }.start(); 
-    }
-    /**
-     * Start de animatie die speelt tijdens het opstarten en laden van het weerstation
-     * 
-     * @param starter De timer die de animatie laat lopen
-     */
-    public void startStartupAnimatie()
-    {
-        starter.scheduleAtFixedRate(new TimerTask() 
-        {
-            public void run() 
-            {
-                startup = true;
-                
-                GUIboard.clearBottom();
-                GUIboard.clearTop();
-                GUIboard.clearLeft();
-                GUIboard.clearRight();
-                
-                char[] charray;
-                
-                if(startupState)
-                {
-                    charray = " Weerstation Breda\n     Connecting".toCharArray();
-                }
-                else
-                {
-                    charray = " Weerstation Breda\n     Calculating".toCharArray();
-                }
-                
-                for(char ch : charray)
-                {
-                    IO.writeShort(0x40, ch);
-                }
-                
-                int p = 1;
-                for(int i=0; i<256;i++)
-                {
-                        if(i<128)
-                        {
-                            IO.writeShort(0x42, 1 << 12 | i << 5 | 26);
-                        }
-                        else
-                        {
-                            IO.writeShort(0x42, 0 << 12 | i-128 << 5 | 26);
-                        }
-                        
-                        if(i%42==0)
-                        {
-                            p = p << 1;
-                            if(p>32)
-                            {
-                                p=1;
-                            }
-                            for(int q=0x10; q<0x40; q+=0x02)
-                            {
-                                IO.writeShort(q, 0x100 | p);
-                            }
-                        }
-                        
-                        IO.delay(4);
-                }
-                
-                startup = false;
-            }
-        }, 0, (128 + 1)*8);
-    }
-    
-    /**
-     * Stopt de animatie die speelt tijdens het opstarten en laden van het weerstation
-     */
-    public void stopStartupAnimatie()
-    {
-        starter.cancel();
-    }
-    
-    /**
-     * Start de animatie die speelt tijdens het laden op de achtergrond van het weerstation
-     */
-    public void startLoadAnimatie()
-    {
-        animator.scheduleAtFixedRate(new TimerTask() 
-        {
-            public void run() 
-            {
-                load = true;
-                for(int i=0; i<128;i++)
-                {
-                        if(!graphIsDisplayed)
-                        {
-                            IO.writeShort(0x42, 1 << 12 | i << 5 | 31);
-                        }
-                        IO.delay(4);
-                }
-                
-                for(int i=0; i<128;i++)
-                {
-                        if(!graphIsDisplayed)
-                        {
-                            IO.writeShort(0x42, 0 << 12 | i << 5 | 31);
-                        }
-                        IO.delay(4);
-                }
-                load = false;
-            }
-        }, 0, (128 + 1)*8);
-    }
-    
-    /**
-     * Stopt de animatie die speelt tijdens het laden op de achtergrond van het weerstation
-     */
-    public void stopLoadAnimatie()
-    {
-        animator.cancel();
-    }
-    
-    public void setScreen(int screen)
-    {   //Set the next screen
-        if (screen >= periodsScreens.get(periodeNr).size() || screen < 0)
-        {
-            currentScreen = 0;
-        }else{
-        	currentScreen = screen;
-        }
-    }
-    
-    public void setPeriod(int period)
-    { //Set the period
-        if(period >= periodsScreens.size() || period < 0)
-        {
-            periodeNr = 0;
-        }else{
-        	periodeNr = period;
-        }
-        setScreen(currentScreen);
-    }
-
-    public void displayGraph()
-    {
-        if(!graphIsDisplayed)
-        {
-            Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-            obj.displayGraph();
-            graphIsDisplayed = true;
-        }
-    }
-    
-    public void displayMain()
-    {
-        Grootheid obj = periodsScreens.get(periodeNr).get(currentScreen);
-        obj.display(periods.get(periodeNr).getName(), button1, button2, meting1.getBattLevel());
-        graphIsDisplayed = false;
-    }
-    
-    public void console(){
-    	
-  	  new Thread("Console")
-        {
-           public void run()
-           {
-		    	Scanner scanner = new Scanner(System.in);
-		    	String voorvoegsel = "weerstation ~ $ ";
-		    	String input;
-		    	System.out.println("Welkom op de server sided application van weerstation Breda.");
-		    	while(true){			    	
-			    	System.out.print(voorvoegsel);
-			    	input = scanner.nextLine();
-			    	System.out.println(parseCommand(input));
-		    	}
-           }
-           public String parseCommand(String command){            	 
-           	if(command.startsWith("/")){
-           		String split[] = command.split(" ");
-           		switch (split[0]){ 			//A command without parameters
-           		case "/help":
-           			return "/help: Laat dit scherm zien. \n/periode x: Zet de huidige periode op getal x \n/screen x: zet het huidige scherm op getal x\n ";  			
-           		}
-           		if(split.length == 2){		//A command with 1 parameter
-       	    		int param1;
-           			try{param1 = Integer.valueOf(command.split(" ")[1]);}catch (NumberFormatException e){ 
-       	    		return "Dit is geen geldig commando. Typ /help voor alle commando's";}
-           			
-       	    		switch(split[0]){
-       	    		case "/periode":
-       	    			setPeriod(param1);
-       	    			displayMain();
-       	    			return "Periode gezet";
-       	    		case "/screen":
-       	    			setScreen(param1);
-       	    			displayMain();
-       	    			return "Screen gezet";
-       	    		}
-           		}
-           	}
-          	 return "Dit is geen geldig commando. Typ /help voor alle commando's";
-           }
-        }.start();
     }
 }
 

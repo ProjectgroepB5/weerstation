@@ -18,7 +18,7 @@ public class LangsteRegenPeriode extends Grootheid{
         regenPeriode = Calculator.timeStampToPeriode( measurement2.get(index[0]).getDateStamp(), measurement2.get(index[1]).getDateStamp());
     }
     
-    public void display(String periode, boolean knop1, boolean knop2, short batt)
+    public void display(String periode, boolean knop1, boolean knop2, double batt)
     {
         GUIboard.writePageToMatrix("Langste Regen Periode", regenPeriode.toString(), periode, knop1, knop2, batt);
     }

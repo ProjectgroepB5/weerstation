@@ -15,7 +15,7 @@ public class LangsteDroogstePeriode extends Grootheid{
         langstePeriode = StatisticsCalculator.langsteDroogstePeriode(list);
     }
     
-    public void display(String periode, boolean knop1, boolean knop2, short batt){
+    public void display(String periode, boolean knop1, boolean knop2, double batt){
         GUIboard.writePageToMatrix("Langste Droge Periode", langstePeriode + "", periode, knop1, knop2, batt);
     }
     
