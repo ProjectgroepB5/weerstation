@@ -24,9 +24,11 @@ public class Weerstation{
     
     Timer starter;
     Timer animator;
+    Timer mainTimer;
     
     int currentScreen;
     int periodeNr;
+    int interval;
 
     boolean startup, startupState, load;
     
@@ -43,6 +45,7 @@ public class Weerstation{
         starter = new Timer();
         startStartupAnimatie();
         Timer timer = new Timer();
+        mainTimer = new Timer();
         
         createPeriods();
         backgroundLoader();
@@ -52,7 +55,7 @@ public class Weerstation{
         graphIsDisplayed = false;
         
         console = true;
-
+        interval = 5;
  
         //De thread die op de achtergrond alles laad
       
@@ -87,39 +90,7 @@ public class Weerstation{
         console();
         
         //Screen switcher
-        timer.scheduleAtFixedRate(new TimerTask() 
-        {
-            public void run() 
-            {
-                if(button2)
-                {
-                    if(!graphIsDisplayed)
-                    {
-                        setScreen(currentScreen + 1);
-                        if(currentScreen == 0 && button1)
-                        {
-                            setPeriod(periodeNr + 1);
-                        }
-                    }
-                }
-                else if(button1)
-                {
-                    if(!graphIsDisplayed)
-                    {
-                        setPeriod(periodeNr + 1);
-                    }
-                }
-
-                if(button3)
-                {
-                    displayGraph();
-                }
-                else
-                {
-                    displayMain();
-                }
-            }
-        }, 0, 5*1000);
+        main();
         
         //Update recent measurement every 60 seconds
         timer.scheduleAtFixedRate( new TimerTask() 
@@ -184,6 +155,43 @@ public class Weerstation{
                 }
             }
         }, 0, 200);
+    }
+    
+    public void main()
+    {
+        mainTimer.scheduleAtFixedRate(new TimerTask() 
+        {
+            public void run() 
+            {
+                if(button2)
+                {
+                    if(!graphIsDisplayed)
+                    {
+                        setScreen(currentScreen + 1);
+                        if(currentScreen == 0 && button1)
+                        {
+                            setPeriod(periodeNr + 1);
+                        }
+                    }
+                }
+                else if(button1)
+                {
+                    if(!graphIsDisplayed)
+                    {
+                        setPeriod(periodeNr + 1);
+                    }
+                }
+
+                if(button3)
+                {
+                    displayGraph();
+                }
+                else
+                {
+                    displayMain();
+                }
+            }
+        }, 0, interval*1000);
     }
     
     public void setScreen(int screen)
@@ -277,6 +285,11 @@ public class Weerstation{
                             case "scherm":
                             case "s":
                                 return scherm(parts[1]);
+                            case "time":
+                            case "tijd":
+                            case "t":
+                            case "interval":
+                                return interval(parts[1]);
                         }
                         
                     }
@@ -319,6 +332,10 @@ public class Weerstation{
                help += comS + "Exit" + comE 
                             + "/exit" + tab + "/close"
                     + desc + "Sluit de console permanent af"; 
+               //exit
+               help += comS + "Interval" + comE 
+                            + "/interval <sec>" + tab + "/time <sec>" + tab + "/tijd <sec>" + tab + "/t <sec>"
+                    + desc + "Veranderd de interval tussen schermen naar het opgegeven aantal seconden"; 
                //periode
                help += comS + "Periode" + comE 
                             + "/periode <num|name>" + tab + "/p <num|name>"
@@ -335,6 +352,30 @@ public class Weerstation{
            {
                console = false;
                return "Console is afgesloten.\nDe console kan alleen herstart worden door de applicatie opnieuw te starten.";
+           }
+           
+           public String interval(String param)
+           {
+               int param1=-1;
+               try
+               {
+                   param1 = Integer.valueOf(param);
+               }
+               catch(NumberFormatException e)
+               { 
+                   return notFound(true);
+               }
+               
+               if(param1 < 1)
+               {
+                   return "De interval moet 1 seconde of langer zijn.";
+               }
+               
+               mainTimer.cancel();
+               interval = param1;
+               mainTimer = new Timer();
+               main();
+               return "De interval is veranderd naar " + param + " seconden.";
            }
            
            public String periode(String param)
