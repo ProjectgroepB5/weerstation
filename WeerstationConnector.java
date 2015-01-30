@@ -25,7 +25,7 @@ public class WeerstationConnector
     
     public WeerstationConnector()
     {
-        this("84.24.41.72","5329","aws_data","aws","aws");
+        this("145.48.203.28","5329","aws_data","aws","aws");
     }
 
     //Start connection with Databse
